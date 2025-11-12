@@ -178,7 +178,10 @@
     <script src="../js/data.js"></script>
     <script src="../js/results.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Cargar datos desde el servidor
+            await loadResultsFromServer();
+            // Cargar el calendario completo
             loadFullSchedule();
         });
 
