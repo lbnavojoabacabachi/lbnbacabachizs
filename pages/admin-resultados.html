@@ -417,6 +417,27 @@
                     Exporta e importa los datos en formato JSON para compartir con otros dispositivos o hacer respaldos
                 </p>
 
+                <!-- Sincronizar desde Servidor -->
+                <div style="background: #e1f5fe; border: 2px solid #0288d1; border-radius: 10px; padding: 20px; margin-bottom: 30px;">
+                    <h4 style="color: #01579b; margin-top: 0;">🔄 Sincronizar desde Servidor</h4>
+                    <p style="color: #666; margin-bottom: 15px;">Carga los datos publicados en el servidor hacia tu localStorage</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <button class="btn" onclick="syncResultsFromServer()" style="width: 100%; background: #0288d1;">
+                            🔄 Sincronizar Resultados
+                        </button>
+                        <button class="btn" onclick="syncNewsFromServer()" style="width: 100%; background: #0288d1;">
+                            🔄 Sincronizar Noticias
+                        </button>
+                        <button class="btn" onclick="syncAllFromServer()" style="width: 100%; background: #0288d1;">
+                            🔄 Sincronizar Todo
+                        </button>
+                    </div>
+                    <p style="color: #01579b; font-size: 0.9em; margin-top: 15px; background: white; padding: 10px; border-radius: 5px;">
+                        💡 Útil para cargar cambios de otros administradores o ver los datos publicados en el sitio
+                    </p>
+                </div>
+
                 <!-- Exportar Datos -->
                 <div style="background: #e8f5e9; border: 2px solid #4caf50; border-radius: 10px; padding: 20px; margin-bottom: 30px;">
                     <h4 style="color: #2e7d32; margin-top: 0;">📤 Exportar Datos</h4>
@@ -721,6 +742,106 @@
                     showNotification('✅ Noticia eliminada correctamente', 'success');
                     loadNewsList();
                 }
+            }
+        }
+
+        // ========== FUNCIONES DE SINCRONIZACIÓN ==========
+
+        // Sincronizar resultados desde el servidor
+        async function syncResultsFromServer() {
+            if (!confirm('¿Deseas cargar los resultados del servidor?\n\nEsto reemplazará tus datos locales actuales.')) {
+                return;
+            }
+
+            try {
+                const url = '../data/results.json';
+                const response = await fetch(url);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                    showNotification('✅ Resultados sincronizados correctamente desde el servidor', 'success');
+                    setTimeout(() => {
+                        showNotification('🔄 Recargando página...', 'info');
+                        setTimeout(() => location.reload(), 1000);
+                    }, 1500);
+                } else {
+                    showNotification('❌ No se encontró el archivo de resultados en el servidor', 'warning');
+                }
+            } catch (error) {
+                showNotification('❌ Error al sincronizar resultados', 'warning');
+                console.error('Error:', error);
+            }
+        }
+
+        // Sincronizar noticias desde el servidor
+        async function syncNewsFromServer() {
+            if (!confirm('¿Deseas cargar las noticias del servidor?\n\nEsto reemplazará tus noticias locales actuales.')) {
+                return;
+            }
+
+            try {
+                const url = '../data/news.json';
+                const response = await fetch(url);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem(NEWS_STORAGE_KEY, JSON.stringify(data));
+                    showNotification('✅ Noticias sincronizadas correctamente desde el servidor', 'success');
+                    setTimeout(() => {
+                        showNotification('🔄 Recargando página...', 'info');
+                        setTimeout(() => location.reload(), 1000);
+                    }, 1500);
+                } else {
+                    showNotification('❌ No se encontró el archivo de noticias en el servidor', 'warning');
+                }
+            } catch (error) {
+                showNotification('❌ Error al sincronizar noticias', 'warning');
+                console.error('Error:', error);
+            }
+        }
+
+        // Sincronizar todo desde el servidor
+        async function syncAllFromServer() {
+            if (!confirm('¿Deseas cargar TODOS los datos del servidor?\n\nEsto reemplazará todos tus datos locales actuales.')) {
+                return;
+            }
+
+            try {
+                const resultsUrl = '../data/results.json';
+                const newsUrl = '../data/news.json';
+                
+                const [resultsResponse, newsResponse] = await Promise.all([
+                    fetch(resultsUrl),
+                    fetch(newsUrl)
+                ]);
+
+                let syncCount = 0;
+                
+                if (resultsResponse.ok) {
+                    const resultsData = await resultsResponse.json();
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(resultsData));
+                    syncCount++;
+                }
+                
+                if (newsResponse.ok) {
+                    const newsData = await newsResponse.json();
+                    localStorage.setItem(NEWS_STORAGE_KEY, JSON.stringify(newsData));
+                    syncCount++;
+                }
+
+                if (syncCount > 0) {
+                    showNotification(`✅ ${syncCount} archivo(s) sincronizado(s) correctamente`, 'success');
+                    setTimeout(() => {
+                        showNotification('🔄 Recargando página...', 'info');
+                        setTimeout(() => location.reload(), 1000);
+                    }, 1500);
+                } else {
+                    showNotification('❌ No se encontraron archivos en el servidor', 'warning');
+                }
+            } catch (error) {
+                showNotification('❌ Error al sincronizar datos', 'warning');
+                console.error('Error:', error);
             }
         }
 
