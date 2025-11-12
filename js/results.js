@@ -4,21 +4,47 @@
  */
 
 const STORAGE_KEY = 'liga_navojoa_results';
+const RESULTS_JSON_URL = 'data/results.json';
 
 /**
- * Obtiene todos los resultados guardados
+ * Obtiene todos los resultados guardados (primero intenta localStorage, luego el servidor)
  * @returns {Object} Objeto con todos los resultados
  */
 function getGameResults() {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-        try {
-            return JSON.parse(stored);
-        } catch (e) {
-            console.error('Error al cargar resultados:', e);
-            return {};
+    // Si estamos en el panel admin, usar localStorage
+    if (window.location.pathname.includes('admin-resultados.html')) {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+            try {
+                return JSON.parse(stored);
+            } catch (e) {
+                console.error('Error al cargar resultados:', e);
+                return {};
+            }
         }
+        return {};
     }
+    
+    // Para el sitio público, se cargarán desde JSON (ver loadResultsFromServer)
+    return window.resultsData || {};
+}
+
+/**
+ * Carga los resultados desde el servidor (archivo JSON)
+ * @returns {Promise} Promesa con los resultados
+ */
+async function loadResultsFromServer() {
+    try {
+        const response = await fetch(RESULTS_JSON_URL);
+        if (response.ok) {
+            const data = await response.json();
+            window.resultsData = data;
+            return data;
+        }
+    } catch (e) {
+        console.log('Usando resultados vacíos (archivo no encontrado o vacío)');
+    }
+    window.resultsData = {};
     return {};
 }
 

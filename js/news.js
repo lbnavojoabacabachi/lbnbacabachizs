@@ -4,23 +4,50 @@
  */
 
 const NEWS_STORAGE_KEY = 'liga_navojoa_news';
+const NEWS_JSON_URL = 'data/news.json';
 
 /**
- * Obtiene todas las noticias guardadas
+ * Obtiene todas las noticias guardadas (primero intenta localStorage, luego el servidor)
  * @returns {Array} Array de noticias ordenadas por fecha (más recientes primero)
  */
 function getAllNews() {
-    const stored = localStorage.getItem(NEWS_STORAGE_KEY);
-    if (stored) {
-        try {
-            const news = JSON.parse(stored);
-            // Ordenar por fecha (más recientes primero)
-            return news.sort((a, b) => new Date(b.date) - new Date(a.date));
-        } catch (e) {
-            console.error('Error al cargar noticias:', e);
-            return [];
+    // Si estamos en el panel admin, usar localStorage
+    if (window.location.pathname.includes('admin-resultados.html')) {
+        const stored = localStorage.getItem(NEWS_STORAGE_KEY);
+        if (stored) {
+            try {
+                const news = JSON.parse(stored);
+                // Ordenar por fecha (más recientes primero)
+                return news.sort((a, b) => new Date(b.date) - new Date(a.date));
+            } catch (e) {
+                console.error('Error al cargar noticias:', e);
+                return [];
+            }
         }
+        return [];
     }
+    
+    // Para el sitio público, usar datos del servidor
+    const newsData = window.newsData || [];
+    return newsData.sort((a, b) => new Date(b.date) - new Date(a.date));
+}
+
+/**
+ * Carga las noticias desde el servidor (archivo JSON)
+ * @returns {Promise} Promesa con las noticias
+ */
+async function loadNewsFromServer() {
+    try {
+        const response = await fetch(NEWS_JSON_URL);
+        if (response.ok) {
+            const data = await response.json();
+            window.newsData = data;
+            return data;
+        }
+    } catch (e) {
+        console.log('Usando noticias vacías (archivo no encontrado o vacío)');
+    }
+    window.newsData = [];
     return [];
 }
 

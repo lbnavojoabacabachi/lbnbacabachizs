@@ -4,8 +4,13 @@
  * Temporada 2024-2025
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     console.log('Liga de Beisbol Navajoa Ejidal - Sitio Web Cargado');
+    
+    // Cargar datos desde el servidor si no estamos en el panel admin
+    if (!window.location.pathname.includes('admin-resultados.html')) {
+        await loadDataFromServer();
+    }
     
     // Inicializar funcionalidades
     initializeNavigation();
@@ -16,6 +21,24 @@ document.addEventListener('DOMContentLoaded', function() {
     initAdminShortcut();
     
 });
+
+/**
+ * Carga los datos desde el servidor (archivos JSON)
+ */
+async function loadDataFromServer() {
+    console.log('📥 Cargando datos desde el servidor...');
+    
+    try {
+        // Cargar resultados y noticias en paralelo
+        await Promise.all([
+            loadResultsFromServer(),
+            loadNewsFromServer()
+        ]);
+        console.log('✅ Datos cargados correctamente');
+    } catch (error) {
+        console.error('❌ Error al cargar datos:', error);
+    }
+}
 
 /**
  * Inicializa la navegación del sitio

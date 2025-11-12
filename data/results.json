@@ -1,0 +1,42 @@
+{
+  "j1_Venados de Batayaui_Chicos de Sinahuiza": {
+    "homeScore": 5,
+    "awayScore": 3,
+    "timestamp": "2025-11-12T20:12:55.112Z"
+  },
+  "j1_Astros_Tigrillos de Bacabachi": {
+    "homeScore": 4,
+    "awayScore": 1,
+    "timestamp": "2025-11-12T20:12:57.383Z"
+  },
+  "j1_Rojos de Bacabachi_Rancheros de Buayums": {
+    "homeScore": 1,
+    "awayScore": 3,
+    "timestamp": "2025-11-12T20:12:59.360Z"
+  },
+  "j1_Guerreros de Chente Meza_Indios de Chirajobampo": {
+    "homeScore": 2,
+    "awayScore": 4,
+    "timestamp": "2025-11-12T20:13:01.727Z"
+  },
+  "j2_Rojos de Bacabachi_Venados de Batayaui": {
+    "homeScore": 7,
+    "awayScore": 2,
+    "timestamp": "2025-11-12T21:19:10.113Z"
+  },
+  "j2_Tigrillos de Bacabachi_Guerreros de Chente Meza": {
+    "homeScore": 5,
+    "awayScore": 6,
+    "timestamp": "2025-11-12T21:19:11.137Z"
+  },
+  "j2_Rancheros de Buayums_Saneal": {
+    "homeScore": 1,
+    "awayScore": 0,
+    "timestamp": "2025-11-12T21:19:11.913Z"
+  },
+  "j2_Chicos de Sinahuiza_Astros": {
+    "homeScore": 3,
+    "awayScore": 1,
+    "timestamp": "2025-11-12T21:19:12.497Z"
+  }
+}
