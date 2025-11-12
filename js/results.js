@@ -4,7 +4,12 @@
  */
 
 const STORAGE_KEY = 'liga_navojoa_results';
-const RESULTS_JSON_URL = 'data/results.json';
+
+// Determinar la ruta correcta según la ubicación
+function getResultsJsonUrl() {
+    const isInSubfolder = window.location.pathname.includes('/pages/');
+    return isInSubfolder ? '../data/results.json' : 'data/results.json';
+}
 
 /**
  * Obtiene todos los resultados guardados (primero intenta localStorage, luego el servidor)
@@ -35,7 +40,8 @@ function getGameResults() {
  */
 async function loadResultsFromServer() {
     try {
-        const response = await fetch(RESULTS_JSON_URL);
+        const url = getResultsJsonUrl();
+        const response = await fetch(url);
         if (response.ok) {
             const data = await response.json();
             window.resultsData = data;

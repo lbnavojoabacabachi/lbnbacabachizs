@@ -4,7 +4,12 @@
  */
 
 const NEWS_STORAGE_KEY = 'liga_navojoa_news';
-const NEWS_JSON_URL = 'data/news.json';
+
+// Determinar la ruta correcta según la ubicación
+function getNewsJsonUrl() {
+    const isInSubfolder = window.location.pathname.includes('/pages/');
+    return isInSubfolder ? '../data/news.json' : 'data/news.json';
+}
 
 /**
  * Obtiene todas las noticias guardadas (primero intenta localStorage, luego el servidor)
@@ -38,7 +43,8 @@ function getAllNews() {
  */
 async function loadNewsFromServer() {
     try {
-        const response = await fetch(NEWS_JSON_URL);
+        const url = getNewsJsonUrl();
+        const response = await fetch(url);
         if (response.ok) {
             const data = await response.json();
             window.newsData = data;
