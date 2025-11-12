@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calendario completo de juegos - Liga de Beisbol Navojoa Ejidal - Temporada 2024-2025">
+    <title>Rol de Juegos - Liga de Beisbol Navojoa Ejidal</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .jornada-section {
+            margin-bottom: 40px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            background: #f9f9f9;
+        }
+        
+        .jornada-header {
+            background: linear-gradient(135deg, #c41e3a 0%, #8b1429 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .jornada-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .jornada-date {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .vuelta-title {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 40px 0 30px 0;
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .season-info {
+            background: #fff;
+            border-left: 4px solid #c41e3a;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .season-info h3 {
+            margin-top: 0;
+            color: #c41e3a;
+        }
+        
+        .season-info p {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        
+        .game-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+        }
+        
+        .game-card.completed {
+            border-left: 4px solid #28a745;
+        }
+        
+        .game-card.pending {
+            border-left: 4px solid #ffc107;
+        }
+        
+        .descansa-card {
+            background: #fff3cd;
+            border: 2px dashed #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            color: #856404;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .jornada-header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .jornada-title {
+                font-size: 1.2em;
+            }
+            
+            .jornada-date {
+                font-size: 1em;
+            }
+            
+            .vuelta-title {
+                font-size: 1.4em;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <p>⚾ Temporada 2024-2025 | Zona Sur Bacabachi</p>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="../index.html">Inicio</a></li>
+                <li>
+                    <a href="#">Liga ▾</a>
+                    <ul>
+                        <li><a href="rosters.html">Rosters</a></li>
+                        <li><a href="altas-bajas.html">Altas y Bajas</a></li>
+                        <li><a href="estadisticas.html">Estadísticas</a></li>
+                        <li><a href="rol-juegos.html">Rol de Juegos</a></li>
+                        <li><a href="formatos.html">Formatos</a></li>
+                    </ul>
+                </li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="banner">
+        <h2>📅 Calendario Completo de Juegos</h2>
+        <p>Temporada 2024-2025 - Todas las Jornadas</p>
+    </section>
+
+    <div class="container">
+        <div class="season-info">
+            <h3>📊 Información de la Temporada</h3>
+            <p><strong>Temporada:</strong> 2024-2025</p>
+            <p><strong>Fecha de Inicio:</strong> 25 de octubre de 2025</p>
+            <p><strong>Fecha de Finalización:</strong> 1 de marzo de 2026</p>
+            <p><strong>Total de Jornadas:</strong> 18 (9 en primera vuelta + 9 en segunda vuelta)</p>
+            <p><strong>Equipos Participantes:</strong> 9</p>
+        </div>
+
+        <div id="schedule-container">
+            <!-- El calendario se cargará aquí dinámicamente -->
+        </div>
+    </div>
+
+    <footer>
+        <h3>Liga de Beisbol Navojoa Ejidal</h3>
+        <p>Zona Sur Bacabachi</p>
+        <p>📧 Email: contacto@ligaejidal.com | 📱 Tel: (642) 123-4567</p>
+        <p>&copy; 2025 Liga de Beisbol Navojoa Ejidal. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/results.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFullSchedule();
+        });
+
+        function loadFullSchedule() {
+            const container = document.getElementById('schedule-container');
+            if (!container) return;
+
+            // Agrupar juegos por jornada
+            const jornadasMap = {};
+            
+            schedule.forEach(game => {
+                const jornada = game.jornada;
+                if (!jornadasMap[jornada]) {
+                    jornadasMap[jornada] = {
+                        date: game.date,
+                        games: [],
+                        descansa: null
+                    };
+                }
+                
+                if (game.descansa) {
+                    jornadasMap[jornada].descansa = game.descansa;
+                } else {
+                    jornadasMap[jornada].games.push(game);
+                }
+            });
+
+            let html = '';
+
+            // Primera Vuelta
+            html += '<div class="vuelta-title">🏆 PRIMERA VUELTA</div>';
+            for (let i = 1; i <= 9; i++) {
+                if (jornadasMap[i]) {
+                    html += renderJornada(i, jornadasMap[i]);
+                }
+            }
+
+            // Segunda Vuelta
+            html += '<div class="vuelta-title">🏆 SEGUNDA VUELTA</div>';
+            for (let i = 10; i <= 18; i++) {
+                if (jornadasMap[i]) {
+                    html += renderJornada(i, jornadasMap[i]);
+                }
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderJornada(jornadaNum, jornadaData) {
+            const formattedDate = formatFullDate(jornadaData.date);
+            const games = jornadaData.games;
+            const descansa = jornadaData.descansa;
+
+            let html = `
+                <div class="jornada-section">
+                    <div class="jornada-header">
+                        <div class="jornada-title">Jornada ${jornadaNum}</div>
+                        <div class="jornada-date">${formattedDate}</div>
+                    </div>
+                    <div class="games-list">
+            `;
+
+            games.forEach(game => {
+                // Verificar si hay resultado guardado
+                const result = getGameResult(game.jornada, game.homeTeam, game.awayTeam);
+                const hasResult = result && result.homeScore !== '' && result.awayScore !== '';
+                
+                let statusClass = 'pending';
+                let statusText = '⏳ Por jugar';
+                let statusColor = '#ffc107';
+                let homeTeamClass = '';
+                let awayTeamClass = '';
+                
+                if (hasResult) {
+                    statusClass = 'completed';
+                    statusText = `${result.homeScore} - ${result.awayScore}`;
+                    statusColor = '#c41e3a';
+                    
+                    // Resaltar al ganador
+                    if (result.homeScore > result.awayScore) {
+                        homeTeamClass = 'style="font-weight: bold; color: #28a745;"';
+                        statusText += ' 🏆';
+                    } else if (result.awayScore > result.homeScore) {
+                        awayTeamClass = 'style="font-weight: bold; color: #28a745;"';
+                        statusText = '🏆 ' + statusText;
+                    }
+                } else if (game.status === 'completed') {
+                    statusClass = 'completed';
+                    statusText = '✓ Finalizado';
+                    statusColor = '#28a745';
+                }
+                
+                html += `
+                    <div class="game-card ${statusClass}">
+                        <div class="game-teams">
+                            <div class="game-team" ${homeTeamClass}>${game.homeTeam}</div>
+                            <div class="vs">VS</div>
+                            <div class="game-team" ${awayTeamClass}>${game.awayTeam}</div>
+                        </div>
+                        <div class="game-info">
+                            <p style="color: ${statusColor}; font-weight: bold; font-size: 1.1em;">
+                                ${statusText}
+                            </p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            if (descansa) {
+                html += `
+                    <div class="descansa-card">
+                        🛋️ Descansa: ${descansa}
+                    </div>
+                `;
+            }
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            return html;
+        }
+
+        function formatFullDate(dateString) {
+            if (!dateString) return '';
+            
+            const date = new Date(dateString + 'T00:00:00');
+            const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+            const months = [
+                'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+            ];
+            
+            const dayName = days[date.getDay()];
+            const day = date.getDate();
+            const month = months[date.getMonth()];
+            const year = date.getFullYear();
+            
+            return `${dayName}, ${day} de ${month} de ${year}`;
+        }
+    </script>
+</body>
+</html>
+

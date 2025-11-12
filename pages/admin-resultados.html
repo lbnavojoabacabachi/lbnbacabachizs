@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Administración de Resultados</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .login-screen {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .login-screen h2 {
+            text-align: center;
+            color: #c41e3a;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #c41e3a;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #c41e3a 0%, #8b1429 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(196, 30, 58, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            margin-top: 10px;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #c41e3a 0%, #8b1429 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        .filter-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .filter-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .jornada-admin {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .jornada-admin-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .game-admin-card {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .game-admin-card.has-score {
+            border-color: #28a745;
+            background: #f1f9f3;
+        }
+
+        .game-teams-admin {
+            display: grid;
+            grid-template-columns: 2fr auto 2fr;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .team-score-input {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .team-score-input label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .team-score-input input {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .vs-separator {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #c41e3a;
+            text-align: center;
+        }
+
+        .game-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .stats-panel {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #c41e3a;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .game-teams-admin {
+                grid-template-columns: 1fr;
+            }
+
+            .vs-separator {
+                margin: 10px 0;
+            }
+
+            .game-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pantalla de Login -->
+    <div id="login-screen" class="login-screen">
+        <h2>🔒 Acceso Administrativo</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 20px;">
+            Ingresa la contraseña para actualizar resultados
+        </p>
+        <div class="form-group">
+            <label>Contraseña:</label>
+            <input type="password" id="admin-password" placeholder="Ingresa la contraseña">
+        </div>
+        <button class="btn" onclick="login()">Ingresar</button>
+        <p style="text-align: center; margin-top: 20px; font-size: 0.9em; color: #28a745;">
+            🔐 Acceso protegido con encriptación
+        </p>
+    </div>
+
+    <!-- Panel Administrativo -->
+    <div id="admin-panel" class="admin-container" style="display: none;">
+        <div class="admin-header">
+            <h1>⚾ Panel de Administración</h1>
+            <button class="btn btn-secondary" onclick="logout()" style="width: auto; padding: 10px 20px;">
+                Cerrar Sesión
+            </button>
+        </div>
+
+        <!-- Tabs de navegación -->
+        <div style="background: white; border-radius: 10px; padding: 10px; margin-bottom: 20px; display: flex; gap: 10px;">
+            <button class="btn" id="tab-results" onclick="switchTab('results')" style="flex: 1;">
+                📊 Resultados de Juegos
+            </button>
+            <button class="btn btn-secondary" id="tab-news" onclick="switchTab('news')" style="flex: 1;">
+                📰 Noticias
+            </button>
+        </div>
+
+        <!-- Sección de Resultados -->
+        <div id="section-results">
+
+        <div class="stats-panel">
+            <h3>📊 Estadísticas Generales</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="total-games">0</div>
+                    <div class="stat-label">Total de Juegos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="completed-games">0</div>
+                    <div class="stat-label">Juegos Completados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="pending-games">0</div>
+                    <div class="stat-label">Juegos Pendientes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="games-with-score">0</div>
+                    <div class="stat-label">Con Marcador</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <h3>🔍 Filtros</h3>
+            <div class="filter-group">
+                <div class="form-group">
+                    <label>Vuelta:</label>
+                    <select id="filter-vuelta" onchange="applyFilters()">
+                        <option value="all">Todas</option>
+                        <option value="primera">Primera Vuelta</option>
+                        <option value="segunda">Segunda Vuelta</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Estado:</label>
+                    <select id="filter-status" onchange="applyFilters()">
+                        <option value="all">Todos</option>
+                        <option value="completed">Completados</option>
+                        <option value="pending">Pendientes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Jornada:</label>
+                    <select id="filter-jornada" onchange="applyFilters()">
+                        <option value="all">Todas</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="games-admin-container">
+            <!-- Los juegos se cargarán aquí -->
+        </div>
+        </div>
+        <!-- Fin Sección de Resultados -->
+
+        <!-- Sección de Noticias -->
+        <div id="section-news" style="display: none;">
+            <div class="stats-panel">
+                <h3>📰 Gestión de Noticias</h3>
+                <p style="color: #666; margin-bottom: 20px;">Crea, edita y elimina noticias que aparecerán en la página principal</p>
+                
+                <button class="btn btn-success" onclick="showNewsForm()" style="width: 100%; margin-bottom: 20px;">
+                    ➕ Crear Nueva Noticia
+                </button>
+
+                <div id="news-form" style="display: none; background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <h4 style="margin-top: 0;">Nueva Noticia</h4>
+                    <div class="form-group">
+                        <label>Emoji o Icono:</label>
+                        <select id="news-emoji" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px;">
+                            <option value="📰">📰 Noticia General</option>
+                            <option value="⚾">⚾ Beisbol</option>
+                            <option value="🏆">🏆 Torneo/Campeonato</option>
+                            <option value="👥">👥 Equipo</option>
+                            <option value="📅">📅 Evento</option>
+                            <option value="🎉">🎉 Celebración</option>
+                            <option value="⭐">⭐ Destacado</option>
+                            <option value="📸">📸 Galería/Fotos</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha:</label>
+                        <input type="date" id="news-date" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div class="form-group">
+                        <label>Título de la Noticia:</label>
+                        <input type="text" id="news-title" placeholder="Ej: Inicio de Temporada 2024-2025" style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px;">
+                    </div>
+                    <div class="form-group">
+                        <label>Contenido/Descripción:</label>
+                        <textarea id="news-content" rows="4" placeholder="Describe la noticia..." style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; resize: vertical;"></textarea>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-success" onclick="saveNewsItem()" style="flex: 1;">
+                            💾 Guardar Noticia
+                        </button>
+                        <button class="btn btn-secondary" onclick="cancelNewsForm()" style="flex: 1;">
+                            ❌ Cancelar
+                        </button>
+                    </div>
+                </div>
+
+                <div id="news-list">
+                    <!-- Las noticias se cargarán aquí -->
+                </div>
+            </div>
+        </div>
+        <!-- Fin Sección de Noticias -->
+
+    </div>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/news.js"></script>
+    <script>
+        // Configuración
+        // Hash SHA-1 de la contraseña "Perico123"
+        const ADMIN_PASSWORD_HASH = 'da66ffe6e26d2de7fcaf4452e5cef7075cafee9c';
+        const STORAGE_KEY = 'liga_navojoa_results';
+
+        // Estado
+        let gameResults = {};
+
+        // Función para hashear la contraseña usando SHA-1 (compatible con todos los navegadores)
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-1', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        }
+
+        // Cargar resultados del localStorage
+        function loadResults() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                try {
+                    gameResults = JSON.parse(stored);
+                } catch (e) {
+                    gameResults = {};
+                }
+            }
+        }
+
+        // Guardar resultados en localStorage
+        function saveResults() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(gameResults));
+        }
+
+        // Login con contraseña hasheada
+        async function login() {
+            const password = document.getElementById('admin-password').value;
+            const passwordHash = await hashPassword(password);
+            
+            // Debug: mostrar hash generado (remover en producción)
+            //console.log('Hash generado:', passwordHash);
+            //console.log('Hash esperado:', ADMIN_PASSWORD_HASH);
+            
+            if (passwordHash === ADMIN_PASSWORD_HASH) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+                initAdmin();
+            } else {
+                alert('❌ Contraseña incorrecta\n\nPara generar el hash correcto:\n1. Abre la consola (F12)\n2. Verás el hash generado de tu contraseña\n3. Copia ese hash y actualiza ADMIN_PASSWORD_HASH en el código');
+                document.getElementById('admin-password').value = '';
+            }
+        }
+
+        // Logout
+        function logout() {
+            document.getElementById('login-screen').style.display = 'block';
+            document.getElementById('admin-panel').style.display = 'none';
+            document.getElementById('admin-password').value = '';
+        }
+
+        // Inicializar panel admin
+        function initAdmin() {
+            loadResults();
+            populateJornadaFilter();
+            renderGamesAdmin();
+            updateStats();
+            switchTab('results'); // Mostrar pestaña de resultados por defecto
+        }
+
+        // Cambiar entre pestañas
+        function switchTab(tab) {
+            // Ocultar todas las secciones
+            document.getElementById('section-results').style.display = 'none';
+            document.getElementById('section-news').style.display = 'none';
+            
+            // Resetear estilos de botones
+            document.getElementById('tab-results').className = 'btn btn-secondary';
+            document.getElementById('tab-news').className = 'btn btn-secondary';
+            
+            // Mostrar sección seleccionada
+            if (tab === 'results') {
+                document.getElementById('section-results').style.display = 'block';
+                document.getElementById('tab-results').className = 'btn';
+            } else if (tab === 'news') {
+                document.getElementById('section-news').style.display = 'block';
+                document.getElementById('tab-news').className = 'btn';
+                loadNewsList();
+            }
+        }
+
+        // Mostrar formulario de nueva noticia
+        function showNewsForm(newsId = null) {
+            const form = document.getElementById('news-form');
+            const today = new Date().toISOString().split('T')[0];
+            
+            if (newsId) {
+                // Editar noticia existente
+                const news = getNewsById(newsId);
+                if (news) {
+                    document.getElementById('news-emoji').value = news.emoji;
+                    document.getElementById('news-date').value = news.date;
+                    document.getElementById('news-title').value = news.title;
+                    document.getElementById('news-content').value = news.content;
+                    form.querySelector('h4').textContent = 'Editar Noticia';
+                    form.dataset.editId = newsId;
+                }
+            } else {
+                // Nueva noticia
+                document.getElementById('news-emoji').value = '📰';
+                document.getElementById('news-date').value = today;
+                document.getElementById('news-title').value = '';
+                document.getElementById('news-content').value = '';
+                form.querySelector('h4').textContent = 'Nueva Noticia';
+                delete form.dataset.editId;
+            }
+            
+            form.style.display = 'block';
+        }
+
+        // Cancelar formulario de noticia
+        function cancelNewsForm() {
+            document.getElementById('news-form').style.display = 'none';
+        }
+
+        // Guardar noticia
+        function saveNewsItem() {
+            const emoji = document.getElementById('news-emoji').value;
+            const date = document.getElementById('news-date').value;
+            const title = document.getElementById('news-title').value.trim();
+            const content = document.getElementById('news-content').value.trim();
+            const form = document.getElementById('news-form');
+            const editId = form.dataset.editId;
+
+            if (!title || !content || !date) {
+                alert('⚠️ Por favor completa todos los campos');
+                return;
+            }
+
+            let success = false;
+            if (editId) {
+                // Actualizar noticia existente
+                success = updateNews(editId, { emoji, date, title, content });
+                if (success) {
+                    showNotification('✅ Noticia actualizada correctamente', 'success');
+                }
+            } else {
+                // Crear nueva noticia
+                success = addNews({ emoji, date, title, content });
+                if (success) {
+                    showNotification('✅ Noticia creada correctamente', 'success');
+                }
+            }
+
+            if (success) {
+                cancelNewsForm();
+                loadNewsList();
+            }
+        }
+
+        // Cargar lista de noticias
+        function loadNewsList() {
+            const container = document.getElementById('news-list');
+            const news = getAllNews();
+
+            if (news.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666; background: white; border-radius: 10px;">
+                        <p style="font-size: 1.2em; margin-bottom: 10px;">📰 No hay noticias registradas</p>
+                        <p>Crea tu primera noticia usando el botón de arriba</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div style="display: flex; flex-direction: column; gap: 15px;">';
+            news.forEach(item => {
+                const formattedDate = formatNewsDate(item.date);
+                html += `
+                    <div style="background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                            <div style="flex: 1;">
+                                <div style="font-size: 2em; margin-bottom: 5px;">${item.emoji}</div>
+                                <p style="color: #666; font-size: 0.9em; margin: 0 0 5px 0;">${formattedDate}</p>
+                                <h4 style="margin: 0 0 10px 0; color: #c41e3a;">${item.title}</h4>
+                                <p style="margin: 0; color: #333; line-height: 1.6;">${item.content}</p>
+                            </div>
+                            <div style="display: flex; gap: 10px; margin-left: 15px;">
+                                <button onclick="showNewsForm('${item.id}')" style="padding: 8px 15px; background: #17a2b8; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                                    ✏️ Editar
+                                </button>
+                                <button onclick="deleteNewsItem('${item.id}')" style="padding: 8px 15px; background: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                                    🗑️ Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Eliminar noticia
+        function deleteNewsItem(id) {
+            if (confirm('¿Estás seguro de que quieres eliminar esta noticia?')) {
+                if (deleteNews(id)) {
+                    showNotification('✅ Noticia eliminada correctamente', 'success');
+                    loadNewsList();
+                }
+            }
+        }
+
+        // Poblar filtro de jornadas
+        function populateJornadaFilter() {
+            const select = document.getElementById('filter-jornada');
+            for (let i = 1; i <= 18; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `Jornada ${i}`;
+                select.appendChild(option);
+            }
+        }
+
+        // Renderizar juegos en el admin
+        function renderGamesAdmin() {
+            const container = document.getElementById('games-admin-container');
+            const filterVuelta = document.getElementById('filter-vuelta').value;
+            const filterStatus = document.getElementById('filter-status').value;
+            const filterJornada = document.getElementById('filter-jornada').value;
+
+            // Agrupar por jornada
+            const jornadasMap = {};
+            schedule.forEach(game => {
+                if (!game.homeTeam || !game.awayTeam) return;
+                
+                const jornada = game.jornada;
+                if (!jornadasMap[jornada]) {
+                    jornadasMap[jornada] = [];
+                }
+                jornadasMap[jornada].push(game);
+            });
+
+            let html = '';
+            for (let i = 1; i <= 18; i++) {
+                if (!jornadasMap[i]) continue;
+
+                // Aplicar filtros
+                if (filterJornada !== 'all' && parseInt(filterJornada) !== i) continue;
+                if (filterVuelta === 'primera' && i > 9) continue;
+                if (filterVuelta === 'segunda' && i <= 9) continue;
+
+                const games = jornadasMap[i];
+                const vuelta = i <= 9 ? 'Primera Vuelta' : 'Segunda Vuelta';
+                const gameData = schedule.find(g => g.jornada === i && g.date);
+
+                // Verificar si hay juegos que cumplan el filtro de estado
+                let hasMatchingGames = false;
+                if (filterStatus === 'all') {
+                    hasMatchingGames = true;
+                } else {
+                    hasMatchingGames = games.some(game => game.status === filterStatus);
+                }
+
+                if (!hasMatchingGames) continue;
+
+                html += `
+                    <div class="jornada-admin">
+                        <div class="jornada-admin-header">
+                            Jornada ${i} - ${vuelta} 
+                            <span style="font-size: 0.9em; opacity: 0.9; font-weight: normal;">
+                                (${formatFullDate(gameData?.date)})
+                            </span>
+                        </div>
+                `;
+
+                games.forEach(game => {
+                    if (filterStatus !== 'all' && game.status !== filterStatus) return;
+
+                    const gameKey = `j${game.jornada}_${game.homeTeam}_${game.awayTeam}`;
+                    const result = gameResults[gameKey] || { homeScore: '', awayScore: '' };
+                    const hasScore = result.homeScore !== '' && result.awayScore !== '';
+
+                    html += `
+                        <div class="game-admin-card ${hasScore ? 'has-score' : ''}">
+                            <div class="game-teams-admin">
+                                <div class="team-score-input">
+                                    <label>${game.homeTeam} (Local)</label>
+                                    <input type="number" 
+                                           id="home_${gameKey}" 
+                                           value="${result.homeScore}"
+                                           min="0" 
+                                           placeholder="0">
+                                </div>
+                                <div class="vs-separator">VS</div>
+                                <div class="team-score-input">
+                                    <label>${game.awayTeam} (Visitante)</label>
+                                    <input type="number" 
+                                           id="away_${gameKey}" 
+                                           value="${result.awayScore}"
+                                           min="0" 
+                                           placeholder="0">
+                                </div>
+                            </div>
+                            <div class="game-actions">
+                                <button class="btn btn-success" onclick="saveGameResult('${gameKey}')">
+                                    💾 Guardar Resultado
+                                </button>
+                                <button class="btn btn-secondary" onclick="clearGameResult('${gameKey}')">
+                                    🗑️ Limpiar
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+            }
+
+            if (html === '') {
+                html = '<div class="alert alert-info">No hay juegos que coincidan con los filtros seleccionados.</div>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        // Guardar resultado de un juego
+        function saveGameResult(gameKey) {
+            const homeScore = document.getElementById(`home_${gameKey}`).value;
+            const awayScore = document.getElementById(`away_${gameKey}`).value;
+
+            if (homeScore === '' || awayScore === '') {
+                alert('⚠️ Por favor ingresa ambos marcadores');
+                return;
+            }
+
+            gameResults[gameKey] = {
+                homeScore: parseInt(homeScore),
+                awayScore: parseInt(awayScore),
+                timestamp: new Date().toISOString()
+            };
+
+            saveResults();
+            updateStats();
+            
+            // Efecto visual
+            const card = event.target.closest('.game-admin-card');
+            card.classList.add('has-score');
+            
+            // Mostrar notificación mejorada
+            showNotification('✅ Resultado guardado correctamente', 'success');
+            
+            // Informar sobre actualización de tabla
+            setTimeout(() => {
+                showNotification('📊 La tabla de posiciones se actualizará automáticamente en la página principal', 'info');
+            }, 1000);
+        }
+
+        // Limpiar resultado de un juego
+        function clearGameResult(gameKey) {
+            if (confirm('¿Estás seguro de que quieres limpiar este resultado?')) {
+                delete gameResults[gameKey];
+                saveResults();
+                document.getElementById(`home_${gameKey}`).value = '';
+                document.getElementById(`away_${gameKey}`).value = '';
+                updateStats();
+                
+                const card = event.target.closest('.game-admin-card');
+                card.classList.remove('has-score');
+                
+                showNotification('✅ Resultado eliminado correctamente', 'success');
+            }
+        }
+
+        // Actualizar estadísticas
+        function updateStats() {
+            const totalGames = schedule.filter(g => g.homeTeam && g.awayTeam).length;
+            const completedGames = schedule.filter(g => g.status === 'completed').length;
+            const pendingGames = totalGames - completedGames;
+            const gamesWithScore = Object.keys(gameResults).length;
+
+            document.getElementById('total-games').textContent = totalGames;
+            document.getElementById('completed-games').textContent = completedGames;
+            document.getElementById('pending-games').textContent = pendingGames;
+            document.getElementById('games-with-score').textContent = gamesWithScore;
+        }
+
+        // Aplicar filtros
+        function applyFilters() {
+            renderGamesAdmin();
+        }
+
+        // Formatear fecha
+        function formatFullDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString + 'T00:00:00');
+            const months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+            return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+        }
+
+        // Mostrar notificación
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+                z-index: 10000;
+                animation: slideIn 0.3s ease-out;
+                max-width: 400px;
+                font-weight: 500;
+            `;
+            
+            if (type === 'success') {
+                notification.style.background = '#28a745';
+                notification.style.color = 'white';
+            } else if (type === 'info') {
+                notification.style.background = '#17a2b8';
+                notification.style.color = 'white';
+            } else if (type === 'warning') {
+                notification.style.background = '#ffc107';
+                notification.style.color = '#333';
+            }
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Ocultar después de 3 segundos
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Enter para login
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('admin-password');
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    login();
+                }
+            });
+            // Auto-focus en el campo de contraseña
+            passwordInput.focus();
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,470 @@
+/* 
+ * Liga de Beisbol Navajoa Ejidal - Zona Sur Bacabachi
+ * Estilos principales del sitio web
+ * Temporada 2024-2025
+ */
+
+/* Reset y configuración base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Header y Navegación */
+header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #c41e3a 100%);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-top {
+    background-color: rgba(0,0,0,0.2);
+    padding: 10px 0;
+    text-align: center;
+    color: white;
+}
+
+nav {
+    background-color: #1e3c72;
+    padding: 0;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+nav ul li {
+    position: relative;
+}
+
+nav ul li a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 15px 25px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #c41e3a;
+}
+
+/* Submenu */
+nav ul li ul {
+    display: none;
+    position: absolute;
+    background-color: #2a5298;
+    min-width: 200px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+nav ul li:hover ul {
+    display: block;
+}
+
+nav ul li ul li {
+    width: 100%;
+}
+
+nav ul li ul li a {
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Banner Principal */
+.banner {
+    background: linear-gradient(rgba(30,60,114,0.8), rgba(196,30,58,0.8)), 
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%231e3c72" width="1200" height="400"/><circle fill="%23fff" opacity="0.1" cx="200" cy="200" r="100"/><circle fill="%23fff" opacity="0.1" cx="600" cy="150" r="80"/><circle fill="%23fff" opacity="0.1" cx="1000" cy="250" r="120"/></svg>');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 50px 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+}
+
+.banner-logo {
+    height: 180px;
+    width: auto;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    flex-shrink: 0;
+}
+
+.banner-content {
+    text-align: left;
+}
+
+.banner h2 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.banner p {
+    font-size: 1.2em;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Secciones */
+.section {
+    margin: 40px 0;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.section h2 {
+    color: #1e3c72;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #c41e3a;
+    font-size: 2em;
+}
+
+/* Equipos Grid */
+.teams-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 20px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.team-card {
+    background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    border: 2px solid #ddd;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(30,60,114,0.3);
+    border-color: #1e3c72;
+}
+
+.team-logo {
+    width: 100px;
+    height: 100px;
+    background: white;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    color: #1e3c72;
+    border: 3px solid #c41e3a;
+    overflow: hidden;
+    padding: 5px;
+}
+
+.team-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+.team-logo img.logo-cover {
+    object-fit: cover;
+    transform: scale(1.1);
+}
+
+.team-card h3 {
+    color: #1e3c72;
+    font-size: 1em;
+}
+
+/* Noticias y Redes Sociales */
+.news-social-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.news-column {
+    flex: 1;
+}
+
+.facebook-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.facebook-widget {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+}
+
+/* Noticias */
+.news-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.news-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.news-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.news-image {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #1e3c72 0%, #c41e3a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3em;
+}
+
+.news-content {
+    padding: 20px;
+}
+
+.news-content h3 {
+    color: #1e3c72;
+    margin-bottom: 10px;
+}
+
+.news-date {
+    color: #c41e3a;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+/* Standings Table */
+.standings-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.standings-table th {
+    background-color: #1e3c72;
+    color: white;
+    padding: 15px;
+    text-align: left;
+}
+
+.standings-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.standings-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+.standings-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Galería */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.gallery-item {
+    height: 200px;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #c41e3a 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2em;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
+}
+
+/* Rol de Juegos */
+.games-list {
+    display: grid;
+    gap: 15px;
+}
+
+.game-card {
+    background: linear-gradient(to right, #f5f5f5 0%, #e8e8e8 100%);
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 5px solid #c41e3a;
+}
+
+.game-teams {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+}
+
+.game-team {
+    text-align: center;
+    font-weight: bold;
+    color: #1e3c72;
+}
+
+.vs {
+    color: #c41e3a;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.game-info {
+    text-align: right;
+    color: #666;
+}
+
+/* Patrocinadores */
+.sponsors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.sponsor-card {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.sponsor-card:hover {
+    border-color: #1e3c72;
+    transform: translateY(-5px);
+}
+
+.sponsor-logo {
+    width: 120px;
+    height: 120px;
+    background: #f5f5f5;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    color: #1e3c72;
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 50px;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .banner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .banner-logo {
+        height: 120px;
+    }
+
+    .banner-content {
+        text-align: center;
+    }
+
+    .banner h2 {
+        font-size: 1.8em;
+    }
+
+    nav ul {
+        flex-direction: column;
+    }
+
+    nav ul li ul {
+        position: static;
+    }
+
+    .news-social-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .facebook-widget {
+        padding: 10px;
+    }
+
+    .teams-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .team-card {
+        padding: 15px;
+    }
+    
+    .team-logo {
+        width: 80px;
+        height: 80px;
+    }
+}
+
