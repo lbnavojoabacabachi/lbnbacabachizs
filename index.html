@@ -20,11 +20,16 @@
         </div>
 
         <nav>
-            <ul>
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="#inicio">Inicio</a></li>
-                <li>
-                    <a href="#liga">Liga ▾</a>
-                    <ul>
+                <li class="has-submenu">
+                    <a href="#liga" class="submenu-toggle">Liga ▾</a>
+                    <ul class="submenu">
                         <li><a href="pages/rosters.html">Rosters</a></li>
                         <li><a href="#altas-bajas">Altas y Bajas</a></li>
                         <li><a href="pages/estadisticas.html">Estadísticas</a></li>
@@ -156,26 +161,28 @@
             <p style="text-align: center; color: #666; margin-bottom: 15px; font-size: 0.9em;">
                 <em>Se actualiza automáticamente con los resultados de los juegos</em>
             </p>
-            <table class="standings-table" id="standings-table">
-                <thead>
-                    <tr>
-                        <th>Pos</th>
-                        <th>Equipo</th>
-                        <th>JJ</th>
-                        <th>JG</th>
-                        <th>JP</th>
-                        <th>AVE</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- La tabla se cargará dinámicamente -->
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 20px; color: #666;">
-                            Cargando tabla de posiciones...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="standings-table-wrapper">
+                <table class="standings-table" id="standings-table">
+                    <thead>
+                        <tr>
+                            <th>Pos</th>
+                            <th>Equipo</th>
+                            <th>JJ</th>
+                            <th>JG</th>
+                            <th>JP</th>
+                            <th>AVE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- La tabla se cargará dinámicamente -->
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 20px; color: #666;">
+                                Cargando tabla de posiciones...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
         <!-- Rol de Juegos -->
@@ -191,15 +198,27 @@
         <!-- Galería -->
         <section id="galeria" class="section">
             <h2>📷 Galería de Fotos</h2>
-            <div class="gallery-grid">
-                <div class="gallery-item">📸</div>
-                <div class="gallery-item">📸</div>
-                <div class="gallery-item">📸</div>
-                <div class="gallery-item">📸</div>
-                <div class="gallery-item">📸</div>
-                <div class="gallery-item">📸</div>
+            <div class="gallery-grid" id="gallery-grid">
+                <!-- Las fotos se cargarán dinámicamente -->
             </div>
         </section>
+
+        <!-- Modal para mostrar imágenes -->
+        <div id="imageModal" class="image-modal">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <img class="modal-image" id="modalImage" src="" alt="Imagen ampliada">
+            <div class="modal-caption" id="modalCaption"></div>
+        </div>
+
+        <!-- Modal para mostrar roster del equipo -->
+        <div id="rosterModal" class="roster-modal">
+            <div class="roster-modal-content">
+                <span class="roster-modal-close" id="rosterModalClose">&times;</span>
+                <div id="rosterModalBody">
+                    <!-- El roster se cargará aquí -->
+                </div>
+            </div>
+        </div>
 
         <!-- Patrocinadores -->
         <section id="patrocinadores" class="section">
@@ -236,6 +255,8 @@
     <script src="js/data.js"></script>
     <script src="js/results.js"></script>
     <script src="js/news.js"></script>
+    <script src="js/gallery.js"></script>
+    <script src="js/rosters.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

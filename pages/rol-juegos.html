@@ -131,11 +131,16 @@
         </div>
 
         <nav>
-            <ul>
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="../index.html">Inicio</a></li>
-                <li>
-                    <a href="#">Liga ▾</a>
-                    <ul>
+                <li class="has-submenu">
+                    <a href="#liga" class="submenu-toggle">Liga ▾</a>
+                    <ul class="submenu">
                         <li><a href="rosters.html">Rosters</a></li>
                         <li><a href="altas-bajas.html">Altas y Bajas</a></li>
                         <li><a href="estadisticas.html">Estadísticas</a></li>
@@ -323,6 +328,15 @@
             
             return `${dayName}, ${day} de ${month} de ${year}`;
         }
+    </script>
+    <script src="../js/main.js"></script>
+    <script>
+        // Asegurar que el menú móvil se inicialice en esta página
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof initializeMobileMenu === 'function') {
+                initializeMobileMenu();
+            }
+        });
     </script>
 </body>
 </html>

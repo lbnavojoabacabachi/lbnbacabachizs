@@ -14,11 +14,16 @@
         </div>
 
         <nav>
-            <ul>
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="../index.html">Inicio</a></li>
-                <li>
-                    <a href="#">Liga ▾</a>
-                    <ul>
+                <li class="has-submenu">
+                    <a href="#liga" class="submenu-toggle">Liga ▾</a>
+                    <ul class="submenu">
                         <li><a href="rosters.html">Rosters</a></li>
                         <li><a href="altas-bajas.html">Altas y Bajas</a></li>
                         <li><a href="estadisticas.html">Estadísticas</a></li>
@@ -39,21 +44,13 @@
     <div class="container">
         <section class="section">
             <h2>🏆 Rosters por Equipo</h2>
-            <p>Esta página está en construcción. Próximamente encontrarás aquí la información completa de todos los jugadores de cada equipo.</p>
+            <p style="text-align: center; color: #666; margin-bottom: 30px;">
+                Información completa de todos los jugadores de cada equipo de la liga
+            </p>
             
-            <!-- Aquí se agregarán los rosters de cada equipo -->
-            <div class="teams-grid">
-                <div class="team-card">
-                    <div class="team-logo">⚾</div>
-                    <h3>Águilas</h3>
-                    <p style="margin-top: 10px; font-size: 0.9em;">Próximamente</p>
-                </div>
-                <div class="team-card">
-                    <div class="team-logo">⚾</div>
-                    <h3>Tigres</h3>
-                    <p style="margin-top: 10px; font-size: 0.9em;">Próximamente</p>
-                </div>
-                <!-- Más equipos... -->
+            <!-- Contenedor donde se mostrarán los rosters -->
+            <div id="rosters-container">
+                <!-- Los rosters se cargarán dinámicamente -->
             </div>
         </section>
     </div>
@@ -65,7 +62,17 @@
         <p>&copy; 2025 Liga de Beisbol Navojoa Ejidal. Todos los derechos reservados.</p>
     </footer>
 
+    <script src="../js/data.js"></script>
+    <script src="../js/rosters.js"></script>
     <script src="../js/main.js"></script>
+    <script>
+        // Asegurar que el menú móvil se inicialice en esta página
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof initializeMobileMenu === 'function') {
+                initializeMobileMenu();
+            }
+        });
+    </script>
 </body>
 </html>
 

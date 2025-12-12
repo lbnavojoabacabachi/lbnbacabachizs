@@ -13,11 +13,13 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
     
     // Inicializar funcionalidades
+    initializeMobileMenu();
     initializeNavigation();
     initializeTeamCards();
     loadUpcomingGames();
     loadStandingsTable();
     loadNewsSection();
+    loadGallerySection();
     initAdminShortcut();
     
 });
@@ -29,15 +31,101 @@ async function loadDataFromServer() {
     console.log('📥 Cargando datos desde el servidor...');
     
     try {
-        // Cargar resultados y noticias en paralelo
+        // Cargar resultados, noticias y galería en paralelo
         await Promise.all([
             loadResultsFromServer(),
-            loadNewsFromServer()
+            loadNewsFromServer(),
+            loadGalleryFromServer()
         ]);
         console.log('✅ Datos cargados correctamente');
     } catch (error) {
         console.error('❌ Error al cargar datos:', error);
     }
+}
+
+/**
+ * Inicializa el menú hamburguesa para dispositivos móviles
+ */
+function initializeMobileMenu() {
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+    const submenuToggles = document.querySelectorAll('.has-submenu > a');
+    
+    if (!menuToggle || !navMenu) return;
+    
+    // Toggle del menú principal
+    menuToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        menuToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+    
+    // Manejo de submenús en móvil
+    submenuToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            // Solo prevenir en móvil
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                const parentLi = this.parentElement;
+                parentLi.classList.toggle('active');
+                
+                // Cerrar otros submenús abiertos
+                const siblings = Array.from(parentLi.parentElement.children);
+                siblings.forEach(sibling => {
+                    if (sibling !== parentLi && sibling.classList.contains('has-submenu')) {
+                        sibling.classList.remove('active');
+                    }
+                });
+            }
+        });
+    });
+    
+    // Cerrar menú al hacer clic en un enlace del menú
+    const menuLinks = navMenu.querySelectorAll('a:not(.submenu-toggle)');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                
+                // Cerrar submenús
+                document.querySelectorAll('.has-submenu').forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+        });
+    });
+    
+    // Cerrar menú al hacer clic fuera de él
+    document.addEventListener('click', function(e) {
+        if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+            
+            // Cerrar submenús
+            document.querySelectorAll('.has-submenu').forEach(item => {
+                item.classList.remove('active');
+            });
+        }
+    });
+    
+    // Ajustar comportamiento al cambiar el tamaño de la ventana
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            if (window.innerWidth > 768) {
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                navMenu.style.display = '';
+                
+                // Limpiar estados de submenús
+                document.querySelectorAll('.has-submenu').forEach(item => {
+                    item.classList.remove('active');
+                });
+            }
+        }, 250);
+    });
 }
 
 /**
@@ -75,9 +163,85 @@ function initializeTeamCards() {
     teamCards.forEach(card => {
         card.addEventListener('click', function() {
             const teamName = this.querySelector('h3').textContent;
-            console.log(`Equipo seleccionado: ${teamName}`);
-            // Aquí se puede agregar funcionalidad para mostrar más información del equipo
+            openRosterModal(teamName);
         });
+    });
+    
+    // Inicializar el modal de roster
+    initializeRosterModal();
+}
+
+/**
+ * Abre el modal con el roster del equipo
+ * @param {string} teamName - Nombre del equipo
+ */
+function openRosterModal(teamName) {
+    if (typeof teams === 'undefined' || typeof getTeamByName !== 'function') {
+        console.error('Los datos de equipos no están disponibles');
+        return;
+    }
+    
+    const team = getTeamByName(teamName);
+    if (!team) {
+        console.error(`Equipo no encontrado: ${teamName}`);
+        return;
+    }
+    
+    const modal = document.getElementById('rosterModal');
+    const modalBody = document.getElementById('rosterModalBody');
+    
+    if (!modal || !modalBody) return;
+    
+    // Renderizar el roster usando la función existente
+    if (typeof renderTeamRoster === 'function') {
+        modalBody.innerHTML = renderTeamRoster(team);
+    } else {
+        modalBody.innerHTML = `
+            <div class="roster-empty">
+                <p>Error al cargar el roster. Por favor intenta más tarde.</p>
+            </div>
+        `;
+    }
+    
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+/**
+ * Cierra el modal del roster
+ */
+function closeRosterModal() {
+    const modal = document.getElementById('rosterModal');
+    if (!modal) return;
+    
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+/**
+ * Inicializa el modal de roster
+ */
+function initializeRosterModal() {
+    const modal = document.getElementById('rosterModal');
+    const closeBtn = document.getElementById('rosterModalClose');
+    
+    if (!modal || !closeBtn) return;
+    
+    // Cerrar al hacer clic en el botón de cerrar
+    closeBtn.addEventListener('click', closeRosterModal);
+    
+    // Cerrar al hacer clic fuera del contenido
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeRosterModal();
+        }
+    });
+    
+    // Cerrar con la tecla ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeRosterModal();
+        }
     });
 }
 
@@ -198,6 +362,116 @@ function loadNewsSection() {
     });
 
     newsGrid.innerHTML = html;
+}
+
+/**
+ * Carga y muestra la galería de fotos dinámicamente
+ */
+function loadGallerySection() {
+    const galleryGrid = document.getElementById('gallery-grid');
+    if (!galleryGrid) return;
+
+    // Verificar si la función getAllPhotos está disponible
+    if (typeof getAllPhotos !== 'function') {
+        console.warn('getAllPhotos no está disponible');
+        return;
+    }
+
+    const photos = getAllPhotos();
+
+    if (photos.length === 0) {
+        // Mostrar mensaje cuando no hay fotos
+        galleryGrid.innerHTML = `
+            <div class="gallery-item" style="grid-column: 1 / -1; height: 200px; display: flex; align-items: center; justify-content: center; flex-direction: column; color: #666;">
+                <div style="font-size: 3em; margin-bottom: 10px;">📸</div>
+                <p style="text-align: center;">Las fotos se cargarán aquí</p>
+                <p style="text-align: center; font-size: 0.9em; margin-top: 5px;">Agrega URLs de fotos de Facebook en data/gallery.json</p>
+            </div>
+        `;
+        return;
+    }
+
+    // Renderizar fotos
+    let html = '';
+    photos.forEach((photo, index) => {
+        html += `
+            <div class="gallery-item" style="background-image: url('${photo.url}'); cursor: pointer;" 
+                 onclick="openImageModal('${photo.url}', '${(photo.title || '').replace(/'/g, "\\'")}')" 
+                 title="${photo.title || 'Ver foto en tamaño completo'}">
+                <div class="gallery-overlay">
+                    <span class="gallery-title">${photo.title || ''}</span>
+                </div>
+            </div>
+        `;
+    });
+
+    galleryGrid.innerHTML = html;
+    
+    // Inicializar el modal
+    initializeImageModal();
+}
+
+/**
+ * Inicializa el modal de imágenes
+ */
+function initializeImageModal() {
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalCaption = document.getElementById('modalCaption');
+    const closeBtn = document.getElementById('modalClose');
+    
+    if (!modal || !modalImage || !closeBtn) return;
+    
+    // Cerrar al hacer clic en el botón de cerrar
+    closeBtn.addEventListener('click', closeImageModal);
+    
+    // Cerrar al hacer clic fuera de la imagen
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeImageModal();
+        }
+    });
+    
+    // Cerrar con la tecla ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeImageModal();
+        }
+    });
+}
+
+/**
+ * Abre el modal con una imagen
+ * @param {string} imageUrl - URL de la imagen
+ * @param {string} caption - Título o descripción de la imagen
+ */
+function openImageModal(imageUrl, caption) {
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalCaption = document.getElementById('modalCaption');
+    
+    if (!modal || !modalImage) return;
+    
+    modalImage.src = imageUrl;
+    modalImage.alt = caption || 'Imagen de la galería';
+    
+    if (modalCaption) {
+        modalCaption.textContent = caption || '';
+    }
+    
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevenir scroll del body
+}
+
+/**
+ * Cierra el modal de imágenes
+ */
+function closeImageModal() {
+    const modal = document.getElementById('imageModal');
+    if (!modal) return;
+    
+    modal.classList.remove('active');
+    document.body.style.overflow = ''; // Restaurar scroll del body
 }
 
 /**
