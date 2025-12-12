@@ -224,7 +224,7 @@ nav {
 }
 
 .banner-logo {
-    height: 180px;
+    height: 300px;
     width: auto;
     filter: drop-shadow(0 4px 12px rgba(0,0,0,0.8)) 
             drop-shadow(0 0 20px rgba(0,0,0,0.6));
@@ -1060,7 +1060,7 @@ footer p {
     }
 
     .banner-logo {
-        height: 100px;
+        height: 150px;
     }
 
     .banner-content {
@@ -1266,7 +1266,7 @@ footer p {
     }
 
     .banner-logo {
-        height: 80px;
+        height: 200px;
     }
 
     .banner h2 {
