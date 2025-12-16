@@ -42,51 +42,352 @@
     </section>
 
     <div class="container">
+        <!-- Tabla Completa de Bateo -->
         <section class="section">
             <h2>📊 Líderes de Bateo</h2>
-            <table class="standings-table">
-                <thead>
-                    <tr>
-                        <th>Pos</th>
-                        <th>Jugador</th>
-                        <th>Equipo</th>
-                        <th>AVE</th>
-                        <th>HR</th>
-                        <th>RBI</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 20px;">
-                            Datos próximamente disponibles
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div style="overflow-x: auto;">
+                <table class="standings-table" style="font-size: 0.85em;">
+                    <thead>
+                        <tr>
+                            <th>Pos</th>
+                            <th style="text-align: left;">Nombre</th>
+                            <th>JJ</th>
+                            <th>AB</th>
+                            <th>VB</th>
+                            <th>HC</th>
+                            <th>H1</th>
+                            <th>H2</th>
+                            <th>H3</th>
+                            <th>HR</th>
+                            <th>K</th>
+                            <th>BB</th>
+                            <th>BI</th>
+                            <th>BG</th>
+                            <th style="font-weight: bold; background: #fff9e6;">AVG</th>
+                            <th>ON BASE</th>
+                            <th>SLUG.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #fff9e6;">
+                            <td style="font-weight: bold;">1</td>
+                            <td style="text-align: left; font-weight: bold;">IRAM YOCUPICIO (Indios)</td>
+                            <td>10</td>
+                            <td>33</td>
+                            <td>28</td>
+                            <td>19</td>
+                            <td>11</td>
+                            <td>5</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td></td>
+                            <td>1</td>
+                            <td style="font-weight: bold; color: #c41e3a;">0.679</td>
+                            <td>0.697</td>
+                            <td>1.143</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">2</td>
+                            <td style="text-align: left;">ARIEL ARMENTA (Chicos)</td>
+                            <td>10</td>
+                            <td>40</td>
+                            <td>31</td>
+                            <td>18</td>
+                            <td>9</td>
+                            <td>8</td>
+                            <td>1</td>
+                            <td></td>
+                            <td>3</td>
+                            <td>7</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td style="font-weight: bold;">0.581</td>
+                            <td>0.675</td>
+                            <td>0.903</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">3</td>
+                            <td style="text-align: left;">OLIVER SOMBRA (Astros)</td>
+                            <td>8</td>
+                            <td>28</td>
+                            <td>23</td>
+                            <td>13</td>
+                            <td>8</td>
+                            <td>4</td>
+                            <td>1</td>
+                            <td></td>
+                            <td></td>
+                            <td>4</td>
+                            <td></td>
+                            <td></td>
+                            <td style="font-weight: bold;">0.565</td>
+                            <td>0.607</td>
+                            <td>0.826</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">4</td>
+                            <td style="text-align: left;">MARCOS MEZA JR (Guerreros)</td>
+                            <td>9</td>
+                            <td>30</td>
+                            <td>26</td>
+                            <td>14</td>
+                            <td>10</td>
+                            <td>4</td>
+                            <td></td>
+                            <td></td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td></td>
+                            <td>2</td>
+                            <td style="font-weight: bold;">0.538</td>
+                            <td>0.567</td>
+                            <td>0.692</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">5</td>
+                            <td style="text-align: left;">ERICK GIL (Chicos)</td>
+                            <td>11</td>
+                            <td>41</td>
+                            <td>35</td>
+                            <td>16</td>
+                            <td>11</td>
+                            <td>2</td>
+                            <td></td>
+                            <td>3</td>
+                            <td>2</td>
+                            <td>5</td>
+                            <td></td>
+                            <td></td>
+                            <td style="font-weight: bold;">0.457</td>
+                            <td>0.512</td>
+                            <td>0.771</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">6</td>
+                            <td style="text-align: left;">ISAAC VALENCIA (Tigrillos)</td>
+                            <td>10</td>
+                            <td>27</td>
+                            <td>27</td>
+                            <td>12</td>
+                            <td>10</td>
+                            <td>2</td>
+                            <td></td>
+                            <td></td>
+                            <td>12</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td style="font-weight: bold;">0.444</td>
+                            <td>0.444</td>
+                            <td>0.519</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">7</td>
+                            <td style="text-align: left;">SAMUEL BORBON (Venados)</td>
+                            <td>7</td>
+                            <td>27</td>
+                            <td>23</td>
+                            <td>10</td>
+                            <td>8</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td></td>
+                            <td></td>
+                            <td>8</td>
+                            <td>3</td>
+                            <td></td>
+                            <td style="font-weight: bold;">0.435</td>
+                            <td>0.519</td>
+                            <td>0.565</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">8</td>
+                            <td style="text-align: left;">LEONEL AYALA (Chicos)</td>
+                            <td>9</td>
+                            <td>34</td>
+                            <td>30</td>
+                            <td>13</td>
+                            <td>9</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td></td>
+                            <td>1</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td></td>
+                            <td style="font-weight: bold;">0.433</td>
+                            <td>0.500</td>
+                            <td>0.600</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">9</td>
+                            <td style="text-align: left;">MIGUEL GUZMAN (Tigrillos)</td>
+                            <td>12</td>
+                            <td>42</td>
+                            <td>35</td>
+                            <td>15</td>
+                            <td>13</td>
+                            <td>2</td>
+                            <td></td>
+                            <td></td>
+                            <td>7</td>
+                            <td>5</td>
+                            <td></td>
+                            <td>2</td>
+                            <td style="font-weight: bold;">0.429</td>
+                            <td>0.524</td>
+                            <td>0.486</td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: bold;">10</td>
+                            <td style="text-align: left;">LENNY MIRANDA (Chicos)</td>
+                            <td>13</td>
+                            <td>51</td>
+                            <td>45</td>
+                            <td>19</td>
+                            <td>14</td>
+                            <td>3</td>
+                            <td></td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>4</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td style="font-weight: bold;">0.422</td>
+                            <td>0.490</td>
+                            <td>0.600</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
-        <section class="section">
-            <h2>⚾ Líderes de Pitcheo</h2>
-            <table class="standings-table">
-                <thead>
-                    <tr>
-                        <th>Pos</th>
-                        <th>Pitcher</th>
-                        <th>Equipo</th>
-                        <th>W-L</th>
-                        <th>ERA</th>
-                        <th>SO</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 20px;">
-                            Datos próximamente disponibles
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+        <!-- Grid de Categorías Destacadas -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; margin: 30px 0;">
+            
+            <!-- Home Runs -->
+            <section class="section" style="margin: 0;">
+                <h2 style="font-size: 1.3em;">⚾ Home Runs</h2>
+                <div style="overflow-x: auto;">
+                <table class="standings-table" style="min-width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left;">Jugador</th>
+                            <th>HR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #fff9e6;">
+                            <td style="text-align: left; font-weight: bold;">JESUS BUITMEA (Saneal)</td>
+                            <td style="font-weight: bold; color: #c41e3a; font-size: 1.2em;">4</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">ERICK GIL (Chicos)</td>
+                            <td style="font-weight: bold;">3</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">IRAM YOCUPICIO (Indios)</td>
+                            <td style="font-weight: bold;">2</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </section>
+
+            <!-- Hits Conectados -->
+            <section class="section" style="margin: 0;">
+                <h2 style="font-size: 1.3em;">🎯 Hits Conectados</h2>
+                <div style="overflow-x: auto;">
+                <table class="standings-table" style="min-width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left;">Jugador</th>
+                            <th>HITS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #fff9e6;">
+                            <td style="text-align: left; font-weight: bold;">IRAM YOCUPICIO (Indios)</td>
+                            <td style="font-weight: bold; color: #c41e3a; font-size: 1.2em;">19</td>
+                        </tr>
+                        <tr style="background: #fff9e6;">
+                            <td style="text-align: left; font-weight: bold;">LENNY MIRANDA (Chicos)</td>
+                            <td style="font-weight: bold; color: #c41e3a; font-size: 1.2em;">19</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">ARIEL ARMENTA (Chicos)</td>
+                            <td style="font-weight: bold;">18</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">ERICK GIL (Chicos)</td>
+                            <td style="font-weight: bold;">16</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">MIGUEL GUZMAN (Tigrillos)</td>
+                            <td style="font-weight: bold;">15</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">MARCOS MEZA JR (Guerreros)</td>
+                            <td style="font-weight: bold;">14</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">JUAN CARLOS COTA (Rojos)</td>
+                            <td style="font-weight: bold;">14</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </section>
+
+            <!-- Juegos Ganados (Pitcheo) -->
+            <section class="section" style="margin: 0;">
+                <h2 style="font-size: 1.3em;">🏆 Juegos Ganados</h2>
+                <div style="overflow-x: auto;">
+                <table class="standings-table" style="min-width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left;">Pitcher</th>
+                            <th>W-L</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #fff9e6;">
+                            <td style="text-align: left; font-weight: bold;">OBED MEZA (Guerreros)</td>
+                            <td style="font-weight: bold; color: #c41e3a; font-size: 1.2em;">3-0</td>
+                        </tr>
+                        <tr style="background: #fff9e6;">
+                            <td style="text-align: left; font-weight: bold;">EDISON MENDIVIL (Saneal)</td>
+                            <td style="font-weight: bold; color: #c41e3a; font-size: 1.2em;">3-0</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">CHRISTIAN LOPEZ (Astros)</td>
+                            <td style="font-weight: bold;">3-1</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">DAVID SAENZ (Rojos)</td>
+                            <td style="font-weight: bold;">2-0</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">SAUL ALMADA (Chicos)</td>
+                            <td style="font-weight: bold;">2-0</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">RUBEN YOCUPICIO (Rancheros)</td>
+                            <td style="font-weight: bold;">2-0</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Nota informativa -->
+        <div style="text-align: center; color: #666; margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <p style="margin: 0; font-size: 0.9em;">📊 Estadísticas actualizadas • Temporada 2024-2025</p>
+        </div>
     </div>
 
     <footer>
