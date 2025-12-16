@@ -176,7 +176,7 @@
     <footer>
         <h3>Liga de Beisbol Navojoa Ejidal</h3>
         <p>Zona Sur Bacabachi</p>
-        <p>📧 Email: contacto@ligaejidal.com | 📱 Tel: (642) 123-4567</p>
+        <p>📧 Email: Ligabacabachi@ligaejidal.com | 📱 Tel: (642) 426-9561</p>
         <p>&copy; 2025 Liga de Beisbol Navojoa Ejidal. Todos los derechos reservados.</p>
     </footer>
 
@@ -252,7 +252,7 @@
             games.forEach(game => {
                 // Verificar si hay resultado guardado
                 const result = getGameResult(game.jornada, game.homeTeam, game.awayTeam);
-                const hasResult = result && result.homeScore !== '' && result.awayScore !== '';
+                const hasResult = hasGameResult(game.jornada, game.homeTeam, game.awayTeam);
                 
                 let statusClass = 'pending';
                 let statusText = '⏳ Por jugar';
@@ -262,16 +262,66 @@
                 
                 if (hasResult) {
                     statusClass = 'completed';
-                    statusText = `${result.homeScore} - ${result.awayScore}`;
                     statusColor = '#c41e3a';
                     
-                    // Resaltar al ganador
-                    if (result.homeScore > result.awayScore) {
-                        homeTeamClass = 'style="font-weight: bold; color: #28a745;"';
-                        statusText += ' 🏆';
-                    } else if (result.awayScore > result.homeScore) {
-                        awayTeamClass = 'style="font-weight: bold; color: #28a745;"';
-                        statusText = '🏆 ' + statusText;
+                    // Formato nuevo: con game1 y game2
+                    if (result.game1 && result.game2) {
+                        const g1 = result.game1;
+                        const g2 = result.game2;
+                        let homeWins = 0;
+                        let awayWins = 0;
+                        
+                        // Verificar forfeit en juego 1
+                        let game1Text = '';
+                        if (g1.forfeit) {
+                            game1Text = 'FORFEIT';
+                            // Determinar quién ganó por forfeit
+                            if (g1.forfeitTeam === game.homeTeam) {
+                                awayWins++; // El visitante gana si el local hizo forfeit
+                            } else {
+                                homeWins++; // El local gana si el visitante hizo forfeit
+                            }
+                        } else if (g1.homeScore !== undefined && g1.awayScore !== undefined) {
+                            game1Text = `${g1.homeScore}-${g1.awayScore}`;
+                            if (g1.homeScore > g1.awayScore) homeWins++;
+                            else if (g1.awayScore > g1.homeScore) awayWins++;
+                        }
+                        
+                        // Verificar forfeit en juego 2
+                        let game2Text = '';
+                        if (g2.forfeit) {
+                            game2Text = 'FORFEIT';
+                            // Determinar quién ganó por forfeit
+                            if (g2.forfeitTeam === game.homeTeam) {
+                                awayWins++; // El visitante gana si el local hizo forfeit
+                            } else {
+                                homeWins++; // El local gana si el visitante hizo forfeit
+                            }
+                        } else if (g2.homeScore !== undefined && g2.awayScore !== undefined) {
+                            game2Text = `${g2.homeScore}-${g2.awayScore}`;
+                            if (g2.homeScore > g2.awayScore) homeWins++;
+                            else if (g2.awayScore > g2.homeScore) awayWins++;
+                        }
+                        
+                        statusText = `J1: ${game1Text} | J2: ${game2Text}`;
+                        
+                        // Resaltar al ganador del partido (quien gane más juegos)
+                        if (homeWins > awayWins) {
+                            homeTeamClass = 'style="font-weight: bold; color: #28a745;"';
+                        } else if (awayWins > homeWins) {
+                            awayTeamClass = 'style="font-weight: bold; color: #28a745;"';
+                        }
+                    } 
+                    // Formato antiguo: solo homeScore y awayScore
+                    else if (result.homeScore !== '' && result.awayScore !== '') {
+                        statusText = `${result.homeScore} - ${result.awayScore}`;
+                        
+                        // Resaltar al ganador
+                        if (result.homeScore > result.awayScore) {
+                            homeTeamClass = 'style="font-weight: bold; color: #28a745;"';
+                        } else if (result.awayScore > result.homeScore) {
+                            awayTeamClass = 'style="font-weight: bold; color: #28a745;"';
+                        }
                     }
                 } else if (game.status === 'completed') {
                     statusClass = 'completed';

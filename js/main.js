@@ -38,6 +38,11 @@ async function loadDataFromServer() {
             loadGalleryFromServer()
         ]);
         console.log('✅ Datos cargados correctamente');
+        
+        // Actualizar la tabla de posiciones después de cargar los resultados
+        if (typeof loadStandingsTable === 'function') {
+            loadStandingsTable();
+        }
     } catch (error) {
         console.error('❌ Error al cargar datos:', error);
     }
@@ -283,11 +288,11 @@ function loadStandingsTable() {
             <td style="font-weight: bold;">${team.position}</td>
             <td style="text-align: left; font-weight: ${index < 3 ? 'bold' : 'normal'};">
                 ${team.team}
-                ${index === 0 ? '🏆' : ''}
             </td>
             <td>${team.games}</td>
             <td style="color: #28a745; font-weight: bold;">${team.wins}</td>
             <td style="color: #dc3545;">${team.losses}</td>
+            <td style="color: #6c757d;">${team.ties}</td>
             <td style="font-weight: bold;">${team.average}</td>
         `;
         
@@ -298,7 +303,7 @@ function loadStandingsTable() {
     if (standings.every(team => team.games === 0)) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="6" style="text-align: center; padding: 20px; color: #666;">
+                <td colspan="7" style="text-align: center; padding: 20px; color: #666;">
                     La tabla se actualizará automáticamente conforme se registren los resultados de los juegos
                 </td>
             </tr>
@@ -607,17 +612,57 @@ function createGameCard(game) {
     let statusColor = '#666';
     
     // Verificar si hay resultado guardado
-    if (typeof getGameResult === 'function') {
+    if (typeof getGameResult === 'function' && typeof hasGameResult === 'function') {
         const result = getGameResult(game.jornada, game.homeTeam, game.awayTeam);
-        if (result && result.homeScore !== '' && result.awayScore !== '') {
-            statusText = `${result.homeScore} - ${result.awayScore}`;
+        if (hasGameResult(game.jornada, game.homeTeam, game.awayTeam)) {
             statusColor = '#c41e3a';
             
-            // Determinar ganador para resaltar
-            if (result.homeScore > result.awayScore) {
-                statusText += ' 🏆';
-            } else if (result.awayScore > result.homeScore) {
-                statusText = '🏆 ' + statusText;
+            // Formato nuevo: con game1 y game2
+            if (result.game1 && result.game2) {
+                const g1 = result.game1;
+                const g2 = result.game2;
+                let homeWins = 0;
+                let awayWins = 0;
+                
+                // Verificar forfeit en juego 1
+                let game1Text = '';
+                if (g1.forfeit) {
+                    game1Text = 'FORFEIT';
+                    // Determinar quién ganó por forfeit
+                    const homeTeam = game.homeTeam;
+                    if (g1.forfeitTeam === homeTeam) {
+                        awayWins++; // El visitante gana si el local hizo forfeit
+                    } else {
+                        homeWins++; // El local gana si el visitante hizo forfeit
+                    }
+                } else if (g1.homeScore !== undefined && g1.awayScore !== undefined) {
+                    game1Text = `${g1.homeScore}-${g1.awayScore}`;
+                    if (g1.homeScore > g1.awayScore) homeWins++;
+                    else if (g1.awayScore > g1.homeScore) awayWins++;
+                }
+                
+                // Verificar forfeit en juego 2
+                let game2Text = '';
+                if (g2.forfeit) {
+                    game2Text = 'FORFEIT';
+                    // Determinar quién ganó por forfeit
+                    const homeTeam = game.homeTeam;
+                    if (g2.forfeitTeam === homeTeam) {
+                        awayWins++; // El visitante gana si el local hizo forfeit
+                    } else {
+                        homeWins++; // El local gana si el visitante hizo forfeit
+                    }
+                } else if (g2.homeScore !== undefined && g2.awayScore !== undefined) {
+                    game2Text = `${g2.homeScore}-${g2.awayScore}`;
+                    if (g2.homeScore > g2.awayScore) homeWins++;
+                    else if (g2.awayScore > g2.homeScore) awayWins++;
+                }
+                
+                statusText = `J1: ${game1Text} | J2: ${game2Text}`;
+            } 
+            // Formato antiguo: solo homeScore y awayScore
+            else if (result.homeScore !== '' && result.awayScore !== '') {
+                statusText = `${result.homeScore} - ${result.awayScore}`;
             }
         }
     }

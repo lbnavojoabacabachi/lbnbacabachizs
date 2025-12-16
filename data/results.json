@@ -1,42 +1,287 @@
 {
   "j1_Venados de Batayaui_Chicos de Sinahuiza": {
-    "homeScore": 5,
-    "awayScore": 3,
-    "timestamp": "2025-11-12T20:12:55.112Z"
+    "game1": {
+      "homeScore": 0,
+      "awayScore": 9
+    },
+    "game2": {
+      "homeScore": 3,
+      "awayScore": 10
+    },
+    "timestamp": "2025-10-26T00:00:00.000Z"
   },
   "j1_Astros_Tigrillos de Bacabachi": {
-    "homeScore": 4,
-    "awayScore": 1,
-    "timestamp": "2025-11-12T20:12:57.383Z"
+    "game1": {
+      "homeScore": 7,
+      "awayScore": 6
+    },
+    "game2": {
+      "homeScore": 7,
+      "awayScore": 2
+    },
+    "timestamp": "2025-10-26T00:00:00.000Z"
   },
   "j1_Rojos de Bacabachi_Rancheros de Buayums": {
-    "homeScore": 1,
-    "awayScore": 3,
-    "timestamp": "2025-11-12T20:12:59.360Z"
+    "game1": {
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    "game2": {
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    "timestamp": "2025-10-26T00:00:00.000Z"
   },
   "j1_Guerreros de Chente Meza_Indios de Chirajobampo": {
-    "homeScore": 2,
-    "awayScore": 4,
-    "timestamp": "2025-11-12T20:13:01.727Z"
-  },
-  "j2_Rojos de Bacabachi_Venados de Batayaui": {
-    "homeScore": 7,
-    "awayScore": 2,
-    "timestamp": "2025-11-12T21:19:10.113Z"
-  },
-  "j2_Tigrillos de Bacabachi_Guerreros de Chente Meza": {
-    "homeScore": 5,
-    "awayScore": 6,
-    "timestamp": "2025-11-12T21:19:11.137Z"
-  },
-  "j2_Rancheros de Buayums_Saneal": {
-    "homeScore": 1,
-    "awayScore": 0,
-    "timestamp": "2025-11-12T21:19:11.913Z"
+    "game1": {
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    "game2": {
+      "homeScore": 15,
+      "awayScore": 0
+    },
+    "timestamp": "2025-10-26T00:00:00.000Z"
   },
   "j2_Chicos de Sinahuiza_Astros": {
-    "homeScore": 3,
-    "awayScore": 1,
-    "timestamp": "2025-11-12T21:19:12.497Z"
+    "homeScore": 15,
+    "awayScore": 8,
+    "timestamp": "2025-11-09T00:00:00.000Z"
+  },
+  "j2_Rancheros de Buayums_Saneal": {
+    "homeScore": 4,
+    "awayScore": 4,
+    "timestamp": "2025-11-09T00:00:00.000Z"
+  },
+  "j2_Tigrillos de Bacabachi_Guerreros de Chente Meza": {
+    "homeScore": 4,
+    "awayScore": 3,
+    "timestamp": "2025-11-09T00:00:00.000Z"
+  },
+  "j2_Rojos de Bacabachi_Venados de Batayaui": {
+    "homeScore": 6,
+    "awayScore": 3,
+    "timestamp": "2025-11-09T00:00:00.000Z"
+  },
+  "j3_Guerreros de Chente Meza_Rojos de Bacabachi": {
+    "game1": {
+      "homeScore": 11,
+      "awayScore": 5
+    },
+    "game2": {
+      "homeScore": 3,
+      "awayScore": 8
+    },
+    "timestamp": "2025-11-16T00:00:00.000Z"
+  },
+  "j3_Saneal_Chicos de Sinahuiza": {
+    "game1": {
+      "homeScore": 2,
+      "awayScore": 10
+    },
+    "game2": {
+      "homeScore": 3,
+      "awayScore": 2
+    },
+    "timestamp": "2025-11-16T00:00:00.000Z"
+  },
+  "j3_Indios de Chirajobampo_Tigrillos de Bacabachi": {
+    "game1": {
+      "homeScore": 14,
+      "awayScore": 4
+    },
+    "game2": {
+      "homeScore": 2,
+      "awayScore": 15
+    },
+    "timestamp": "2025-11-16T00:00:00.000Z"
+  },
+  "j3_Astros_Rancheros de Buayums": {
+    "game1": {
+      "forfeit": true,
+      "forfeitTeam": "Astros",
+      "note": "FORFEIT - Astros perdió"
+    },
+    "game2": {
+      "homeScore": 8,
+      "awayScore": 6
+    },
+    "timestamp": "2025-11-16T00:00:00.000Z"
+  },
+  "j4_Rojos de Bacabachi_Saneal": {
+    "game1": {
+      "homeScore": 4,
+      "awayScore": 5
+    },
+    "game2": {
+      "homeScore": 4,
+      "awayScore": 13
+    },
+    "timestamp": "2025-11-23T00:00:00.000Z"
+  },
+  "j4_Tigrillos de Bacabachi_Chicos de Sinahuiza": {
+    "game1": {
+      "homeScore": 6,
+      "awayScore": 11
+    },
+    "game2": {
+      "homeScore": 7,
+      "awayScore": 6
+    },
+    "timestamp": "2025-11-23T00:00:00.000Z"
+  },
+  "j4_Rancheros de Buayums_Guerreros de Chente Meza": {
+    "game1": {
+      "homeScore": 3,
+      "awayScore": 4
+    },
+    "game2": {
+      "homeScore": 4,
+      "awayScore": 3
+    },
+    "timestamp": "2025-11-23T00:00:00.000Z"
+  },
+  "j4_Venados de Batayaui_Indios de Chirajobampo": {
+    "game1": {
+      "homeScore": 5,
+      "awayScore": 1
+    },
+    "game2": {
+      "homeScore": 5,
+      "awayScore": 4
+    },
+    "timestamp": "2025-11-23T00:00:00.000Z"
+  },
+  "j5_Chicos de Sinahuiza_Rojos de Bacabachi": {
+    "game1": {
+      "homeScore": 3,
+      "awayScore": 5
+    },
+    "game2": {
+      "homeScore": 0,
+      "awayScore": 10
+    },
+    "timestamp": "2025-11-30T00:00:00.000Z"
+  },
+  "j5_Indios de Chirajobampo_Astros": {
+    "game1": {
+      "homeScore": 2,
+      "awayScore": 8
+    },
+    "game2": {
+      "homeScore": 9,
+      "awayScore": 4
+    },
+    "timestamp": "2025-11-30T00:00:00.000Z"
+  },
+  "j5_Guerreros de Chente Meza_Venados de Batayaui": {
+    "game1": {
+      "homeScore": 5,
+      "awayScore": 1
+    },
+    "game2": {
+      "homeScore": 7,
+      "awayScore": 4
+    },
+    "timestamp": "2025-11-30T00:00:00.000Z"
+  },
+  "j5_Saneal_Tigrillos de Bacabachi": {
+    "game1": {
+      "homeScore": 7,
+      "awayScore": 4
+    },
+    "game2": {
+      "homeScore": 11,
+      "awayScore": 1
+    },
+    "timestamp": "2025-11-30T00:00:00.000Z"
+  },
+  "j6_Tigrillos de Bacabachi_Rancheros de Buayums": {
+    "game1": {
+      "homeScore": 9,
+      "awayScore": 15
+    },
+    "game2": {
+      "homeScore": 8,
+      "awayScore": 6
+    },
+    "timestamp": "2025-12-07T00:00:00.000Z"
+  },
+  "j6_Venados de Batayaui_Saneal": {
+    "game1": {
+      "homeScore": 4,
+      "awayScore": 8
+    },
+    "game2": {
+      "homeScore": 1,
+      "awayScore": 11
+    },
+    "timestamp": "2025-12-07T00:00:00.000Z"
+  },
+  "j6_Guerreros de Chente Meza_Astros": {
+    "game1": {
+      "homeScore": 13,
+      "awayScore": 15
+    },
+    "game2": {
+      "homeScore": 7,
+      "awayScore": 1
+    },
+    "timestamp": "2025-12-07T00:00:00.000Z"
+  },
+  "j6_Chicos de Sinahuiza_Indios de Chirajobampo": {
+    "game1": {
+      "homeScore": 4,
+      "awayScore": 11
+    },
+    "game2": {
+      "homeScore": 11,
+      "awayScore": 4
+    },
+    "timestamp": "2025-12-07T00:00:00.000Z"
+  },
+  "j7_Astros_Rojos de Bacabachi": {
+    "game1": {
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    "game2": {
+      "homeScore": 12,
+      "awayScore": 4
+    },
+    "timestamp": "2025-12-14T00:00:00.000Z"
+  },
+  "j7_Saneal_Indios de Chirajobampo": {
+    "game1": {
+      "homeScore": 3,
+      "awayScore": 6
+    },
+    "game2": {
+      "homeScore": 5,
+      "awayScore": 4
+    },
+    "timestamp": "2025-12-14T00:00:00.000Z"
+  },
+  "j7_Rancheros de Buayums_Chicos de Sinahuiza": {
+    "game1": {
+      "homeScore": 2,
+      "awayScore": 4
+    },
+    "game2": {
+      "homeScore": 9,
+      "awayScore": 5
+    },
+    "timestamp": "2025-12-14T00:00:00.000Z"
+  },
+  "j7_Tigrillos de Bacabachi_Venados de Batayaui": {
+    "game1": {
+      "homeScore": 4,
+      "awayScore": 2
+    },
+    "game2": {
+      "homeScore": 10,
+      "awayScore": 3
+    },
+    "timestamp": "2025-12-14T00:00:00.000Z"
   }
 }

@@ -76,19 +76,42 @@ function getGameResult(jornada, homeTeam, awayTeam) {
  */
 function hasGameResult(jornada, homeTeam, awayTeam) {
     const result = getGameResult(jornada, homeTeam, awayTeam);
-    return result !== null && result.homeScore !== '' && result.awayScore !== '';
+    if (!result) return false;
+    
+    // Formato nuevo: con game1 y game2
+    if (result.game1 && result.game2) {
+        return result.game1.homeScore !== '' && result.game1.awayScore !== '' &&
+               result.game2.homeScore !== '' && result.game2.awayScore !== '';
+    }
+    
+    // Formato antiguo: solo homeScore y awayScore
+    return result.homeScore !== '' && result.awayScore !== '';
 }
 
 /**
  * Formatea el marcador de un juego
- * @param {Object} result - Objeto con homeScore y awayScore
+ * @param {Object} result - Objeto con homeScore y awayScore, o game1 y game2
  * @returns {string} Marcador formateado
  */
 function formatScore(result) {
-    if (!result || result.homeScore === '' || result.awayScore === '') {
-        return 'Por confirmar';
+    if (!result) return 'Por confirmar';
+    
+    // Formato nuevo: con game1 y game2
+    if (result.game1 && result.game2) {
+        const game1 = result.game1;
+        const game2 = result.game2;
+        if (game1.homeScore !== '' && game1.awayScore !== '' && 
+            game2.homeScore !== '' && game2.awayScore !== '') {
+            return `J1: ${game1.homeScore}-${game1.awayScore} | J2: ${game2.homeScore}-${game2.awayScore}`;
+        }
     }
-    return `${result.homeScore} - ${result.awayScore}`;
+    
+    // Formato antiguo: solo homeScore y awayScore
+    if (result.homeScore !== '' && result.awayScore !== '') {
+        return `${result.homeScore} - ${result.awayScore}`;
+    }
+    
+    return 'Por confirmar';
 }
 
 /**
@@ -182,7 +205,7 @@ function calculateStandings() {
     
     // Procesar todos los resultados
     Object.entries(results).forEach(([gameKey, result]) => {
-        if (!result || result.homeScore === '' || result.awayScore === '') return;
+        if (!result) return;
         
         // Extraer información del gameKey: j{jornada}_{homeTeam}_{awayTeam}
         const parts = gameKey.split('_');
@@ -194,30 +217,87 @@ function calculateStandings() {
         // Verificar que los equipos existan en nuestras estadísticas
         if (!teamStats[homeTeam] || !teamStats[awayTeam]) return;
         
-        const homeScore = parseInt(result.homeScore);
-        const awayScore = parseInt(result.awayScore);
-        
-        // Actualizar juegos jugados
-        teamStats[homeTeam].games++;
-        teamStats[awayTeam].games++;
-        
-        // Actualizar carreras
-        teamStats[homeTeam].runsScored += homeScore;
-        teamStats[homeTeam].runsAllowed += awayScore;
-        teamStats[awayTeam].runsScored += awayScore;
-        teamStats[awayTeam].runsAllowed += homeScore;
-        
-        // Determinar ganador
-        if (homeScore > awayScore) {
-            teamStats[homeTeam].wins++;
-            teamStats[awayTeam].losses++;
-        } else if (awayScore > homeScore) {
-            teamStats[awayTeam].wins++;
-            teamStats[homeTeam].losses++;
-        } else {
-            // Empate (poco común en beisbol, pero posible)
-            teamStats[homeTeam].ties++;
-            teamStats[awayTeam].ties++;
+        // Formato nuevo: con game1 y game2
+        if (result.game1 && result.game2) {
+            const games = [result.game1, result.game2];
+            
+            games.forEach(game => {
+                // Manejar forfeit
+                if (game.forfeit) {
+                    // En forfeit, se cuenta como juego jugado y victoria/derrota
+                    teamStats[homeTeam].games++;
+                    teamStats[awayTeam].games++;
+                    
+                    if (game.forfeitTeam === homeTeam) {
+                        // Local pierde por forfeit
+                        teamStats[awayTeam].wins++;
+                        teamStats[homeTeam].losses++;
+                    } else {
+                        // Visitante pierde por forfeit
+                        teamStats[homeTeam].wins++;
+                        teamStats[awayTeam].losses++;
+                    }
+                    return; // No procesar carreras en forfeit
+                }
+                
+                // Juego normal con marcador
+                if (game.homeScore === undefined || game.awayScore === undefined || 
+                    game.homeScore === '' || game.awayScore === '') return;
+                
+                const homeScore = parseInt(game.homeScore);
+                const awayScore = parseInt(game.awayScore);
+                
+                // Actualizar juegos jugados (cada juego cuenta como 1)
+                teamStats[homeTeam].games++;
+                teamStats[awayTeam].games++;
+                
+                // Actualizar carreras
+                teamStats[homeTeam].runsScored += homeScore;
+                teamStats[homeTeam].runsAllowed += awayScore;
+                teamStats[awayTeam].runsScored += awayScore;
+                teamStats[awayTeam].runsAllowed += homeScore;
+                
+                // Contar victorias/derrotas por CADA JUEGO INDIVIDUAL
+                if (homeScore > awayScore) {
+                    teamStats[homeTeam].wins++;
+                    teamStats[awayTeam].losses++;
+                } else if (awayScore > homeScore) {
+                    teamStats[awayTeam].wins++;
+                    teamStats[homeTeam].losses++;
+                } else {
+                    // Empate en el juego individual (poco común)
+                    teamStats[homeTeam].ties++;
+                    teamStats[awayTeam].ties++;
+                }
+            });
+        } 
+        // Formato antiguo: solo homeScore y awayScore
+        else if (result.homeScore !== '' && result.awayScore !== '') {
+            const homeScore = parseInt(result.homeScore);
+            const awayScore = parseInt(result.awayScore);
+            
+            // Actualizar juegos jugados
+            teamStats[homeTeam].games++;
+            teamStats[awayTeam].games++;
+            
+            // Actualizar carreras
+            teamStats[homeTeam].runsScored += homeScore;
+            teamStats[homeTeam].runsAllowed += awayScore;
+            teamStats[awayTeam].runsScored += awayScore;
+            teamStats[awayTeam].runsAllowed += homeScore;
+            
+            // Determinar ganador
+            if (homeScore > awayScore) {
+                teamStats[homeTeam].wins++;
+                teamStats[awayTeam].losses++;
+            } else if (awayScore > homeScore) {
+                teamStats[awayTeam].wins++;
+                teamStats[homeTeam].losses++;
+            } else {
+                // Empate (poco común en beisbol, pero posible)
+                teamStats[homeTeam].ties++;
+                teamStats[awayTeam].ties++;
+            }
         }
     });
     
@@ -270,5 +350,93 @@ function getTeamStats(teamName) {
 function getLeader() {
     const standings = calculateStandings();
     return standings.length > 0 ? standings[0] : null;
+}
+
+/**
+ * Función de depuración para mostrar el detalle de resultados de un equipo
+ * @param {string} teamName - Nombre del equipo
+ */
+function debugTeamResults(teamName) {
+    const results = getGameResults();
+    console.log(`\n=== Resultados de ${teamName} ===`);
+    
+    let totalWins = 0;
+    let totalLosses = 0;
+    let totalTies = 0;
+    let totalGames = 0;
+    
+    Object.entries(results).forEach(([gameKey, result]) => {
+        // Extraer información del gameKey
+        const parts = gameKey.split('_');
+        const jornada = parts[0].replace('j', '');
+        const homeTeam = parts.slice(1, -1).join('_');
+        const awayTeam = parts[parts.length - 1];
+        
+        // Solo mostrar juegos de este equipo
+        if (homeTeam !== teamName && awayTeam !== teamName) return;
+        
+        const isHome = homeTeam === teamName;
+        const opponent = isHome ? awayTeam : homeTeam;
+        
+        console.log(`\nJornada ${jornada}: ${homeTeam} vs ${awayTeam}`);
+        
+        // Formato con game1 y game2
+        if (result.game1 && result.game2) {
+            [result.game1, result.game2].forEach((game, idx) => {
+                if (game.forfeit) {
+                    console.log(`  Juego ${idx + 1}: FORFEIT`);
+                    if (game.forfeitTeam === teamName) {
+                        console.log(`    -> ${teamName} PIERDE por forfeit`);
+                        totalLosses++;
+                    } else {
+                        console.log(`    -> ${teamName} GANA por forfeit`);
+                        totalWins++;
+                    }
+                    totalGames++;
+                } else if (game.homeScore !== undefined && game.awayScore !== undefined) {
+                    const teamScore = isHome ? game.homeScore : game.awayScore;
+                    const oppScore = isHome ? game.awayScore : game.homeScore;
+                    console.log(`  Juego ${idx + 1}: ${game.homeScore}-${game.awayScore} (${teamName}: ${teamScore})`);
+                    
+                    if (teamScore > oppScore) {
+                        console.log(`    -> ${teamName} GANA`);
+                        totalWins++;
+                    } else if (teamScore < oppScore) {
+                        console.log(`    -> ${teamName} PIERDE`);
+                        totalLosses++;
+                    } else {
+                        console.log(`    -> EMPATE`);
+                        totalTies++;
+                    }
+                    totalGames++;
+                }
+            });
+        }
+        // Formato antiguo
+        else if (result.homeScore !== undefined && result.awayScore !== undefined) {
+            const teamScore = isHome ? result.homeScore : result.awayScore;
+            const oppScore = isHome ? result.awayScore : result.homeScore;
+            console.log(`  Juego: ${result.homeScore}-${result.awayScore} (${teamName}: ${teamScore})`);
+            
+            if (teamScore > oppScore) {
+                console.log(`    -> ${teamName} GANA`);
+                totalWins++;
+            } else if (teamScore < oppScore) {
+                console.log(`    -> ${teamName} PIERDE`);
+                totalLosses++;
+            } else {
+                console.log(`    -> EMPATE`);
+                totalTies++;
+            }
+            totalGames++;
+        }
+    });
+    
+    console.log(`\n=== RESUMEN ${teamName} ===`);
+    console.log(`JJ: ${totalGames}`);
+    console.log(`JG: ${totalWins}`);
+    console.log(`JP: ${totalLosses}`);
+    console.log(`JE: ${totalTies}`);
+    console.log(`AVE: ${totalGames > 0 ? (totalWins / totalGames).toFixed(3) : '.000'}`);
 }
 

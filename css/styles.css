@@ -189,8 +189,7 @@ nav {
 /* Banner Principal */
 .banner {
     position: relative;
-    background: linear-gradient(rgba(30,60,114,0.75), rgba(196,30,58,0.75)), 
-                url('../assets/images/banner.jpg');
+    background: url('../assets/images/banner.jpg');
     background-size: cover;
     background-position: center 25%;
     background-repeat: no-repeat;
@@ -201,7 +200,8 @@ nav {
     align-items: center;
     justify-content: center;
     gap: 40px;
-    min-height: 300px;
+    min-height: 450px;
+    height: 500px;
 }
 
 /* Efecto de marca de agua adicional */
@@ -212,7 +212,7 @@ nav {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at center, transparent 0%, rgba(30,60,114,0.4) 100%);
+    background: transparent;
     pointer-events: none;
     z-index: 1;
 }
