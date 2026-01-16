@@ -271,7 +271,22 @@ function calculateStandings() {
                 }
             });
         } 
-        // Formato antiguo: solo homeScore y awayScore
+        // Formato antiguo: solo homeScore y awayScore, o forfeit
+        else if (result.forfeit) {
+            // Manejar forfeit en formato antiguo (sin game1/game2)
+            teamStats[homeTeam].games++;
+            teamStats[awayTeam].games++;
+            
+            if (result.forfeitTeam === homeTeam) {
+                // Local pierde por forfeit
+                teamStats[awayTeam].wins++;
+                teamStats[homeTeam].losses++;
+            } else {
+                // Visitante pierde por forfeit
+                teamStats[homeTeam].wins++;
+                teamStats[awayTeam].losses++;
+            }
+        }
         else if (result.homeScore !== '' && result.awayScore !== '') {
             const homeScore = parseInt(result.homeScore);
             const awayScore = parseInt(result.awayScore);
@@ -303,9 +318,10 @@ function calculateStandings() {
     
     // Calcular porcentaje y convertir a array
     const standingsArray = Object.values(teamStats).map(stats => {
-        // Calcular porcentaje de victorias
-        if (stats.games > 0) {
-            stats.average = (stats.wins / stats.games).toFixed(3);
+        // Calcular porcentaje de victorias (excluyendo empates del denominador)
+        const gamesForAverage = stats.games - stats.ties;
+        if (gamesForAverage > 0) {
+            stats.average = (stats.wins / gamesForAverage).toFixed(3);
         } else {
             stats.average = '.000';
         }
@@ -440,3 +456,28 @@ function debugTeamResults(teamName) {
     console.log(`AVE: ${totalGames > 0 ? (totalWins / totalGames).toFixed(3) : '.000'}`);
 }
 
+/**
+ * Debug completo de standings
+ */
+function debugAllStandings() {
+    console.log('\n========== DEBUG COMPLETO DE STANDINGS ==========\n');
+    const standings = calculateStandings();
+    console.log('Tabla calculada:');
+    console.table(standings.map((s, idx) => ({
+        Pos: idx + 1,
+        Equipo: s.team,
+        JJ: s.games,
+        JG: s.wins,
+        JP: s.losses,
+        JE: s.ties,
+        AVG: s.average
+    })));
+    
+    const totalJJ = standings.reduce((sum, s) => sum + s.games, 0);
+    const totalJG = standings.reduce((sum, s) => sum + s.wins, 0);
+    const totalJP = standings.reduce((sum, s) => sum + s.losses, 0);
+    const totalJE = standings.reduce((sum, s) => sum + s.ties, 0);
+    
+    console.log(`\nTOTALES: JJ=${totalJJ}, JG=${totalJG}, JP=${totalJP}, JE=${totalJE}`);
+    console.log('\n========== FIN DEBUG ==========\n');
+}

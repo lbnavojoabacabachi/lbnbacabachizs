@@ -361,60 +361,60 @@ const schedule = [
     { jornada: 2, descansa: "Indios de Chirajobampo" },
     
     // Jornada 3 - 16 de noviembre del 2025
-    { jornada: 3, date: "2025-11-16", homeTeam: "Guerreros de Chente Meza", awayTeam: "Rojos de Bacabachi", status: "pending" },
-    { jornada: 3, date: "2025-11-16", homeTeam: "Saneal", awayTeam: "Chicos de Sinahuiza", status: "pending" },
-    { jornada: 3, date: "2025-11-16", homeTeam: "Indios de Chirajobampo", awayTeam: "Tigrillos de Bacabachi", status: "pending" },
-    { jornada: 3, date: "2025-11-16", homeTeam: "Astros", awayTeam: "Rancheros de Buayums", status: "pending" },
+    { jornada: 3, date: "2025-11-16", homeTeam: "Guerreros de Chente Meza", awayTeam: "Rojos de Bacabachi", status: "completed" },
+    { jornada: 3, date: "2025-11-16", homeTeam: "Saneal", awayTeam: "Chicos de Sinahuiza", status: "completed" },
+    { jornada: 3, date: "2025-11-16", homeTeam: "Indios de Chirajobampo", awayTeam: "Tigrillos de Bacabachi", status: "completed" },
+    { jornada: 3, date: "2025-11-16", homeTeam: "Astros", awayTeam: "Rancheros de Buayums", status: "completed" },
     { jornada: 3, descansa: "Venados de Batayaui" },
     
     // Jornada 4 - 23 de noviembre del 2025
-    { jornada: 4, date: "2025-11-23", homeTeam: "Rojos de Bacabachi", awayTeam: "Saneal", status: "pending" },
-    { jornada: 4, date: "2025-11-23", homeTeam: "Tigrillos de Bacabachi", awayTeam: "Chicos de Sinahuiza", status: "pending" },
-    { jornada: 4, date: "2025-11-23", homeTeam: "Rancheros de Buayums", awayTeam: "Guerreros de Chente Meza", status: "pending" },
-    { jornada: 4, date: "2025-11-23", homeTeam: "Venados de Batayaui", awayTeam: "Indios de Chirajobampo", status: "pending" },
+    { jornada: 4, date: "2025-11-23", homeTeam: "Rojos de Bacabachi", awayTeam: "Saneal", status: "completed" },
+    { jornada: 4, date: "2025-11-23", homeTeam: "Tigrillos de Bacabachi", awayTeam: "Chicos de Sinahuiza", status: "completed" },
+    { jornada: 4, date: "2025-11-23", homeTeam: "Rancheros de Buayums", awayTeam: "Guerreros de Chente Meza", status: "completed" },
+    { jornada: 4, date: "2025-11-23", homeTeam: "Venados de Batayaui", awayTeam: "Indios de Chirajobampo", status: "completed" },
     { jornada: 4, descansa: "Astros" },
     
     // Jornada 5 - 30 de noviembre del 2025
-    { jornada: 5, date: "2025-11-30", homeTeam: "Chicos de Sinahuiza", awayTeam: "Rojos de Bacabachi", status: "pending" },
-    { jornada: 5, date: "2025-11-30", homeTeam: "Indios de Chirajobampo", awayTeam: "Astros", status: "pending" },
-    { jornada: 5, date: "2025-11-30", homeTeam: "Guerreros de Chente Meza", awayTeam: "Venados de Batayaui", status: "pending" },
-    { jornada: 5, date: "2025-11-30", homeTeam: "Saneal", awayTeam: "Tigrillos de Bacabachi", status: "pending" },
+    { jornada: 5, date: "2025-11-30", homeTeam: "Chicos de Sinahuiza", awayTeam: "Rojos de Bacabachi", status: "completed" },
+    { jornada: 5, date: "2025-11-30", homeTeam: "Indios de Chirajobampo", awayTeam: "Astros", status: "completed" },
+    { jornada: 5, date: "2025-11-30", homeTeam: "Guerreros de Chente Meza", awayTeam: "Venados de Batayaui", status: "completed" },
+    { jornada: 5, date: "2025-11-30", homeTeam: "Saneal", awayTeam: "Tigrillos de Bacabachi", status: "completed" },
     { jornada: 5, descansa: "Rancheros de Buayums" },
     
     // Jornada 6 - 07 de diciembre del 2025
-    { jornada: 6, date: "2025-12-07", homeTeam: "Tigrillos de Bacabachi", awayTeam: "Rancheros de Buayums", status: "pending" },
-    { jornada: 6, date: "2025-12-07", homeTeam: "Venados de Batayaui", awayTeam: "Saneal", status: "pending" },
-    { jornada: 6, date: "2025-12-07", homeTeam: "Guerreros de Chente Meza", awayTeam: "Astros", status: "pending" },
-    { jornada: 6, date: "2025-12-07", homeTeam: "Chicos de Sinahuiza", awayTeam: "Indios de Chirajobampo", status: "pending" },
+    { jornada: 6, date: "2025-12-07", homeTeam: "Tigrillos de Bacabachi", awayTeam: "Rancheros de Buayums", status: "completed" },
+    { jornada: 6, date: "2025-12-07", homeTeam: "Venados de Batayaui", awayTeam: "Saneal", status: "completed" },
+    { jornada: 6, date: "2025-12-07", homeTeam: "Guerreros de Chente Meza", awayTeam: "Astros", status: "completed" },
+    { jornada: 6, date: "2025-12-07", homeTeam: "Chicos de Sinahuiza", awayTeam: "Indios de Chirajobampo", status: "completed" },
     { jornada: 6, descansa: "Rojos de Bacabachi" },
     
     // Jornada 7 - 14 de diciembre del 2025
-    { jornada: 7, date: "2025-12-14", homeTeam: "Astros", awayTeam: "Rojos de Bacabachi", status: "pending" },
-    { jornada: 7, date: "2025-12-14", homeTeam: "Saneal", awayTeam: "Indios de Chirajobampo", status: "pending" },
-    { jornada: 7, date: "2025-12-14", homeTeam: "Rancheros de Buayums", awayTeam: "Chicos de Sinahuiza", status: "pending" },
-    { jornada: 7, date: "2025-12-14", homeTeam: "Tigrillos de Bacabachi", awayTeam: "Venados de Batayaui", status: "pending" },
+    { jornada: 7, date: "2025-12-14", homeTeam: "Astros", awayTeam: "Rojos de Bacabachi", status: "completed" },
+    { jornada: 7, date: "2025-12-14", homeTeam: "Saneal", awayTeam: "Indios de Chirajobampo", status: "completed" },
+    { jornada: 7, date: "2025-12-14", homeTeam: "Rancheros de Buayums", awayTeam: "Chicos de Sinahuiza", status: "completed" },
+    { jornada: 7, date: "2025-12-14", homeTeam: "Tigrillos de Bacabachi", awayTeam: "Venados de Batayaui", status: "completed" },
     { jornada: 7, descansa: "Guerreros de Chente Meza" },
     
     // Jornada 8 - 21 de diciembre del 2025
-    { jornada: 8, date: "2025-12-21", homeTeam: "Venados de Batayaui", awayTeam: "Astros", status: "pending" },
-    { jornada: 8, date: "2025-12-21", homeTeam: "Rojos de Bacabachi", awayTeam: "Tigrillos de Bacabachi", status: "pending" },
-    { jornada: 8, date: "2025-12-21", homeTeam: "Indios de Chirajobampo", awayTeam: "Rancheros de Buayums", status: "pending" },
-    { jornada: 8, date: "2025-12-21", homeTeam: "Guerreros de Chente Meza", awayTeam: "Saneal", status: "pending" },
+    { jornada: 8, date: "2025-12-21", homeTeam: "Venados de Batayaui", awayTeam: "Astros", status: "completed" },
+    { jornada: 8, date: "2025-12-21", homeTeam: "Rojos de Bacabachi", awayTeam: "Tigrillos de Bacabachi", status: "completed" },
+    { jornada: 8, date: "2025-12-21", homeTeam: "Indios de Chirajobampo", awayTeam: "Rancheros de Buayums", status: "completed" },
+    { jornada: 8, date: "2025-12-21", homeTeam: "Guerreros de Chente Meza", awayTeam: "Saneal", status: "completed" },
     { jornada: 8, descansa: "Chicos de Sinahuiza" },
     
     // Jornada 9 - 28 de diciembre del 2025
-    { jornada: 9, date: "2025-12-28", homeTeam: "Indios de Chirajobampo", awayTeam: "Rojos de Bacabachi", status: "pending" },
-    { jornada: 9, date: "2025-12-28", homeTeam: "Chicos de Sinahuiza", awayTeam: "Guerreros de Chente Meza", status: "pending" },
-    { jornada: 9, date: "2025-12-28", homeTeam: "Rancheros de Buayums", awayTeam: "Venados de Batayaui", status: "pending" },
-    { jornada: 9, date: "2025-12-28", homeTeam: "Astros", awayTeam: "Saneal", status: "pending" },
+    { jornada: 9, date: "2025-12-28", homeTeam: "Venados de Batayaui", awayTeam: "Rancheros de Buayums", status: "completed" },
+    { jornada: 9, date: "2025-12-28", homeTeam: "Astros", awayTeam: "Saneal", status: "completed" },
+    { jornada: 9, date: "2025-12-28", homeTeam: "Rojos de Bacabachi", awayTeam: "Indios de Chirajobampo", status: "completed" },
+    { jornada: 9, date: "2025-12-28", homeTeam: "Chicos de Sinahuiza", awayTeam: "Guerreros de Chente Meza", status: "completed" },
     { jornada: 9, descansa: "Tigrillos de Bacabachi" },
     
     // SEGUNDA VUELTA
-    // Jornada 10 - 04 de enero del 2026
-    { jornada: 10, date: "2026-01-04", homeTeam: "Chicos de Sinahuiza", awayTeam: "Venados de Batayaui", status: "pending" },
-    { jornada: 10, date: "2026-01-04", homeTeam: "Tigrillos de Bacabachi", awayTeam: "Astros", status: "pending" },
-    { jornada: 10, date: "2026-01-04", homeTeam: "Rancheros de Buayums", awayTeam: "Rojos de Bacabachi", status: "pending" },
-    { jornada: 10, date: "2026-01-04", homeTeam: "Indios de Chirajobampo", awayTeam: "Guerreros de Chente Meza", status: "pending" },
+    // Jornada 10 - 11 de enero del 2026
+    { jornada: 10, date: "2026-01-11", homeTeam: "Venados de Batayaui", awayTeam: "Chicos de Sinahuiza", status: "completed" },
+    { jornada: 10, date: "2026-01-11", homeTeam: "Astros", awayTeam: "Tigrillos de Bacabachi", status: "completed" },
+    { jornada: 10, date: "2026-01-11", homeTeam: "Rojos de Bacabachi", awayTeam: "Rancheros de Buayums", status: "completed" },
+    { jornada: 10, date: "2026-01-11", homeTeam: "Guerreros de Chente Meza", awayTeam: "Indios de Chirajobampo", status: "completed" },
     { jornada: 10, descansa: "Saneal" },
     
     // Jornada 11 - 11 de enero del 2026

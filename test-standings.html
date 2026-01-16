@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Standings</title>
+</head>
+<body>
+    <h1>Test de Cálculo de Standings</h1>
+    <button onclick="runTest()">Ejecutar Test</button>
+    <pre id="output"></pre>
+
+    <script src="js/data.js"></script>
+    <script src="js/results.js"></script>
+    <script>
+        async function runTest() {
+            const output = document.getElementById('output');
+            let html = '=== CÁLCULO DE STANDINGS ===\n\n';
+            
+            // Cargar los resultados desde el archivo JSON
+            html += 'Cargando resultados desde data/results.json...\n\n';
+            output.textContent = html;
+            
+            try {
+                const response = await fetch('data/results.json');
+                const results = await response.json();
+                
+                // Guardar en window.resultsData para que getGameResults() los pueda usar
+                window.resultsData = results;
+                
+                html += `✓ ${Object.keys(results).length} resultados cargados\n\n`;
+                
+                const standings = calculateStandings();
+                
+                html += 'Tabla calculada:\n';
+                html += 'Pos | Equipo                      | JJ | JG | JP | JE | AVG\n';
+                html += '----|-----------------------------|----|----|----|----|------\n';
+                
+                standings.forEach((s, idx) => {
+                    html += `${(idx + 1).toString().padStart(3)} | ${s.team.padEnd(27)} | ${s.games.toString().padStart(2)} | ${s.wins.toString().padStart(2)} | ${s.losses.toString().padStart(2)} | ${s.ties.toString().padStart(2)} | ${s.average}\n`;
+                });
+                
+                const totalJJ = standings.reduce((sum, s) => sum + s.games, 0);
+                const totalJG = standings.reduce((sum, s) => sum + s.wins, 0);
+                const totalJP = standings.reduce((sum, s) => sum + s.losses, 0);
+                const totalJE = standings.reduce((sum, s) => sum + s.ties, 0);
+                
+                html += '\n';
+                html += `TOTALES: JJ=${totalJJ}, JG=${totalJG}, JP=${totalJP}, JE=${totalJE}\n`;
+                html += '\n';
+                html += '=== TABLA OFICIAL (de la imagen) ===\n';
+                html += '1. GUERREROS: JJ=17, JG=13, JP=4, JE=0, AVG=0.765\n';
+                html += '2. SANEAL: JJ=15, JG=9, JP=5, JE=1, AVG=0.643\n';
+                html += '3. ASTROS: JJ=17, JG=9, JP=8, JE=0, AVG=0.529\n';
+                html += '4. RANCHEROS: JJ=17, JG=8, JP=8, JE=1, AVG=0.500\n';
+                html += '5. ROJOS: JJ=17, JG=8, JP=8, JE=1, AVG=0.500\n';
+                html += '6. CHICOS: JJ=17, JG=8, JP=9, JE=0, AVG=0.471\n';
+                html += '7. VENADOS: JJ=17, JG=7, JP=10, JE=0, AVG=0.412\n';
+                html += '8. INDIOS: JJ=18, JG=7, JP=11, JE=0, AVG=0.389\n';
+                html += '9. TIGRILLOS: JJ=17, JG=5, JP=11, JE=1, AVG=0.313\n';
+                html += 'TOTALES: JJ=?, JG=74, JP=74, JE=2\n';
+                
+                output.textContent = html;
+            } catch (error) {
+                output.textContent = 'ERROR: ' + error.message + '\n\nAsegúrate de que el archivo esté siendo servido por un servidor HTTP (no file://)';
+            }
+        }
+    </script>
+</body>
+</html>

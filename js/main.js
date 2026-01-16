@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     loadNewsSection();
     loadGallerySection();
     initAdminShortcut();
+    initAllStarCards();
     
 });
 
@@ -354,9 +355,13 @@ function loadNewsSection() {
     let html = '';
     news.forEach(item => {
         const formattedDate = formatNewsDate(item.date);
+        const hasImage = item.image ? true : false;
+        const imageContent = item.image 
+            ? `<img src="${item.image}" alt="${item.title}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">` 
+            : item.emoji;
         html += `
             <div class="news-card">
-                <div class="news-image">${item.emoji}</div>
+                <div class="news-image ${hasImage ? 'has-image' : ''}" data-image="${item.image || ''}" data-title="${item.title}">${imageContent}</div>
                 <div class="news-content">
                     <p class="news-date">${formattedDate}</p>
                     <h3>${item.title}</h3>
@@ -367,6 +372,18 @@ function loadNewsSection() {
     });
 
     newsGrid.innerHTML = html;
+    
+    // Agregar event listeners para abrir imágenes en modal
+    const newsImages = newsGrid.querySelectorAll('.news-image.has-image');
+    newsImages.forEach(imageDiv => {
+        imageDiv.addEventListener('click', function() {
+            const imageSrc = this.getAttribute('data-image');
+            const title = this.getAttribute('data-title');
+            if (imageSrc) {
+                openImageModal(imageSrc, title);
+            }
+        });
+    });
 }
 
 /**
@@ -727,6 +744,38 @@ function displayNoGames() {
     if (restingElement) {
         restingElement.textContent = '';
     }
+}
+
+/**
+ * Inicializa los event listeners para las tarjetas del Juego de Estrellas
+ * y oculta la sección después de la fecha del evento
+ */
+function initAllStarCards() {
+    const allStarSection = document.querySelector('.all-star-highlight');
+    if (!allStarSection) return;
+    
+    // Verificar si el evento ya pasó (18 de enero de 2026)
+    const eventDate = new Date('2026-01-18T23:59:59');
+    const today = new Date();
+    
+    if (today > eventDate) {
+        // Ocultar la sección si el evento ya pasó
+        allStarSection.style.display = 'none';
+        return;
+    }
+    
+    // Si el evento no ha pasado, agregar event listeners para las imágenes
+    const allStarCards = allStarSection.querySelectorAll('.all-star-card');
+    
+    allStarCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const imageSrc = this.getAttribute('data-image');
+            const title = this.getAttribute('data-title');
+            if (imageSrc) {
+                openImageModal(imageSrc, title);
+            }
+        });
+    });
 }
 
 /**
