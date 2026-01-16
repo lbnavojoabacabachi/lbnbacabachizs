@@ -417,60 +417,60 @@ const schedule = [
     { jornada: 10, date: "2026-01-11", homeTeam: "Guerreros de Chente Meza", awayTeam: "Indios de Chirajobampo", status: "completed" },
     { jornada: 10, descansa: "Saneal" },
     
-    // Jornada 11 - 11 de enero del 2026
-    { jornada: 11, date: "2026-01-11", homeTeam: "Astros", awayTeam: "Chicos de Sinahuiza", status: "pending" },
-    { jornada: 11, date: "2026-01-11", homeTeam: "Saneal", awayTeam: "Rancheros de Buayums", status: "pending" },
-    { jornada: 11, date: "2026-01-11", homeTeam: "Guerreros de Chente Meza", awayTeam: "Tigrillos de Bacabachi", status: "pending" },
-    { jornada: 11, date: "2026-01-11", homeTeam: "Venados de Batayaui", awayTeam: "Rojos de Bacabachi", status: "pending" },
+    // Jornada 11 - 25 de enero del 2026 (recorrida por Juego de Estrellas)
+    { jornada: 11, date: "2026-01-25", homeTeam: "Astros", awayTeam: "Chicos de Sinahuiza", status: "pending" },
+    { jornada: 11, date: "2026-01-25", homeTeam: "Saneal", awayTeam: "Rancheros de Buayums", status: "pending" },
+    { jornada: 11, date: "2026-01-25", homeTeam: "Guerreros de Chente Meza", awayTeam: "Tigrillos de Bacabachi", status: "pending" },
+    { jornada: 11, date: "2026-01-25", homeTeam: "Venados de Batayaui", awayTeam: "Rojos de Bacabachi", status: "pending" },
     { jornada: 11, descansa: "Indios de Chirajobampo" },
     
-    // Jornada 12 - 18 de enero del 2026
-    { jornada: 12, date: "2026-01-18", homeTeam: "Rojos de Bacabachi", awayTeam: "Guerreros de Chente Meza", status: "pending" },
-    { jornada: 12, date: "2026-01-18", homeTeam: "Chicos de Sinahuiza", awayTeam: "Saneal", status: "pending" },
-    { jornada: 12, date: "2026-01-18", homeTeam: "Tigrillos de Bacabachi", awayTeam: "Indios de Chirajobampo", status: "pending" },
-    { jornada: 12, date: "2026-01-18", homeTeam: "Rancheros de Buayums", awayTeam: "Astros", status: "pending" },
+    // Jornada 12 - 01 de febrero del 2026
+    { jornada: 12, date: "2026-02-01", homeTeam: "Rojos de Bacabachi", awayTeam: "Guerreros de Chente Meza", status: "pending" },
+    { jornada: 12, date: "2026-02-01", homeTeam: "Chicos de Sinahuiza", awayTeam: "Saneal", status: "pending" },
+    { jornada: 12, date: "2026-02-01", homeTeam: "Tigrillos de Bacabachi", awayTeam: "Indios de Chirajobampo", status: "pending" },
+    { jornada: 12, date: "2026-02-01", homeTeam: "Rancheros de Buayums", awayTeam: "Astros", status: "pending" },
     { jornada: 12, descansa: "Venados de Batayaui" },
     
-    // Jornada 13 - 25 de enero del 2026
-    { jornada: 13, date: "2026-01-25", homeTeam: "Saneal", awayTeam: "Rojos de Bacabachi", status: "pending" },
-    { jornada: 13, date: "2026-01-25", homeTeam: "Chicos de Sinahuiza", awayTeam: "Tigrillos de Bacabachi", status: "pending" },
-    { jornada: 13, date: "2026-01-25", homeTeam: "Guerreros de Chente Meza", awayTeam: "Rancheros de Buayums", status: "pending" },
-    { jornada: 13, date: "2026-01-25", homeTeam: "Indios de Chirajobampo", awayTeam: "Venados de Batayaui", status: "pending" },
+    // Jornada 13 - 08 de febrero del 2026
+    { jornada: 13, date: "2026-02-08", homeTeam: "Saneal", awayTeam: "Rojos de Bacabachi", status: "pending" },
+    { jornada: 13, date: "2026-02-08", homeTeam: "Chicos de Sinahuiza", awayTeam: "Tigrillos de Bacabachi", status: "pending" },
+    { jornada: 13, date: "2026-02-08", homeTeam: "Guerreros de Chente Meza", awayTeam: "Rancheros de Buayums", status: "pending" },
+    { jornada: 13, date: "2026-02-08", homeTeam: "Indios de Chirajobampo", awayTeam: "Venados de Batayaui", status: "pending" },
     { jornada: 13, descansa: "Astros" },
     
-    // Jornada 14 - 01 de febrero del 2026
-    { jornada: 14, date: "2026-02-01", homeTeam: "Rojos de Bacabachi", awayTeam: "Chicos de Sinahuiza", status: "pending" },
-    { jornada: 14, date: "2026-02-01", homeTeam: "Astros", awayTeam: "Indios de Chirajobampo", status: "pending" },
-    { jornada: 14, date: "2026-02-01", homeTeam: "Venados de Batayaui", awayTeam: "Guerreros de Chente Meza", status: "pending" },
-    { jornada: 14, date: "2026-02-01", homeTeam: "Tigrillos de Bacabachi", awayTeam: "Saneal", status: "pending" },
+    // Jornada 14 - 15 de febrero del 2026
+    { jornada: 14, date: "2026-02-15", homeTeam: "Rojos de Bacabachi", awayTeam: "Chicos de Sinahuiza", status: "pending" },
+    { jornada: 14, date: "2026-02-15", homeTeam: "Astros", awayTeam: "Indios de Chirajobampo", status: "pending" },
+    { jornada: 14, date: "2026-02-15", homeTeam: "Venados de Batayaui", awayTeam: "Guerreros de Chente Meza", status: "pending" },
+    { jornada: 14, date: "2026-02-15", homeTeam: "Tigrillos de Bacabachi", awayTeam: "Saneal", status: "pending" },
     { jornada: 14, descansa: "Rancheros de Buayums" },
     
-    // Jornada 15 - 08 de febrero del 2026
-    { jornada: 15, date: "2026-02-08", homeTeam: "Rancheros de Buayums", awayTeam: "Tigrillos de Bacabachi", status: "pending" },
-    { jornada: 15, date: "2026-02-08", homeTeam: "Saneal", awayTeam: "Venados de Batayaui", status: "pending" },
-    { jornada: 15, date: "2026-02-08", homeTeam: "Astros", awayTeam: "Guerreros de Chente Meza", status: "pending" },
-    { jornada: 15, date: "2026-02-08", homeTeam: "Indios de Chirajobampo", awayTeam: "Chicos de Sinahuiza", status: "pending" },
+    // Jornada 15 - 22 de febrero del 2026
+    { jornada: 15, date: "2026-02-22", homeTeam: "Rancheros de Buayums", awayTeam: "Tigrillos de Bacabachi", status: "pending" },
+    { jornada: 15, date: "2026-02-22", homeTeam: "Saneal", awayTeam: "Venados de Batayaui", status: "pending" },
+    { jornada: 15, date: "2026-02-22", homeTeam: "Astros", awayTeam: "Guerreros de Chente Meza", status: "pending" },
+    { jornada: 15, date: "2026-02-22", homeTeam: "Indios de Chirajobampo", awayTeam: "Chicos de Sinahuiza", status: "pending" },
     { jornada: 15, descansa: "Rojos de Bacabachi" },
     
-    // Jornada 16 - 15 de febrero del 2026
-    { jornada: 16, date: "2026-02-15", homeTeam: "Rojos de Bacabachi", awayTeam: "Astros", status: "pending" },
-    { jornada: 16, date: "2026-02-15", homeTeam: "Indios de Chirajobampo", awayTeam: "Saneal", status: "pending" },
-    { jornada: 16, date: "2026-02-15", homeTeam: "Chicos de Sinahuiza", awayTeam: "Rancheros de Buayums", status: "pending" },
-    { jornada: 16, date: "2026-02-15", homeTeam: "Venados de Batayaui", awayTeam: "Tigrillos de Bacabachi", status: "pending" },
+    // Jornada 16 - 01 de marzo del 2026
+    { jornada: 16, date: "2026-03-01", homeTeam: "Rojos de Bacabachi", awayTeam: "Astros", status: "pending" },
+    { jornada: 16, date: "2026-03-01", homeTeam: "Indios de Chirajobampo", awayTeam: "Saneal", status: "pending" },
+    { jornada: 16, date: "2026-03-01", homeTeam: "Chicos de Sinahuiza", awayTeam: "Rancheros de Buayums", status: "pending" },
+    { jornada: 16, date: "2026-03-01", homeTeam: "Venados de Batayaui", awayTeam: "Tigrillos de Bacabachi", status: "pending" },
     { jornada: 16, descansa: "Guerreros de Chente Meza" },
     
-    // Jornada 17 - 22 de febrero del 2026
-    { jornada: 17, date: "2026-02-22", homeTeam: "Astros", awayTeam: "Venados de Batayaui", status: "pending" },
-    { jornada: 17, date: "2026-02-22", homeTeam: "Tigrillos de Bacabachi", awayTeam: "Rojos de Bacabachi", status: "pending" },
-    { jornada: 17, date: "2026-02-22", homeTeam: "Rancheros de Buayums", awayTeam: "Indios de Chirajobampo", status: "pending" },
-    { jornada: 17, date: "2026-02-22", homeTeam: "Saneal", awayTeam: "Guerreros de Chente Meza", status: "pending" },
+    // Jornada 17 - 08 de marzo del 2026
+    { jornada: 17, date: "2026-03-08", homeTeam: "Astros", awayTeam: "Venados de Batayaui", status: "pending" },
+    { jornada: 17, date: "2026-03-08", homeTeam: "Tigrillos de Bacabachi", awayTeam: "Rojos de Bacabachi", status: "pending" },
+    { jornada: 17, date: "2026-03-08", homeTeam: "Rancheros de Buayums", awayTeam: "Indios de Chirajobampo", status: "pending" },
+    { jornada: 17, date: "2026-03-08", homeTeam: "Saneal", awayTeam: "Guerreros de Chente Meza", status: "pending" },
     { jornada: 17, descansa: "Chicos de Sinahuiza" },
     
-    // Jornada 18 - 01 de marzo del 2026
-    { jornada: 18, date: "2026-03-01", homeTeam: "Rojos de Bacabachi", awayTeam: "Indios de Chirajobampo", status: "pending" },
-    { jornada: 18, date: "2026-03-01", homeTeam: "Guerreros de Chente Meza", awayTeam: "Chicos de Sinahuiza", status: "pending" },
-    { jornada: 18, date: "2026-03-01", homeTeam: "Venados de Batayaui", awayTeam: "Rancheros de Buayums", status: "pending" },
-    { jornada: 18, date: "2026-03-01", homeTeam: "Saneal", awayTeam: "Astros", status: "pending" },
+    // Jornada 18 - 15 de marzo del 2026
+    { jornada: 18, date: "2026-03-15", homeTeam: "Rojos de Bacabachi", awayTeam: "Indios de Chirajobampo", status: "pending" },
+    { jornada: 18, date: "2026-03-15", homeTeam: "Guerreros de Chente Meza", awayTeam: "Chicos de Sinahuiza", status: "pending" },
+    { jornada: 18, date: "2026-03-15", homeTeam: "Venados de Batayaui", awayTeam: "Rancheros de Buayums", status: "pending" },
+    { jornada: 18, date: "2026-03-15", homeTeam: "Saneal", awayTeam: "Astros", status: "pending" },
     { jornada: 18, descansa: "Tigrillos de Bacabachi" }
 ];
 
