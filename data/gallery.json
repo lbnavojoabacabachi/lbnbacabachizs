@@ -1,68 +1,380 @@
 [
-    {
-        "id": 1,
-        "url": "assets/images/fotos/1.jpeg",
-        "title": "Foto de la liga",
-        "date": "2025-01-01"
-    },
-    {
-        "id": 2,
-        "url": "assets/images/fotos/2.jpeg",
-        "title": "Foto de la liga",
-        "date": "2025-01-01"
-    },
-    {
-        "id": 3,
-        "url": "assets/images/fotos/3.jpeg",
-        "title": "Foto de la liga",
-        "date": "2025-01-01"
-    },
-    {
-        "id": 4,
-        "url": "assets/images/fotos/4.jpeg",
-        "title": "Foto de la liga",
-        "date": "2025-01-01"
-    },
-    {
-        "id": 5,
-        "url": "assets/images/fotos/5.jpeg",
-        "title": "Foto de la liga",
-        "date": "2025-01-01"
-    },
-    {
-        "id": 6,
-        "url": "assets/images/fotos/6.jpeg",
-        "title": "Foto de la liga",
-        "date": "2025-01-01"
-    },
-    {
-        "id": 7,
-        "url": "assets/images/fotos/7.jpeg",
-        "title": "Foto de la liga",
-        "date": "2025-01-01"
-    },
-    {
-        "id": 8,
-        "url": "assets/images/fotos/8.jpeg",
-        "title": "Foto de la liga",
-        "date": "2025-01-01"
-    },
-    {
-        "id": 9,
-        "url": "assets/images/fotos/9.jpeg",
-        "title": "Foto de la liga",
-        "date": "2025-01-01"
-    },
-    {
-        "id": 10,
-        "url": "assets/images/fotos/10.jpg",
-        "title": "Foto de la liga",
-        "date": "2025-01-01"
-    },
-    {
-        "id": 11,
-        "url": "assets/images/fotos/11.jpg",
-        "title": "Foto de la liga",
-        "date": "2025-01-01"
-    }
+  {
+    "id": 1,
+    "url": "assets/images/fotos/2025-01/inauguracion/2025-01-01-inauguracion-01.jpg",
+    "title": "Inauguración Temporada 2025-2026",
+    "date": "2025-01-01"
+  },
+  {
+    "id": 2,
+    "url": "assets/images/fotos/2025-01/inauguracion/2025-01-01-inauguracion-02.jpg",
+    "title": "Inauguración Temporada 2025-2026",
+    "date": "2025-01-01"
+  },
+  {
+    "id": 3,
+    "url": "assets/images/fotos/2025-01/inauguracion/2025-01-01-inauguracion-03.jpg",
+    "title": "Inauguración Temporada 2025-2026",
+    "date": "2025-01-01"
+  },
+  {
+    "id": 4,
+    "url": "assets/images/fotos/2025-01/inauguracion/2025-01-01-inauguracion-04.jpg",
+    "title": "Inauguración Temporada 2025-2026",
+    "date": "2025-01-01"
+  },
+  {
+    "id": 5,
+    "url": "assets/images/fotos/2025-01/inauguracion/2025-01-01-inauguracion-05.jpg",
+    "title": "Inauguración Temporada 2025-2026",
+    "date": "2025-01-01"
+  },
+  {
+    "id": 6,
+    "url": "assets/images/fotos/2025-01/inauguracion/2025-01-01-inauguracion-06.jpg",
+    "title": "Inauguración Temporada 2025-2026",
+    "date": "2025-01-01"
+  },
+  {
+    "id": 7,
+    "url": "assets/images/fotos/2025-01/inauguracion/2025-01-01-inauguracion-07.jpg",
+    "title": "Inauguración Temporada 2025-2026",
+    "date": "2025-01-01"
+  },
+  {
+    "id": 8,
+    "url": "assets/images/fotos/2025-01/inauguracion/2025-01-01-inauguracion-08.jpg",
+    "title": "Inauguración Temporada 2025-2026",
+    "date": "2025-01-01"
+  },
+  {
+    "id": 9,
+    "url": "assets/images/fotos/2025-01/inauguracion/2025-01-01-inauguracion-09.jpg",
+    "title": "Inauguración Temporada 2025-2026",
+    "date": "2025-01-01"
+  },
+  {
+    "id": 10,
+    "url": "assets/images/fotos/2025-01/inauguracion/2025-01-01-inauguracion-10.jpg",
+    "title": "Inauguración Temporada 2025-2026",
+    "date": "2025-01-01"
+  },
+  {
+    "id": 11,
+    "url": "assets/images/fotos/2025-01/inauguracion/2025-01-01-inauguracion-11.jpg",
+    "title": "Inauguración Temporada 2025-2026",
+    "date": "2025-01-01"
+  },
+  {
+    "id": 12,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-01.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 13,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-02.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 14,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-03.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 15,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-04.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 16,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-05.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 17,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-06.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 18,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-07.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 19,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-08.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 20,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-09.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 21,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-10.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 22,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-11.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 23,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-12.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 24,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-13.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 25,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-14.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 26,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-15.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 27,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-16.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 28,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-17.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 29,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-18.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 30,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-19.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 31,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-20.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 32,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-21.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 33,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-22.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 34,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-23.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 35,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-24.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 36,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-25.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 37,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-26.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 38,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-27.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 39,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-28.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 40,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-29.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 41,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-30.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 42,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-31.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 43,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-32.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 44,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-33.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 45,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-34.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 46,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-35.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 47,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-36.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 48,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-37.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 49,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-38.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 50,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-39.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 51,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-40.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 52,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-41.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 53,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-42.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 54,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-43.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 55,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-44.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 56,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-45.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 57,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-46.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 58,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-47.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 59,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-48.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 60,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-49.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 61,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-50.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 62,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-51.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  },
+  {
+    "id": 63,
+    "url": "assets/images/fotos/2025-01/juego-estrellas/2025-01-18-juego-estrellas-52.jpg",
+    "title": "Juego de Estrellas 2025",
+    "date": "2025-01-18"
+  }
 ]

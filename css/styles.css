@@ -666,7 +666,7 @@ nav {
     color: white;
     font-size: 2em;
     cursor: pointer;
-    transition: transform 0.3s;
+    transition: transform 0.3s, background-image 0.5s ease;
     position: relative;
     overflow: hidden;
 }
@@ -699,6 +699,43 @@ nav {
 .gallery-item:hover {
     transform: scale(1.05);
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* Paginación de galería */
+.gallery-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.gallery-page-info {
+    color: #1e3c72;
+    font-weight: bold;
+    font-size: 0.95em;
+}
+
+.gallery-page-btn {
+    background: #1e3c72;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+}
+
+.gallery-page-btn:hover {
+    transform: translateY(-1px);
+    background: #2a5298;
+}
+
+.gallery-page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
 }
 
 /* Modal para mostrar imágenes */

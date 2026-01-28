@@ -410,27 +410,127 @@ function loadGallerySection() {
                 <p style="text-align: center; font-size: 0.9em; margin-top: 5px;">Agrega URLs de fotos de Facebook en data/gallery.json</p>
             </div>
         `;
+        const existingPagination = document.getElementById('gallery-pagination');
+        if (existingPagination) existingPagination.remove();
         return;
     }
 
-    // Renderizar fotos
-    let html = '';
-    photos.forEach((photo, index) => {
-        html += `
-            <div class="gallery-item" style="background-image: url('${photo.url}'); cursor: pointer;" 
-                 onclick="openImageModal('${photo.url}', '${(photo.title || '').replace(/'/g, "\\'")}')" 
-                 title="${photo.title || 'Ver foto en tamaño completo'}">
-                <div class="gallery-overlay">
-                    <span class="gallery-title">${photo.title || ''}</span>
-                </div>
-            </div>
-        `;
-    });
+    // Implementar lazy loading para las imágenes de fondo
+    const lazyLoadImages = () => {
+        const galleryItems = galleryGrid.querySelectorAll('.gallery-item[data-loaded="false"]');
+        
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const item = entry.target;
+                    const imageUrl = item.getAttribute('data-bg-image');
+                    
+                    // Crear una imagen para precargar
+                    const img = new Image();
+                    img.onload = () => {
+                        item.style.backgroundImage = `url('${imageUrl}')`;
+                        item.setAttribute('data-loaded', 'true');
+                        observer.unobserve(item);
+                    };
+                    img.onerror = () => {
+                        // Si falla la carga, mostrar un placeholder
+                        item.style.backgroundImage = 'linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #c41e3a 100%)';
+                        item.setAttribute('data-loaded', 'error');
+                        observer.unobserve(item);
+                    };
+                    img.src = imageUrl;
+                }
+            });
+        }, {
+            rootMargin: '50px' // Cargar imágenes 50px antes de que sean visibles
+        });
+        
+        galleryItems.forEach(item => {
+            imageObserver.observe(item);
+        });
+    };
 
-    galleryGrid.innerHTML = html;
-    
-    // Inicializar el modal
+    // Paginación (12 por página)
+    const PAGE_SIZE = 12;
+    let currentPage = 1;
+    const totalPages = Math.max(1, Math.ceil(photos.length / PAGE_SIZE));
+
+    // Crear/obtener contenedor de paginación
+    let pagination = document.getElementById('gallery-pagination');
+    if (!pagination) {
+        pagination = document.createElement('div');
+        pagination.id = 'gallery-pagination';
+        pagination.className = 'gallery-pagination';
+        galleryGrid.insertAdjacentElement('afterend', pagination);
+    }
+
+    const renderPaginationControls = () => {
+        if (totalPages <= 1) {
+            pagination.style.display = 'none';
+            return;
+        }
+
+        pagination.style.display = 'flex';
+        pagination.innerHTML = `
+            <button type="button" class="gallery-page-btn" data-action="prev">Anterior</button>
+            <span class="gallery-page-info">Página ${currentPage} de ${totalPages}</span>
+            <button type="button" class="gallery-page-btn" data-action="next">Siguiente</button>
+        `;
+
+        const prevBtn = pagination.querySelector('[data-action="prev"]');
+        const nextBtn = pagination.querySelector('[data-action="next"]');
+        if (prevBtn) prevBtn.disabled = currentPage <= 1;
+        if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                renderPage(currentPage - 1);
+            });
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                renderPage(currentPage + 1);
+            });
+        }
+    };
+
+    const renderPage = (page) => {
+        currentPage = Math.max(1, Math.min(page, totalPages));
+        const startIdx = (currentPage - 1) * PAGE_SIZE;
+        const pageItems = photos.slice(startIdx, startIdx + PAGE_SIZE);
+
+        let html = '';
+        pageItems.forEach((photo) => {
+            const caption = photo.title || '';
+            const safeJsCaption = caption
+                .replace(/\\/g, '\\\\')
+                .replace(/'/g, "\\'")
+                .replace(/\r?\n/g, ' ');
+            const safeTitleAttr = (caption || 'Ver foto en tamaño completo').replace(/"/g, '&quot;');
+
+            html += `
+                <div class="gallery-item"
+                     data-bg-image="${photo.url}"
+                     data-loaded="false"
+                     onclick="openImageModal('${photo.url}', '${safeJsCaption}')"
+                     title="${safeTitleAttr}">
+                    <div class="gallery-overlay">
+                        <span class="gallery-title">${caption}</span>
+                    </div>
+                </div>
+            `;
+        });
+
+        galleryGrid.innerHTML = html;
+        lazyLoadImages();
+        renderPaginationControls();
+    };
+
+    // Inicializar modal una sola vez (evitar listeners duplicados)
     initializeImageModal();
+
+    // Render inicial (página 1)
+    renderPage(1);
 }
 
 /**
@@ -443,6 +543,10 @@ function initializeImageModal() {
     const closeBtn = document.getElementById('modalClose');
     
     if (!modal || !modalImage || !closeBtn) return;
+
+    // Evitar registrar listeners múltiples veces
+    if (window.__imageModalInitialized) return;
+    window.__imageModalInitialized = true;
     
     // Cerrar al hacer clic en el botón de cerrar
     closeBtn.addEventListener('click', closeImageModal);
