@@ -1,7 +1,7 @@
 /**
  * Liga de Beisbol Navajoa Ejidal - Zona Sur Bacabachi
  * JavaScript principal del sitio web
- * Temporada 2024-2025
+ * Temporada 2025-2026
  */
 
 document.addEventListener('DOMContentLoaded', async function() {

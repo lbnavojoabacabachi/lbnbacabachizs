@@ -343,7 +343,7 @@ const teams = [
     }
 ];
 
-// Calendario de juegos - Temporada 2024-2025
+// Calendario de juegos - Temporada 2025-2026
 const schedule = [
     // PRIMERA VUELTA
     // Jornada 1 - 25 de octubre de 2025
@@ -491,7 +491,7 @@ const standings = [
 const news = [
     {
         id: 1,
-        title: "Inicio de Temporada 2024-2025",
+        title: "Inicio de Temporada 2025-2026",
         date: "2025-11-10",
         content: "La liga arranca con gran emoción este fin de semana. Los 12 equipos están listos para demostrar su talento en el diamante.",
         image: "assets/images/news1.jpg"
@@ -526,7 +526,7 @@ const contactInfo = {
 
 // Temporada actual
 const currentSeason = {
-    year: "2024-2025",
+    year: "2025-2026",
     startDate: "2025-10-25",
     endDate: "2026-03-01",
     totalJornadas: 18,
