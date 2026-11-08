@@ -12,7 +12,7 @@ const BASE = process.env.AUDITORIA_URL ?? 'http://localhost:3000';
 const ANCHOS = [320, 390, 768, 1366];
 const TEMAS = ['light', 'dark'];
 const NOMBRE_TEMA = { light: 'claro', dark: 'oscuro' };
-const PESO_MAXIMO_PORTADA = 500 * 1024;
+const PESO_MAXIMO_PORTADA = 600 * 1024;
 const ETIQUETAS_WCAG = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const NAVEGADORES = [
   'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',

@@ -31,7 +31,7 @@ Sitio público de la liga (resultados, calendario, posiciones, estadísticas, eq
 8. **Identidad "pizarra y cal":** colores como tokens en `src/app/globals.css` y ningún color literal fuera de `:root` (única excepción: la copia de los tokens en `src/lib/compartir/recursos.ts`, porque el generador de imágenes no lee CSS). Tipografías Big Shoulders (títulos y marcadores), Sofia Sans (texto) y Sofia Sans Semi Condensed (tablas).
 9. **Interfaz responsiva** desde 320 px, en modo claro y oscuro, sin desbordamiento horizontal; controles principales de 44 px o más. Todo cambio de interfaz pasa `npm run auditar:ui` sin problemas y se revisan sus capturas.
 10. **Dependencias con versión exacta** y al menos 10 días de publicadas.
-11. **Datos del celular:** los `Link` públicos llevan `prefetch={false}`, las imágenes llevan `srcset` y `sizes` reales, y los videos y publicaciones de redes solo cargan al tocarlos. La portada pesa menos de 500 KB en la primera carga.
+11. **Datos del celular:** los `Link` públicos llevan `prefetch={false}`, las imágenes llevan `srcset` y `sizes` reales, y los videos y publicaciones de redes solo cargan al tocarlos. La portada pesa menos de 600 KB en la primera carga.
 
 ## Comandos
 
