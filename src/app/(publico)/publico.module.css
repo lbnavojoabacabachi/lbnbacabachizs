@@ -262,6 +262,15 @@
   background: var(--linea);
 }
 
+.tarjetaCartel {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 28rem;
+  object-fit: contain;
+  background: var(--linea);
+}
+
 .tarjetaTitulo {
   font-family: var(--display);
   font-weight: 800;

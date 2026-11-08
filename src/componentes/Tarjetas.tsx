@@ -21,7 +21,7 @@ export function TarjetaNoticia({ noticia, prioridad = false }: { noticia: Notici
     <li className={estilos.tarjeta}>
       <Link prefetch={false} href={`/noticias/${noticia.slug}`}>
         {noticia.imagen && (
-          <Imagen imagen={noticia.imagen} alt="" sizes={TAMANOS_TARJETA} className={estilos.tarjetaImagen} prioridad={prioridad} sinGrande />
+          <Imagen imagen={noticia.imagen} alt="" sizes={TAMANOS_TARJETA} className={estilos.tarjetaCartel} prioridad={prioridad} sinGrande />
         )}
         {fecha && (
           <time dateTime={fecha} className={estilos.tarjetaDetalle}>
