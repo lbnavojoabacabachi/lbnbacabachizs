@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/verificar-reglas.mjs",
+    "prebuild": "node scripts/verificar-reglas.mjs && tsx scripts/preparar-produccion.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",

@@ -101,4 +101,4 @@ legado/                  sitio anterior
 
 - Estadísticas: las tablas de bateo y pitcheo, la página pública de líderes y la captura en el panel se hacen cuando se resuelva D5. Hoy ambas pantallas lo explican.
 - Toda acción del panel que cambie algo público debe llamar a `revalidatePath('/', 'layout')`: las páginas públicas están en caché una hora.
-- Vercel y Neon: al crear el proyecto, conectar Neon y Blob desde Vercel (crean `DATABASE_URL` y `BLOB_READ_WRITE_TOKEN`) y definir `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` y `SITIO_URL`. `next build` lee la base para generar las páginas. Después correr `db:migrar`, `admins:crear`, `migrar:legado` y `migrar:imagenes` contra Neon.
+- Vercel (proyecto `lbnbacabachizs` del equipo cope4): Neon y Blob conectados (crean `DATABASE_URL`, `DATABASE_URL_UNPOOLED` y `BLOB_STORE_ID`). Faltan `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` y `SITIO_URL`. La compilación de producción aplica las migraciones; la primera carga usa `CARGAR_SITIO_ANTERIOR` y `ADMINS_INICIALES`, que se quitan después (ver docs/codigo.md, sección Vercel). Después correr `db:migrar`, `admins:crear`, `migrar:legado` y `migrar:imagenes` contra Neon.

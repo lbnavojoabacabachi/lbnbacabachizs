@@ -52,7 +52,7 @@ El código no lleva comentarios. Lo que un nombre no alcanza a explicar está aq
 - **Sin metadatos:** sharp no copia EXIF, XMP ni IPTC (ubicación GPS incluida) salvo que se le pida; `.rotate()` aplica antes la orientación del celular. La prueba y el script de migración lo comprueban.
 - **`colorFondo`** es el color dominante, para pintar el espacio de la foto mientras carga.
 - **Nombres de archivo** `imagenes/<tipo>/<año>/<mes>/<clave>-c|m|g.webp`, con clave aleatoria: no chocan y no revelan el nombre original, que solo queda en la base.
-- **Local o Blob según `BLOB_READ_WRITE_TOKEN`.** Sin token, los archivos van a `.medios/` y los sirve `src/app/medios/[...ruta]` con caché de un año; con token, a Vercel Blob, y esa ruta responde 404.
+- **Local o Blob según `BLOB_READ_WRITE_TOKEN` o `BLOB_STORE_ID`.** Sin ninguna, los archivos van a `.medios/` y los sirve `src/app/medios/[...ruta]` con caché de un año; con alguna, a Vercel Blob, y esa ruta responde 404. Al conectar Blob, Vercel ya no crea `BLOB_READ_WRITE_TOKEN` sino `BLOB_STORE_ID`: `@vercel/blob` se autentica entonces con el token OIDC que Vercel da a cada función (`VERCEL_OIDC_TOKEN`). Para usar Blob desde un script local, ese token se baja con `vercel env pull`.
 - **`.medios` está fijo en el código.** Calcular la carpeta con una variable de entorno hacía que el análisis de Next considerara todo el proyecto como dependencia de la función (incluido `legado/`, 227 MB). La salida que propone Next es un comentario especial, que las reglas no permiten. `outputFileTracingExcludes` deja fuera `.medios`, `legado` y `reportes` por si acaso.
 - **`registrarImagen` borra los archivos que alcanzó a guardar** si falla el registro en la base, para no dejar archivos huérfanos.
 - **La migración de imágenes reconoce duplicados por su huella SHA-256:** el cartel del Juego de Estrellas es la imagen de la noticia y el cartel del evento, y las dos carpetas iguales del sitio anterior no se importan dos veces.
@@ -124,6 +124,13 @@ El código no lleva comentarios. Lo que un nombre no alcanza a explicar está aq
   - `.gitignore`, `.env.example` y similares: líneas que empiezan con `#` o `;`.
   - Emojis con `\p{Extended_Pictographic}` más los modificadores `FE0F` y `20E3`; se permiten ©, ® y ™.
 - Corre en `prebuild`, así que Vercel tampoco publica código con comentarios o emojis.
+
+## Vercel
+
+- **`vercel.json` fija el tipo de proyecto en Next.js.** Al importar el repositorio, Vercel lo detectó como "Other" porque en la raíz quedaba el sitio anterior.
+- **Neon y Blob se conectan desde Storage**; crean `DATABASE_URL`, `DATABASE_URL_UNPOOLED` y `BLOB_STORE_ID`. Las migraciones y los scripts de carga usan `DATABASE_URL_UNPOOLED` (conexión directa, sin el pooler).
+- **`next build` lee la base:** si Neon no tiene las tablas, la compilación falla.
+- **`scripts/preparar-produccion.ts` corre antes de cada compilación** (`prebuild`) y solo actúa en la de producción de Vercel: aplica las migraciones a Neon. Con `CARGAR_SITIO_ANTERIOR=1` carga los datos y las imágenes de `legado/` si la base está vacía; con `ADMINS_INICIALES=Usuario:clave,Usuario:clave` crea los administradores que falten con esa clave temporal (se pide cambiarla al entrar). Las dos variables se quitan después de la primera carga. Existe porque las variables de Neon son sensibles: Vercel no deja bajarlas, así que desde una PC no se puede llegar a la base de producción.
 
 ## Desarrollo local
 

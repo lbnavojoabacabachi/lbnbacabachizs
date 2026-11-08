@@ -17,10 +17,9 @@ export async function buscarUsuario(nombre: string) {
   return existente ?? null;
 }
 
-export async function crearAdministrador(nombre: string) {
+export async function crearAdministrador(nombre: string, clave = claveTemporal()) {
   const usuario = nombre.toLowerCase();
   const contexto = await auth.$context;
-  const clave = claveTemporal();
   const hash = await contexto.password.hash(clave);
   const creado = await contexto.internalAdapter.createUser(
     {

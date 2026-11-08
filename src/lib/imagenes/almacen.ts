@@ -7,7 +7,7 @@ export const PREFIJO_LOCAL = '/medios/';
 const UN_ANIO = 60 * 60 * 24 * 365;
 
 export function usaBlob() {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
 }
 
 export function carpetaLocal() {
