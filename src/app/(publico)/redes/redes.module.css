@@ -1,0 +1,50 @@
+.perfiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.perfil {
+  display: grid;
+  gap: 4px;
+  min-height: 88px;
+  padding: 14px 16px;
+  background: var(--pizarra);
+  color: var(--pizarra-texto);
+  text-decoration: none;
+  border-bottom: 4px solid var(--pizarra);
+}
+
+.perfil:hover {
+  color: var(--pizarra-texto);
+  border-bottom-color: var(--rojo);
+}
+
+.red {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.8rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.abrir {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--datos);
+  font-weight: 600;
+  color: var(--pizarra-suave);
+}
+
+.publicaciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

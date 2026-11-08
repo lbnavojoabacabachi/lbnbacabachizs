@@ -1,0 +1,53 @@
+{
+  "name": "liga-bacabachi",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "prebuild": "node scripts/verificar-reglas.mjs",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "verificar": "node scripts/verificar-reglas.mjs",
+    "db:iniciar": "node scripts/postgres-local.mjs iniciar",
+    "db:detener": "node scripts/postgres-local.mjs detener",
+    "db:estado": "node scripts/postgres-local.mjs estado",
+    "db:preparar": "node scripts/postgres-local.mjs preparar",
+    "db:generar": "drizzle-kit generate",
+    "db:migrar": "drizzle-kit migrate",
+    "admins:crear": "tsx scripts/crear-administradores.ts",
+    "migrar:legado": "tsx scripts/migrar-legado.ts",
+    "migrar:imagenes": "tsx scripts/migrar-imagenes.ts",
+    "auditar:ui": "node scripts/auditar-ui.mjs"
+  },
+  "dependencies": {
+    "@vercel/blob": "2.8.2",
+    "better-auth": "1.7.14",
+    "drizzle-orm": "0.45.4",
+    "next": "16.4.3",
+    "pg": "8.23.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "sharp": "0.34.4",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "@types/pg": "8.23.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "axe-core": "4.14.0",
+    "drizzle-kit": "0.31.11",
+    "eslint": "10.13.0",
+    "eslint-config-next": "16.4.3",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3",
+    "vitest": "5.0.5"
+  }
+}

@@ -1,0 +1,33 @@
+.deslizar {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .deslizar {
+    display: block;
+  }
+}
+
+.abreviaturas {
+  display: grid;
+  margin: 0;
+  border-top: 2px solid var(--tinta);
+  font-family: var(--datos);
+}
+
+.abreviaturas > div {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 12px;
+  padding-block: 8px;
+  border-bottom: 1px solid var(--linea);
+}
+
+.abreviaturas dt {
+  font-weight: 700;
+}
+
+.abreviaturas dd {
+  margin: 0;
+  color: var(--suave);
+}

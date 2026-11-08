@@ -1,0 +1,117 @@
+.cuadricula {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(150px, 45%), 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.miniatura {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: var(--linea);
+  cursor: zoom-in;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.miniatura:focus-visible {
+  outline: 3px solid var(--rojo);
+  outline-offset: 2px;
+}
+
+.imagenMiniatura {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dialogo {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--pizarra);
+  color: var(--pizarra-texto);
+}
+
+.dialogo::backdrop {
+  background: var(--pizarra);
+}
+
+.ampliada {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  height: 100%;
+  margin: 0;
+  padding: 12px max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-bottom, 0px));
+}
+
+.imagenAmpliada {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+  background: transparent;
+}
+
+.pie {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+  font-family: var(--datos);
+  color: var(--pizarra-suave);
+}
+
+.contador {
+  font-variant-numeric: tabular-nums;
+}
+
+.controles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1.5px solid var(--pizarra-suave);
+  border-radius: var(--radio);
+  background: transparent;
+  color: var(--pizarra-texto);
+  font: 700 0.95rem var(--datos);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.control:hover {
+  color: var(--pizarra-texto);
+  border-color: var(--pizarra-texto);
+}
+
+.cerrar {
+  margin-left: auto;
+  background: var(--pizarra-texto);
+  border-color: var(--pizarra-texto);
+  color: var(--pizarra);
+}
+
+.cerrar:hover {
+  color: var(--pizarra);
+}

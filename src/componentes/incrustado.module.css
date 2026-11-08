@@ -1,0 +1,110 @@
+.marco {
+  position: relative;
+  align-self: start;
+  width: 100%;
+  background: var(--pizarra);
+  color: var(--pizarra-texto);
+}
+
+.horizontal {
+  aspect-ratio: 16 / 9;
+}
+
+.vertical,
+.publicacion {
+  aspect-ratio: 4 / 3;
+}
+
+.vertical {
+  max-width: 400px;
+}
+
+.publicacion {
+  max-width: 520px;
+}
+
+.vertical.activo {
+  aspect-ratio: 9 / 16;
+  max-height: 80dvh;
+}
+
+.publicacion.activo {
+  aspect-ratio: auto;
+  height: 640px;
+}
+
+.iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: var(--superficie);
+}
+
+.portada {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 14px;
+  width: 100%;
+  padding: 18px;
+  border: 0;
+  background: var(--pizarra);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.portada:hover .icono {
+  background: var(--rojo);
+  color: var(--rojo-texto);
+}
+
+.portada:focus-visible {
+  outline: 3px solid var(--rojo);
+  outline-offset: -3px;
+}
+
+.icono {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  background: var(--pizarra-texto);
+  color: var(--pizarra);
+}
+
+.textos {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.accion {
+  font-family: var(--datos);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pizarra-suave);
+}
+
+.titulo {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.35rem, 4vw, 2rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.detalle {
+  font-family: var(--datos);
+  font-size: 0.92rem;
+  color: var(--pizarra-suave);
+}

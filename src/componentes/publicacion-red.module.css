@@ -1,0 +1,55 @@
+.publicacion {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  min-width: 0;
+}
+
+.enlace {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  min-height: 220px;
+  padding: 18px;
+  border: 1px solid var(--linea);
+  border-top: 4px solid var(--tinta);
+  background: var(--superficie);
+  text-decoration: none;
+}
+
+.enlace:hover {
+  color: inherit;
+  border-top-color: var(--rojo);
+}
+
+.red {
+  font-family: var(--datos);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--suave);
+}
+
+.titulo {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.4rem;
+  line-height: 1.05;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.fecha {
+  font-family: var(--datos);
+  color: var(--suave);
+}
+
+.abrir {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  font-family: var(--datos);
+  font-weight: 700;
+}

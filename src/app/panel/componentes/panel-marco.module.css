@@ -1,0 +1,147 @@
+.saltar {
+  position: absolute;
+  left: 16px;
+  top: -200px;
+  z-index: 50;
+  padding: 12px 16px;
+  background: var(--superficie);
+  color: var(--tinta);
+  font-family: var(--datos);
+  font-weight: 700;
+}
+
+.saltar:focus {
+  top: 8px;
+}
+
+.ancho {
+  max-width: 1280px;
+}
+
+.marco {
+  display: grid;
+  gap: 0 40px;
+  align-items: start;
+}
+
+.contenido {
+  display: grid;
+  gap: 32px;
+  min-width: 0;
+  padding-block: 24px 64px;
+}
+
+.contenido:focus {
+  outline: none;
+}
+
+.menu {
+  position: relative;
+  padding-top: 12px;
+}
+
+.botonMenu {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1.5px solid var(--borde-control);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  color: var(--tinta);
+  font: 700 1rem var(--datos);
+  text-align: left;
+  cursor: pointer;
+}
+
+.botonMenu[aria-expanded='true'] {
+  border-color: var(--tinta);
+}
+
+.listaMenu {
+  display: none;
+  gap: 14px;
+  margin-top: 8px;
+  padding: 12px 14px 16px;
+  border: 1.5px solid var(--tinta);
+  background: var(--superficie);
+}
+
+.abierto {
+  display: grid;
+}
+
+.grupoMenu {
+  display: grid;
+  gap: 2px;
+}
+
+.grupoMenu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tituloGrupo {
+  font-family: var(--datos);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--suave);
+}
+
+.enlaceMenu {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 10px;
+  font-family: var(--datos);
+  font-weight: 600;
+  text-decoration: none;
+  border-left: 4px solid transparent;
+}
+
+.enlaceMenu:hover {
+  color: inherit;
+  background: var(--fondo);
+}
+
+.enlaceMenu[aria-current='page'] {
+  border-left-color: var(--rojo);
+  background: var(--fondo);
+}
+
+.verSitio {
+  margin-top: 4px;
+  border-top: 1px solid var(--linea);
+  color: var(--suave);
+}
+
+@media (min-width: 1000px) {
+  .marco {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+
+  .menu {
+    position: sticky;
+    top: 0;
+    max-height: 100dvh;
+    overflow-y: auto;
+    padding-block: 24px;
+  }
+
+  .botonMenu {
+    display: none;
+  }
+
+  .listaMenu {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+}

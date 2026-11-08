@@ -1,0 +1,19 @@
+.articulo {
+  display: grid;
+  gap: 28px;
+}
+
+.cuerpo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  align-items: start;
+  gap: 24px 40px;
+  padding-top: 20px;
+  border-top: 2px solid var(--tinta);
+}
+
+.imagen {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+}

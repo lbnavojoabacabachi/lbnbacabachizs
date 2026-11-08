@@ -1,0 +1,42 @@
+.datos {
+  display: grid;
+  max-width: var(--medida);
+  margin: 0;
+  border-top: 2px solid var(--tinta);
+}
+
+.datos > div {
+  display: grid;
+  grid-template-columns: minmax(110px, 160px) minmax(0, 1fr);
+  gap: 4px 16px;
+  padding-block: 14px;
+  border-bottom: 1px solid var(--linea);
+}
+
+.datos dt {
+  font-family: var(--datos);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--suave);
+  padding-top: 3px;
+}
+
+.datos dd {
+  margin: 0;
+  font-size: 1.15rem;
+  overflow-wrap: anywhere;
+}
+
+.datos a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+}
+
+@media (max-width: 480px) {
+  .datos > div {
+    grid-template-columns: 1fr;
+  }
+}

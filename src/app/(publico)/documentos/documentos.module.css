@@ -1,0 +1,17 @@
+.documento {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 48px;
+  font-family: var(--datos);
+  text-decoration: none;
+}
+
+.documento > span {
+  display: grid;
+}
+
+.documento:hover b {
+  text-decoration: underline;
+  text-decoration-color: var(--rojo);
+}

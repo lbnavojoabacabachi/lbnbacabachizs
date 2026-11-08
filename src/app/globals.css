@@ -1,0 +1,127 @@
+:root {
+  --fondo: #f4f6f9;
+  --superficie: #ffffff;
+  --tinta: #121c33;
+  --suave: #4c5870;
+  --linea: #d3d9e3;
+  --borde-control: #7f8aa3;
+  --pizarra: #1b2c55;
+  --pizarra-texto: #ffffff;
+  --pizarra-suave: #b9c3d8;
+  --pizarra-placa: #24386a;
+  --rojo: #c8202f;
+  --rojo-texto: #ffffff;
+  --pasto: #2e6b3c;
+  --placa-logo: #ffffff;
+  --resalte: #fbe9eb;
+  --display: var(--fuente-display), "Arial Narrow", sans-serif;
+  --texto: var(--fuente-texto), "Segoe UI", system-ui, sans-serif;
+  --datos: var(--fuente-datos), var(--fuente-texto), "Arial Narrow", system-ui, sans-serif;
+  --medida: 68ch;
+  --radio: 2px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #0d1424;
+    --superficie: #151f38;
+    --tinta: #e9edf5;
+    --suave: #9aa6bd;
+    --linea: #26324f;
+    --borde-control: #6b7894;
+    --pizarra: #0a1122;
+    --pizarra-texto: #ffffff;
+    --pizarra-suave: #9aa6bd;
+    --pizarra-placa: #18264a;
+    --rojo: #ff6b73;
+    --rojo-texto: #0d1424;
+    --pasto: #5fbf78;
+    --placa-logo: #ffffff;
+    --resalte: #3a1d2a;
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--fondo);
+  color: var(--tinta);
+  font-family: var(--texto);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--rojo);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--rojo);
+}
+
+:focus-visible {
+  outline: 3px solid var(--rojo);
+  outline-offset: 2px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.envoltura {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

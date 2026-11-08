@@ -1,0 +1,47 @@
+.movimiento {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  font-family: var(--datos);
+}
+
+.tipo {
+  justify-self: start;
+  padding: 2px 8px;
+  border: 1.5px solid var(--pasto);
+  color: var(--pasto);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.baja {
+  border-color: var(--rojo);
+  color: var(--rojo);
+}
+
+.quien {
+  display: grid;
+  min-width: 0;
+}
+
+.quien span {
+  color: var(--suave);
+}
+
+.fecha {
+  color: var(--suave);
+  white-space: nowrap;
+}
+
+@media (max-width: 520px) {
+  .movimiento {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .fecha {
+    grid-column: 2;
+  }
+}

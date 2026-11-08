@@ -1,0 +1,18 @@
+.escudo {
+  display: block;
+  flex: none;
+  width: var(--tamano-escudo, 36px);
+  height: var(--tamano-escudo, 36px);
+  object-fit: contain;
+  background: var(--placa-logo);
+  border-radius: 3px;
+  padding: 2px;
+}
+
+.sinLogo {
+  display: grid;
+  place-items: center;
+  font-family: var(--display);
+  font-weight: 800;
+  color: var(--pizarra);
+}

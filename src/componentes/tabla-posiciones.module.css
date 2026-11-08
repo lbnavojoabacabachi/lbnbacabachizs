@@ -1,0 +1,145 @@
+.contenedor {
+  border-top: 2px solid var(--tinta);
+}
+
+.completa {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--datos);
+  font-size: 1rem;
+}
+
+.completa .tabla {
+  min-width: 720px;
+}
+
+.tabla th,
+.tabla td {
+  padding: 9px 8px;
+  border-bottom: 1px solid var(--linea);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.tabla thead th {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--suave);
+  white-space: nowrap;
+}
+
+.tabla abbr {
+  text-decoration: none;
+}
+
+.pos {
+  width: 2.2em;
+  padding-left: 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.15rem;
+}
+
+.colEquipo {
+  font-weight: 600;
+}
+
+.completa .colEquipo {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--fondo);
+  min-width: 200px;
+}
+
+.completa .lider .colEquipo {
+  background: var(--resalte);
+}
+
+.equipo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.equipo a {
+  text-decoration: none;
+}
+
+.equipo a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--rojo);
+}
+
+.escudo {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--linea);
+  padding: 1px;
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tabla thead .num {
+  text-align: right;
+}
+
+.ave {
+  font-weight: 700;
+}
+
+.lider td,
+.lider th {
+  background: var(--resalte);
+}
+
+.positiva {
+  color: var(--pasto);
+  font-weight: 700;
+}
+
+.negativa {
+  color: var(--rojo);
+  font-weight: 700;
+}
+
+@media (max-width: 560px) {
+  .completa .tabla {
+    min-width: 0;
+  }
+
+  .completa .colEquipo {
+    min-width: 0;
+    font-size: 0.95rem;
+  }
+
+  .completa .equipo {
+    width: 118px;
+  }
+
+  .completa .escudo {
+    display: none;
+  }
+
+  .completa .tabla th,
+  .completa .tabla td {
+    padding-inline: 6px;
+  }
+
+  .completa .pos {
+    padding-left: 0;
+  }
+}

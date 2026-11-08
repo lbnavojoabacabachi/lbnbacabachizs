@@ -1,0 +1,113 @@
+.encuentros {
+  display: grid;
+  gap: 16px;
+}
+
+.encuentro {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  margin: 0;
+  padding: 12px 14px 14px;
+  border: 1px solid var(--linea);
+  border-top: 4px solid var(--pizarra);
+  background: var(--superficie);
+}
+
+.leyenda {
+  padding: 0 6px;
+  font-family: var(--datos);
+  font-weight: 700;
+}
+
+.marcador {
+  display: grid;
+  gap: 8px;
+  align-items: center;
+}
+
+.columna {
+  font-family: var(--datos);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: center;
+  color: var(--suave);
+}
+
+.equipo {
+  display: grid;
+  min-width: 0;
+  font-family: var(--datos);
+  font-weight: 600;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.equipo small {
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--suave);
+}
+
+.celda {
+  display: block;
+}
+
+.placa {
+  width: 100%;
+  min-height: 52px;
+  padding: 0;
+  border: 1.5px solid var(--borde-control);
+  border-radius: var(--radio);
+  background: var(--fondo);
+  color: var(--tinta);
+  font: 800 1.7rem/1 var(--display);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.placa:focus-visible {
+  outline: 3px solid var(--rojo);
+  outline-offset: 1px;
+  border-color: var(--tinta);
+}
+
+.placa[aria-invalid='true'] {
+  border: 2px solid var(--rojo);
+}
+
+.estados {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 10px;
+}
+
+.etiquetaChica {
+  font-family: var(--datos);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--suave);
+}
+
+.mas summary {
+  display: list-item;
+  padding-block: 10px;
+  font-family: var(--datos);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mas[open] {
+  display: grid;
+  gap: 12px;
+}
+
+.opcionesJuego {
+  display: grid;
+  gap: 8px;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--linea);
+}

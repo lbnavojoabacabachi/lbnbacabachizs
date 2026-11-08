@@ -1,0 +1,46 @@
+.etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--datos);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rojo);
+}
+
+.punto {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--rojo);
+}
+
+.externo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-family: var(--datos);
+  font-weight: 700;
+}
+
+.perfiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.renglon {
+  display: grid;
+  gap: 2px;
+  font-family: var(--datos);
+}
+
+.cuando {
+  color: var(--suave);
+}

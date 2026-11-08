@@ -1,0 +1,82 @@
+.saltos ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.salto {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 6px;
+  border: 1.5px solid var(--linea);
+  background: var(--superficie);
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.25rem;
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.salto:hover {
+  color: inherit;
+  border-color: var(--tinta);
+}
+
+.ultima {
+  background: var(--pizarra);
+  border-color: var(--pizarra);
+  color: var(--pizarra-texto);
+}
+
+.ultima:hover {
+  color: var(--pizarra-texto);
+}
+
+.siguiente {
+  border-color: var(--rojo);
+  box-shadow: inset 0 -3px 0 var(--rojo);
+}
+
+.jornadas {
+  display: grid;
+  gap: 36px;
+}
+
+.jornada {
+  display: grid;
+  gap: 12px;
+  scroll-margin-top: 16px;
+}
+
+.cabeza {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 16px;
+}
+
+.cabeza a {
+  margin-left: auto;
+}
+
+.numero {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.6rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.nota {
+  justify-self: start;
+  padding: 4px 10px;
+  border-left: 4px solid var(--rojo);
+  background: var(--resalte);
+  font-family: var(--datos);
+  font-weight: 600;
+}

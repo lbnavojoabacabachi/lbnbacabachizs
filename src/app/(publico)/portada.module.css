@@ -1,0 +1,145 @@
+.enVivo {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  background: var(--rojo);
+  color: var(--rojo-texto);
+}
+
+.etiquetaVivo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--datos);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.punto {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--rojo-texto);
+  animation: latido 1.6s ease-in-out infinite;
+}
+
+@keyframes latido {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.tituloVivo {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(1.7rem, 5vw, 2.6rem);
+  line-height: 1;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.botonVivo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: start;
+  min-height: 48px;
+  padding: 0 18px;
+  background: var(--rojo-texto);
+  color: var(--rojo);
+  border-radius: var(--radio);
+  font: 700 1rem var(--datos);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.botonVivo:hover {
+  color: var(--rojo);
+}
+
+.jornada {
+  display: grid;
+  gap: 14px;
+}
+
+.jornadaCabeza {
+  display: grid;
+  gap: 6px;
+}
+
+.jornadaTitulo {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 9vw, 4.4rem);
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.porPublicar {
+  color: var(--rojo);
+}
+
+.evento {
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  align-items: start;
+  gap: 24px 40px;
+  padding-top: 20px;
+  border-top: 2px solid var(--tinta);
+}
+
+.poster {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+}
+
+.cuando {
+  font-family: var(--datos);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.redesVacio {
+  display: grid;
+  gap: 14px;
+  max-width: var(--medida);
+}
+
+.patrocinadores {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.patrocinador {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 88px;
+  padding: 10px 14px 10px 10px;
+  border: 1px solid var(--linea);
+  background: var(--superficie);
+  font-family: var(--datos);
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+a.patrocinador:hover {
+  color: inherit;
+  border-color: var(--tinta);
+}
+
+.logoPatrocinador {
+  width: 68px;
+  height: 68px;
+  flex: none;
+  object-fit: contain;
+  background: var(--placa-logo);
+}

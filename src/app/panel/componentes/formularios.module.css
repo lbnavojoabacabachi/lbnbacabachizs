@@ -1,0 +1,278 @@
+.formulario {
+  display: grid;
+  gap: 18px;
+  max-width: 760px;
+}
+
+.columnas {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.columnas > * {
+  grid-column: 1 / -1;
+}
+
+.columnas > .corto {
+  grid-column: span 2;
+}
+
+.columnas > .medio {
+  grid-column: span 3;
+}
+
+@media (max-width: 560px) {
+  .columnas > .corto,
+  .columnas > .medio {
+    grid-column: span 3;
+  }
+}
+
+@media (max-width: 400px) {
+  .columnas > .corto,
+  .columnas > .medio {
+    grid-column: 1 / -1;
+  }
+}
+
+.campo {
+  display: grid;
+  gap: 5px;
+  align-content: start;
+  min-width: 0;
+}
+
+.etiqueta {
+  font-family: var(--datos);
+  font-weight: 700;
+}
+
+.ayuda {
+  display: block;
+  font-family: var(--datos);
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: var(--suave);
+}
+
+.entrada {
+  width: 100%;
+  min-height: 46px;
+  padding: 8px 12px;
+  font: 400 1.02rem var(--texto);
+  color: var(--tinta);
+  background: var(--superficie);
+  border: 1.5px solid var(--borde-control);
+  border-radius: var(--radio);
+}
+
+textarea.entrada {
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.entrada:focus-visible {
+  outline: 3px solid var(--rojo);
+  outline-offset: 1px;
+  border-color: var(--tinta);
+}
+
+.entrada[aria-invalid='true'] {
+  border-color: var(--rojo);
+  border-width: 2px;
+}
+
+.errorCampo {
+  font-family: var(--datos);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--rojo);
+}
+
+.casilla {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 4px 10px;
+  align-items: start;
+  font-family: var(--datos);
+}
+
+.casilla input {
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  accent-color: var(--rojo);
+}
+
+.casilla label {
+  display: grid;
+  gap: 2px;
+  font-weight: 600;
+  padding-top: 1px;
+}
+
+.casilla .errorCampo {
+  grid-column: 2;
+}
+
+.grupo {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  margin: 0;
+  padding: 14px 16px 16px;
+  border: 1px solid var(--linea);
+  background: var(--superficie);
+}
+
+.leyenda {
+  padding: 0 6px;
+  font-family: var(--datos);
+  font-weight: 700;
+}
+
+.camposGrupo {
+  display: grid;
+  gap: 14px;
+}
+
+.pieFormulario {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+}
+
+.boton {
+  min-height: 48px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: var(--radio);
+  background: var(--rojo);
+  color: var(--rojo-texto);
+  font: 700 1rem var(--datos);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.boton:hover {
+  filter: brightness(1.08);
+}
+
+.boton:disabled {
+  cursor: progress;
+  filter: saturate(0.4);
+}
+
+.botonChico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1.5px solid var(--tinta);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  color: var(--tinta);
+  font: 600 0.95rem var(--datos);
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.botonChico:hover {
+  color: var(--tinta);
+  background: var(--fondo);
+}
+
+.botonPeligro {
+  composes: botonChico;
+  border-color: var(--rojo);
+  color: var(--rojo);
+}
+
+.botonPeligro:hover {
+  color: var(--rojo);
+}
+
+.ok {
+  font-family: var(--datos);
+  font-weight: 700;
+  color: var(--pasto);
+}
+
+.error {
+  flex-basis: 100%;
+  padding: 10px 12px;
+  border-left: 4px solid var(--rojo);
+  background: var(--resalte);
+  color: var(--rojo);
+  font-family: var(--datos);
+  font-weight: 600;
+}
+
+.accionEnLinea {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+}
+
+.imagenCampo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+}
+
+.vistaImagen {
+  width: 160px;
+  height: 120px;
+  object-fit: cover;
+  background: var(--linea);
+  border: 1px solid var(--linea);
+}
+
+.vistaLogo {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  background: var(--placa-logo);
+}
+
+.sinImagen {
+  display: grid;
+  place-items: center;
+  width: 160px;
+  height: 120px;
+  border: 1.5px dashed var(--borde-control);
+  color: var(--suave);
+  font-family: var(--datos);
+}
+
+.imagenAcciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.imagenAcciones:focus-within label {
+  outline: 3px solid var(--rojo);
+  outline-offset: 2px;
+}
+
+.archivoOculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.casillas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+  gap: 10px 16px;
+}

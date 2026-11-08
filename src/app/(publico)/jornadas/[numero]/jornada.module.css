@@ -1,0 +1,44 @@
+.nota {
+  justify-self: start;
+  padding: 4px 10px;
+  border-left: 4px solid var(--rojo);
+  background: var(--resalte);
+  font-family: var(--datos);
+  font-weight: 600;
+}
+
+.otras {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 2px solid var(--tinta);
+}
+
+.otra {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.otra span {
+  display: grid;
+}
+
+.otra small {
+  font-family: var(--datos);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--suave);
+}
+
+.siguiente {
+  text-align: right;
+}
