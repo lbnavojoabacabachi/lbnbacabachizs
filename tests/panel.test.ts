@@ -1,6 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
-import { casilla, enlaceOpcional, fecha, hora, horaRequerida, instanteEnSonora, leerFormulario, textoOpcional } from '@/lib/panel/campos';
+import {
+  casilla,
+  enlaceOpcional,
+  fecha,
+  hora,
+  horaRequerida,
+  instanteDePublicacion,
+  instanteEnSonora,
+  leerFormulario,
+  textoOpcional,
+} from '@/lib/panel/campos';
 import { estadoParaCaptura, interpretarCaptura } from '@/lib/panel/resultados';
 import { claveTemporal, USUARIO_VALIDO } from '@/lib/usuarios';
 
@@ -87,6 +97,17 @@ describe('campos de los formularios', () => {
 
   it('pasa la hora local de Sonora a un instante', () => {
     expect(instanteEnSonora('2026-01-18', '10:00').toISOString()).toBe('2026-01-18T17:00:00.000Z');
+  });
+
+  it('elige el instante de publicación de una noticia', () => {
+    const ahora = new Date('2026-11-08T21:00:00Z');
+    const anterior = new Date('2026-05-10T19:00:00Z');
+    expect(instanteDePublicacion({ publicar: false, fecha: '2026-05-10', anterior, ahora })).toBeNull();
+    expect(instanteDePublicacion({ publicar: true, fecha: null, anterior: null, ahora })).toBe(ahora);
+    expect(instanteDePublicacion({ publicar: true, fecha: null, anterior, ahora })).toBe(anterior);
+    expect(instanteDePublicacion({ publicar: true, fecha: '2026-05-10', anterior, ahora })).toBe(anterior);
+    expect(instanteDePublicacion({ publicar: true, fecha: '2026-11-08', anterior: null, ahora })).toBe(ahora);
+    expect(instanteDePublicacion({ publicar: true, fecha: '2026-05-09', anterior, ahora })?.toISOString()).toBe('2026-05-09T19:00:00.000Z');
   });
 
   it('junta los valores repetidos del formulario', () => {

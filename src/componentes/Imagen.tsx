@@ -7,10 +7,11 @@ type Propiedades = {
   sizes: string;
   className?: string;
   prioridad?: boolean;
+  sinGrande?: boolean;
 };
 
-export function Imagen({ imagen, alt, sizes, className, prioridad = false }: Propiedades) {
-  const variantes = variantesDeImagen(imagen);
+export function Imagen({ imagen, alt, sizes, className, prioridad = false, sinGrande = false }: Propiedades) {
+  const variantes = variantesDeImagen(imagen).slice(0, sinGrande ? 2 : 3);
   const mayor = variantes[variantes.length - 1];
   const estilo: CSSProperties | undefined = imagen.colorFondo ? { backgroundColor: imagen.colorFondo } : undefined;
   return (

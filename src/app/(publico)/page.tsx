@@ -102,7 +102,7 @@ export default async function Portada() {
         <section className={estilos.encabezado} aria-labelledby="titulo-inicio">
           <p className={estilos.antetitulo}>{temporada ? `Temporada ${temporada.nombre}` : 'Liga Bacabachi'}</p>
           <h2 id="titulo-inicio" className={estilos.titulo}>
-            La temporada todavía no arranca
+            {temporada && temporada.inicio <= hoyEnSonora() ? 'Ya arrancó la temporada' : 'La temporada todavía no arranca'}
           </h2>
           <p className={estilos.entradilla}>Aquí van a aparecer los resultados de cada jornada.</p>
         </section>

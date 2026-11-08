@@ -5,9 +5,21 @@ import { z } from 'zod';
 import { db } from '@/db/conexion';
 import { eventos, noticias } from '@/db/esquema';
 import { borrarImagenesSinUso } from '@/lib/imagenes/limpiar';
+import { hoyEnSonora } from '@/lib/fechas';
 import { crearSlug } from '@/lib/nombres';
 import { accionConFormulario, accionDirecta, anotar, ErrorPanel } from '@/lib/panel/acciones';
-import { casilla, fecha, horaRequerida, id, idOpcional, instanteEnSonora, textoOpcional, textoRequerido } from '@/lib/panel/campos';
+import {
+  casilla,
+  fecha,
+  fechaOpcional,
+  horaRequerida,
+  id,
+  idOpcional,
+  instanteDePublicacion,
+  instanteEnSonora,
+  textoOpcional,
+  textoRequerido,
+} from '@/lib/panel/campos';
 
 async function slugDeNoticia(titulo: string, excepto: number | null) {
   const base = crearSlug(titulo).slice(0, 80).replace(/-$/, '') || 'noticia';
@@ -30,9 +42,14 @@ const esquemaNoticia = z.object({
   imagenId: idOpcional,
   destacada: casilla,
   publicar: casilla,
+  fechaPublicacion: fechaOpcional('la fecha de publicación'),
 });
 
 export const guardarNoticia = accionConFormulario(esquemaNoticia, async (datos, contexto) => {
+  if (datos.fechaPublicacion && datos.fechaPublicacion > hoyEnSonora()) {
+    throw new ErrorPanel('La fecha de publicación no puede ser posterior a hoy.', { fechaPublicacion: 'Elige hoy o un día anterior.' });
+  }
+  const ahora = new Date();
   if (datos.id === null) {
     const [creada] = await db
       .insert(noticias)
@@ -43,7 +60,7 @@ export const guardarNoticia = accionConFormulario(esquemaNoticia, async (datos, 
         cuerpo: datos.cuerpo,
         imagenId: datos.imagenId,
         destacada: datos.destacada,
-        publicadaEn: datos.publicar ? new Date() : null,
+        publicadaEn: instanteDePublicacion({ publicar: datos.publicar, fecha: datos.fechaPublicacion, anterior: null, ahora }),
         creadoPorId: contexto.usuarioId,
       })
       .returning();
@@ -57,7 +74,7 @@ export const guardarNoticia = accionConFormulario(esquemaNoticia, async (datos, 
   if (!actual) throw new ErrorPanel('La noticia ya no existe.');
   const yaPublicada = actual.publicadaEn !== null;
   const slug = yaPublicada || datos.titulo === actual.titulo ? actual.slug : await slugDeNoticia(datos.titulo, actual.id);
-  const publicadaEn = datos.publicar ? (actual.publicadaEn ?? new Date()) : null;
+  const publicadaEn = instanteDePublicacion({ publicar: datos.publicar, fecha: datos.fechaPublicacion, anterior: actual.publicadaEn, ahora });
   await db
     .update(noticias)
     .set({

@@ -21,7 +21,7 @@ export function TarjetaNoticia({ noticia, prioridad = false }: { noticia: Notici
     <li className={estilos.tarjeta}>
       <Link prefetch={false} href={`/noticias/${noticia.slug}`}>
         {noticia.imagen && (
-          <Imagen imagen={noticia.imagen} alt="" sizes={TAMANOS_TARJETA} className={estilos.tarjetaImagen} prioridad={prioridad} />
+          <Imagen imagen={noticia.imagen} alt="" sizes={TAMANOS_TARJETA} className={estilos.tarjetaImagen} prioridad={prioridad} sinGrande />
         )}
         {fecha && (
           <time dateTime={fecha} className={estilos.tarjetaDetalle}>
@@ -48,7 +48,7 @@ export function TarjetaAlbum({ album }: { album: Album }) {
   return (
     <li className={estilos.tarjeta}>
       <Link prefetch={false} href={`/galeria/${album.slug}`}>
-        {album.portada && <Imagen imagen={album.portada} alt="" sizes={TAMANOS_TARJETA} className={estilos.tarjetaImagen} />}
+        {album.portada && <Imagen imagen={album.portada} alt="" sizes={TAMANOS_TARJETA} className={estilos.tarjetaImagen} sinGrande />}
         <h3 className={estilos.tarjetaTitulo}>{album.titulo}</h3>
         <span className={estilos.tarjetaDetalle}>
           {[album.fecha ? formatearFecha(album.fecha, { diaSemana: false }) : null, `${album.fotos} ${album.fotos === 1 ? 'foto' : 'fotos'}`]

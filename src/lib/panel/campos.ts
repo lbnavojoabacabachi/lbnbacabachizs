@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { partesEnSonora } from '@/lib/fechas';
 
 const vacioANulo = (valor: unknown) => (typeof valor === 'string' && valor.trim() === '' ? null : valor);
 
@@ -64,6 +65,14 @@ export const correoOpcional = z.preprocess(vacioANulo, z.string().trim().email('
 
 export function instanteEnSonora(fecha: string, hora: string | null) {
   return new Date(`${fecha}T${hora ?? '00:00'}:00-07:00`);
+}
+
+export function instanteDePublicacion({ publicar, fecha, anterior, ahora }: { publicar: boolean; fecha: string | null; anterior: Date | null; ahora: Date }) {
+  if (!publicar) return null;
+  if (fecha === null) return anterior ?? ahora;
+  if (anterior && partesEnSonora(anterior).fecha === fecha) return anterior;
+  if (fecha === partesEnSonora(ahora).fecha) return ahora;
+  return instanteEnSonora(fecha, '12:00');
 }
 
 export function leerFormulario(formulario: FormData) {

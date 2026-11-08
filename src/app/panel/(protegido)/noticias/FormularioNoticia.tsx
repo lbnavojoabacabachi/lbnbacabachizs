@@ -1,6 +1,7 @@
 import { CampoImagen } from '@/app/panel/componentes/CampoImagen';
 import { Formulario } from '@/app/panel/componentes/Formulario';
 import { AreaTexto, Casilla, Texto } from '@/app/panel/componentes/Entradas';
+import { partesEnSonora } from '@/lib/fechas';
 import { guardarNoticia } from './acciones';
 
 type Noticia = {
@@ -42,6 +43,14 @@ export function FormularioNoticia({ noticia }: { noticia: Noticia | null }) {
         etiqueta="Publicada"
         marcada={noticia ? noticia.publicadaEn !== null : true}
         ayuda="Si no se marca, se guarda como borrador y no se ve en el sitio."
+      />
+      <Texto
+        nombre="fechaPublicacion"
+        etiqueta="Fecha de publicación"
+        tipo="date"
+        valor={noticia?.publicadaEn ? partesEnSonora(noticia.publicadaEn).fecha : null}
+        ancho="corto"
+        ayuda="Vacía, se publica con la fecha de hoy. Pon una fecha pasada para subir una noticia anterior."
       />
     </Formulario>
   );

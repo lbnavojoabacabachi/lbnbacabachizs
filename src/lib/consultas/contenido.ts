@@ -40,7 +40,7 @@ export const obtenerNoticias = cache(async (limite = 50) =>
     .from(noticias)
     .leftJoin(imagenes, eq(noticias.imagenId, imagenes.id))
     .where(noticiaPublicada(new Date()))
-    .orderBy(desc(noticias.destacada), desc(noticias.publicadaEn))
+    .orderBy(desc(noticias.destacada), desc(noticias.publicadaEn), desc(noticias.id))
     .limit(limite),
 );
 
