@@ -10,24 +10,61 @@ import { variantesDeImagen } from '@/lib/imagenes/tamanos';
 import { incrustacionDePublicacion, incrustacionDeTransmision, redDeUrl } from '@/lib/incrustar';
 import { calcularRachas, describirRacha, resultadoDeJuego, resumenDeResultados, resumirJornadas } from '@/lib/jornadas';
 import type { JuegoTabla } from '@/lib/posiciones';
-import { paginaDeFacebook } from '@/lib/redes';
+import { publicacionesDeRespuesta } from '@/lib/facebook';
 import { SCRIPT_TEMA, temaGuardado } from '@/lib/tema';
 
 const REGLAS = { forfeitCarrerasGanador: 7, forfeitCarrerasPerdedor: 0 };
 
-describe('feed de Facebook', () => {
-  const perfiles = (facebook: string | null) => ({ facebook, instagram: null, youtube: null, tiktok: null });
-
-  it('acepta la página de Facebook de la liga', () => {
-    const pagina = 'https://www.facebook.com/profile.php?id=61581889322291';
-    expect(paginaDeFacebook(perfiles(pagina))).toBe(pagina);
+describe('publicaciones de Facebook', () => {
+  const publicacion = (cambios: Record<string, unknown> = {}) => ({
+    id: '61581889322291_1',
+    message: '  Se recorre la jornada 11.\nNos vemos el domingo.  ',
+    created_time: '2026-01-18T17:00:00+0000',
+    permalink_url: 'https://www.facebook.com/61581889322291/posts/1',
+    full_picture: 'https://scontent.fhmo1-1.fna.fbcdn.net/v/completa.jpg',
+    attachments: {
+      data: [{ media_type: 'photo', media: { image: { src: 'https://scontent.fhmo1-1.fna.fbcdn.net/v/foto.jpg', width: 720, height: 960 } } }],
+    },
+    ...cambios,
   });
 
-  it('no incrusta direcciones que no son de Facebook ni sin https', () => {
-    expect(paginaDeFacebook(perfiles('https://facebook.com.ejemplo.mx/liga'))).toBeNull();
-    expect(paginaDeFacebook(perfiles('http://www.facebook.com/liga'))).toBeNull();
-    expect(paginaDeFacebook(perfiles(null))).toBeNull();
-    expect(paginaDeFacebook(null)).toBeNull();
+  it('toma el texto, la fecha, el enlace y la imagen con su tamaño', () => {
+    expect(publicacionesDeRespuesta({ data: [publicacion()] })).toEqual([
+      {
+        id: '61581889322291_1',
+        texto: 'Se recorre la jornada 11.\nNos vemos el domingo.',
+        fecha: '2026-01-18T17:00:00.000Z',
+        enlace: 'https://www.facebook.com/61581889322291/posts/1',
+        imagen: { url: 'https://scontent.fhmo1-1.fna.fbcdn.net/v/foto.jpg', ancho: 720, alto: 960 },
+        esVideo: false,
+      },
+    ]);
+  });
+
+  it('usa la imagen completa si el adjunto no trae una y marca los videos', () => {
+    const [video] = publicacionesDeRespuesta({ data: [publicacion({ attachments: { data: [{ media_type: 'video' }] } })] });
+    expect(video.imagen).toEqual({ url: 'https://scontent.fhmo1-1.fna.fbcdn.net/v/completa.jpg', ancho: null, alto: null });
+    expect(video.esVideo).toBe(true);
+  });
+
+  it('descarta enlaces que no son de Facebook, direcciones sin https y publicaciones vacías', () => {
+    const respuesta = {
+      data: [
+        publicacion({ permalink_url: 'https://facebook.com.ejemplo.mx/posts/1' }),
+        publicacion({ permalink_url: 'javascript:alert(1)' }),
+        publicacion({ message: '   ', full_picture: 'http://fbcdn.net/x.jpg', attachments: undefined }),
+        publicacion({ created_time: 'ayer' }),
+        null,
+      ],
+    };
+    expect(publicacionesDeRespuesta(respuesta)).toEqual([]);
+    expect(publicacionesDeRespuesta({ error: { message: 'token vencido' } })).toEqual([]);
+    expect(publicacionesDeRespuesta(null)).toEqual([]);
+  });
+
+  it('se queda con las más recientes que caben', () => {
+    const muchas = Array.from({ length: 12 }, (_, i) => publicacion({ id: String(i) }));
+    expect(publicacionesDeRespuesta({ data: muchas }, 9).map((p) => p.id)).toEqual(['0', '1', '2', '3', '4', '5', '6', '7', '8']);
   });
 });
 

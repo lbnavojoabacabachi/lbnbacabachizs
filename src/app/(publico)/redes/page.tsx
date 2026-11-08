@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import { Encabezado, Vacio } from '@/componentes/Encabezado';
-import { FeedFacebook } from '@/componentes/FeedFacebook';
 import { IconoExterno } from '@/componentes/Iconos';
+import { PublicacionesFacebook } from '@/componentes/PublicacionesFacebook';
 import { PublicacionRed } from '@/componentes/PublicacionRed';
 import { obtenerConfiguracion, obtenerPublicacionesRedes } from '@/lib/consultas/contenido';
-import { paginaDeFacebook, perfilesDeRedes } from '@/lib/redes';
+import { obtenerPublicacionesDeFacebook } from '@/lib/facebook';
+import { perfilesDeRedes } from '@/lib/redes';
 import estilos from '../publico.module.css';
 import estilosRedes from './redes.module.css';
 
@@ -15,9 +16,14 @@ export const metadata: Metadata = {
 };
 
 export default async function Redes() {
-  const [publicaciones, configuracion] = await Promise.all([obtenerPublicacionesRedes(), obtenerConfiguracion()]);
+  const [publicaciones, deFacebook, configuracion] = await Promise.all([
+    obtenerPublicacionesRedes(),
+    obtenerPublicacionesDeFacebook(),
+    obtenerConfiguracion(),
+  ]);
   const perfiles = perfilesDeRedes(configuracion);
-  const feedFacebook = paginaDeFacebook(configuracion);
+  const facebook = perfiles.find((p) => p.red === 'facebook');
+  const hayDeFacebook = Boolean(deFacebook?.length);
 
   return (
     <>
@@ -47,18 +53,25 @@ export default async function Redes() {
         </section>
       )}
 
-      {feedFacebook && (
+      {deFacebook && hayDeFacebook && (
         <section className={estilos.seccion} aria-labelledby="titulo-facebook">
           <div className={estilos.seccionCabeza}>
             <h2 id="titulo-facebook" className={estilos.tituloSeccion}>
               En Facebook
             </h2>
           </div>
-          <FeedFacebook pagina={feedFacebook} />
+          <PublicacionesFacebook publicaciones={deFacebook} />
+          {facebook && (
+            <a href={facebook.url} className={`${estilos.botonSecundario} ${estilosRedes.verMas}`} target="_blank" rel="noopener">
+              Ver más en Facebook
+              <IconoExterno tamano={18} />
+              <span className="solo-lectores"> (se abre en otra pestaña)</span>
+            </a>
+          )}
         </section>
       )}
 
-      {(publicaciones.length > 0 || !feedFacebook) && (
+      {(publicaciones.length > 0 || !hayDeFacebook) && (
         <section className={estilos.seccion} aria-labelledby="titulo-publicaciones">
           <div className={estilos.seccionCabeza}>
             <h2 id="titulo-publicaciones" className={estilos.tituloSeccion}>

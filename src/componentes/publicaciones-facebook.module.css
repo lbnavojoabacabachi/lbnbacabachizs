@@ -1,0 +1,87 @@
+.lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  align-items: start;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.publicacion {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  min-width: 0;
+  padding: 14px 16px 6px;
+  border: 1px solid var(--linea);
+  border-top: 4px solid var(--tinta);
+  background: var(--superficie);
+}
+
+.fecha {
+  font-family: var(--datos);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--suave);
+}
+
+.marco {
+  position: relative;
+  margin-inline: -16px;
+  background: var(--linea);
+}
+
+.imagen {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 30rem;
+  object-fit: contain;
+}
+
+.video {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--pizarra);
+  color: var(--pizarra-texto);
+  font: 700 0.85rem var(--datos);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.texto {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  line-clamp: 6;
+  overflow: hidden;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.enlace {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  min-height: 44px;
+  font-family: var(--datos);
+  font-weight: 700;
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.enlace:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--rojo);
+}

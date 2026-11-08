@@ -16,6 +16,7 @@ Sitio de la liga y panel para actualizarlo. El sitio anterior está en `legado/`
    - `POSTGRES_ADMIN_URL`: el superusuario de tu PostgreSQL local.
    - `POSTGRES_BIN` y `POSTGRES_DATOS`: solo si usas el PostgreSQL portátil.
    - `SITIO_URL`: la dirección pública del sitio, para las imágenes de compartir y el mapa del sitio.
+   - `FACEBOOK_TOKEN_PAGINA` (opcional): el token de la página de Facebook, para mostrar sus publicaciones. Ver "Publicaciones de Facebook".
 3. Arranca PostgreSQL: `npm run db:iniciar` (portátil) o el servicio de tu instalación.
 4. `npm run db:preparar` crea el rol y la base.
 5. `npm run db:migrar` crea las tablas.
@@ -31,6 +32,20 @@ npm install @embedded-postgres/windows-x64@17.10.0-beta.17
 ```
 
 Luego, en `.env.local`, `POSTGRES_BIN` apunta a `node_modules/@embedded-postgres/windows-x64/native/bin` y `POSTGRES_DATOS` a `datos`, dentro de esa carpeta.
+
+## Publicaciones de Facebook
+
+La portada y Redes muestran las publicaciones recientes de la página de Facebook de la liga. El sitio las pide a la API de Facebook con un token de la página que no caduca. Lo saca un administrador de la página:
+
+1. En [developers.facebook.com](https://developers.facebook.com), con su cuenta de Facebook: **Mis apps → Crear app**. Nombre: "Sitio Liga Bacabachi". Caso de uso: el de administrar una página ("Manage everything on your Page"); si no aparece, **Otro** y tipo **Empresa**.
+2. En la app, agregar los permisos `pages_show_list` y `pages_read_engagement`. La app se queda en modo de desarrollo.
+3. En el [Explorador de la API Graph](https://developers.facebook.com/tools/explorer): elegir la app, agregar esos dos permisos y **Generate Access Token**. Al autorizar, elegir la página de la liga.
+4. Ese token dura una hora. Pegarlo en el [Depurador de tokens](https://developers.facebook.com/tools/debug/accesstoken) y presionar **Extend Access Token**: da uno de 60 días.
+5. De vuelta en el Explorador, pegar el token de 60 días y consultar `me/accounts`. Junto a la página de la liga viene su `access_token`: ese es el token de la página.
+6. Revisarlo en el Depurador: debe decir **Type: Page** y **Expires: Never**.
+7. En Vercel, **Settings → Environment Variables**: `FACEBOOK_TOKEN_PAGINA` con ese valor, marcada como **Sensitive**, en Production. Luego volver a publicar.
+
+El token deja de servir si el administrador cambia su contraseña de Facebook, deja de administrar la página o le quita el permiso a la app. Entonces el sitio oculta las publicaciones hasta poner uno nuevo con estos mismos pasos.
 
 ## Día a día
 

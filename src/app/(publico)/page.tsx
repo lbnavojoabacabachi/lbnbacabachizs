@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { FeedFacebook } from '@/componentes/FeedFacebook';
 import { IconoExterno, IconoFlecha } from '@/componentes/Iconos';
 import { Imagen } from '@/componentes/Imagen';
 import { ListaEncuentros } from '@/componentes/ListaEncuentros';
 import { Marcador } from '@/componentes/Marcador';
+import { PublicacionesFacebook } from '@/componentes/PublicacionesFacebook';
 import { PublicacionRed } from '@/componentes/PublicacionRed';
 import { TablaPosiciones } from '@/componentes/TablaPosiciones';
 import { TarjetaAlbum, TarjetaNoticia } from '@/componentes/Tarjetas';
@@ -18,32 +18,45 @@ import {
 } from '@/lib/consultas/contenido';
 import { obtenerCalendario, obtenerEquipos, obtenerTemporadaVigente } from '@/lib/consultas/liga';
 import { obtenerPosiciones } from '@/lib/consultas/posiciones';
+import { obtenerPublicacionesDeFacebook } from '@/lib/facebook';
 import { capitalizar, formatearInstante, hoyEnSonora } from '@/lib/fechas';
 import { describirJornada, resumirJornadas } from '@/lib/jornadas';
-import { paginaDeFacebook, perfilesDeRedes } from '@/lib/redes';
+import { perfilesDeRedes } from '@/lib/redes';
 import estilosPortada from './portada.module.css';
 import estilos from './publico.module.css';
 
 export default async function Portada() {
   const temporada = await obtenerTemporadaVigente();
-  const [jornadas, posiciones, equipos, noticias, eventos, albumes, publicaciones, transmisiones, patrocinadores, configuracion] =
-    await Promise.all([
-      temporada ? obtenerCalendario(temporada.id) : [],
-      temporada ? obtenerPosiciones(temporada.id) : [],
-      temporada ? obtenerEquipos(temporada.id) : [],
-      obtenerNoticias(3),
-      obtenerProximosEventos(),
-      obtenerAlbumes(),
-      obtenerPublicacionesRedes(3),
-      obtenerTransmisiones(),
-      obtenerPatrocinadores(),
-      obtenerConfiguracion(),
-    ]);
+  const [
+    jornadas,
+    posiciones,
+    equipos,
+    noticias,
+    eventos,
+    albumes,
+    publicaciones,
+    deFacebook,
+    transmisiones,
+    patrocinadores,
+    configuracion,
+  ] = await Promise.all([
+    temporada ? obtenerCalendario(temporada.id) : [],
+    temporada ? obtenerPosiciones(temporada.id) : [],
+    temporada ? obtenerEquipos(temporada.id) : [],
+    obtenerNoticias(3),
+    obtenerProximosEventos(),
+    obtenerAlbumes(),
+    obtenerPublicacionesRedes(3),
+    obtenerPublicacionesDeFacebook(),
+    obtenerTransmisiones(),
+    obtenerPatrocinadores(),
+    obtenerConfiguracion(),
+  ]);
   const { ultima, siguiente, siguientePorPublicar } = resumirJornadas(jornadas, hoyEnSonora());
   const vivo = transmisiones.enVivo[0];
   const evento = eventos[0];
   const facebook = perfilesDeRedes(configuracion).find((p) => p.red === 'facebook');
-  const feedFacebook = paginaDeFacebook(configuracion);
+  const recientesDeFacebook = deFacebook?.slice(0, 3) ?? [];
 
   return (
     <>
@@ -215,23 +228,21 @@ export default async function Portada() {
             <IconoFlecha tamano={16} />
           </Link>
         </div>
-        {(feedFacebook || publicaciones.length === 0) && (
-          <div className={estilosPortada.redes}>
-            <div className={estilosPortada.redesTexto}>
-              <p>Los avisos del día, los cambios de horario y las fotos de cada jornada salen primero en la página de Facebook de la liga.</p>
-              {facebook && (
-                <a href={facebook.url} className={estilos.botonSecundario} target="_blank" rel="noopener">
-                  Seguir a la liga en Facebook
-                  <IconoExterno tamano={18} />
-                  <span className="solo-lectores"> (se abre en otra pestaña)</span>
-                </a>
-              )}
-            </div>
-            {feedFacebook && <FeedFacebook pagina={feedFacebook} />}
+        {(recientesDeFacebook.length > 0 || publicaciones.length === 0) && (
+          <div className={estilosPortada.redesTexto}>
+            <p>Los avisos del día, los cambios de horario y las fotos de cada jornada salen primero en la página de Facebook de la liga.</p>
+            {facebook && (
+              <a href={facebook.url} className={estilos.botonSecundario} target="_blank" rel="noopener">
+                Seguir a la liga en Facebook
+                <IconoExterno tamano={18} />
+                <span className="solo-lectores"> (se abre en otra pestaña)</span>
+              </a>
+            )}
           </div>
         )}
+        {recientesDeFacebook.length > 0 && <PublicacionesFacebook publicaciones={recientesDeFacebook} />}
         {publicaciones.length > 0 && (
-          <ul className={`${estilos.tarjetas} ${feedFacebook ? estilosPortada.publicacionesConFeed : ''}`}>
+          <ul className={`${estilos.tarjetas} ${recientesDeFacebook.length > 0 ? estilosPortada.despuesDeFacebook : ''}`}>
             {publicaciones.map((p) => (
               <PublicacionRed key={p.id} publicacion={p} />
             ))}
