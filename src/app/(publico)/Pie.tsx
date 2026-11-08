@@ -59,6 +59,9 @@ export function Pie({ configuracion, temporada }: { configuracion: Configuracion
       </div>
       <div className={`envoltura ${estilos.pieFinal}`}>
         <p>© {anio} Liga de Beisbol Navojoa Ejidal, Zona Sur Bacabachi</p>
+        <Link prefetch={false} href="/panel" className={estilos.piePanel}>
+          Entrar al panel
+        </Link>
       </div>
     </footer>
   );

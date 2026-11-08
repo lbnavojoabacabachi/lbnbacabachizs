@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FeedFacebook } from '@/componentes/FeedFacebook';
 import { IconoExterno, IconoFlecha } from '@/componentes/Iconos';
 import { Imagen } from '@/componentes/Imagen';
 import { ListaEncuentros } from '@/componentes/ListaEncuentros';
@@ -19,7 +20,7 @@ import { obtenerCalendario, obtenerEquipos, obtenerTemporadaVigente } from '@/li
 import { obtenerPosiciones } from '@/lib/consultas/posiciones';
 import { capitalizar, formatearInstante, hoyEnSonora } from '@/lib/fechas';
 import { describirJornada, resumirJornadas } from '@/lib/jornadas';
-import { perfilesDeRedes } from '@/lib/redes';
+import { paginaDeFacebook, perfilesDeRedes } from '@/lib/redes';
 import estilosPortada from './portada.module.css';
 import estilos from './publico.module.css';
 
@@ -42,6 +43,7 @@ export default async function Portada() {
   const vivo = transmisiones.enVivo[0];
   const evento = eventos[0];
   const facebook = perfilesDeRedes(configuracion).find((p) => p.red === 'facebook');
+  const feedFacebook = paginaDeFacebook(configuracion);
 
   return (
     <>
@@ -213,23 +215,27 @@ export default async function Portada() {
             <IconoFlecha tamano={16} />
           </Link>
         </div>
-        {publicaciones.length > 0 ? (
-          <ul className={estilos.tarjetas}>
+        {(feedFacebook || publicaciones.length === 0) && (
+          <div className={estilosPortada.redes}>
+            <div className={estilosPortada.redesTexto}>
+              <p>Los avisos del día, los cambios de horario y las fotos de cada jornada salen primero en la página de Facebook de la liga.</p>
+              {facebook && (
+                <a href={facebook.url} className={estilos.botonSecundario} target="_blank" rel="noopener">
+                  Seguir a la liga en Facebook
+                  <IconoExterno tamano={18} />
+                  <span className="solo-lectores"> (se abre en otra pestaña)</span>
+                </a>
+              )}
+            </div>
+            {feedFacebook && <FeedFacebook pagina={feedFacebook} />}
+          </div>
+        )}
+        {publicaciones.length > 0 && (
+          <ul className={`${estilos.tarjetas} ${feedFacebook ? estilosPortada.publicacionesConFeed : ''}`}>
             {publicaciones.map((p) => (
               <PublicacionRed key={p.id} publicacion={p} />
             ))}
           </ul>
-        ) : (
-          <div className={estilosPortada.redesVacio}>
-            <p>Los avisos del día, los cambios de horario y las fotos de cada jornada salen primero en la página de Facebook de la liga.</p>
-            {facebook && (
-              <a href={facebook.url} className={estilos.botonSecundario} target="_blank" rel="noopener">
-                Seguir a la liga en Facebook
-                <IconoExterno tamano={18} />
-                <span className="solo-lectores"> (se abre en otra pestaña)</span>
-              </a>
-            )}
-          </div>
         )}
       </section>
 

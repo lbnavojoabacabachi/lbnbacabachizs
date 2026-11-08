@@ -10,8 +10,25 @@ import { variantesDeImagen } from '@/lib/imagenes/tamanos';
 import { incrustacionDePublicacion, incrustacionDeTransmision, redDeUrl } from '@/lib/incrustar';
 import { calcularRachas, describirRacha, resultadoDeJuego, resumenDeResultados, resumirJornadas } from '@/lib/jornadas';
 import type { JuegoTabla } from '@/lib/posiciones';
+import { paginaDeFacebook } from '@/lib/redes';
 
 const REGLAS = { forfeitCarrerasGanador: 7, forfeitCarrerasPerdedor: 0 };
+
+describe('feed de Facebook', () => {
+  const perfiles = (facebook: string | null) => ({ facebook, instagram: null, youtube: null, tiktok: null });
+
+  it('acepta la página de Facebook de la liga', () => {
+    const pagina = 'https://www.facebook.com/profile.php?id=61581889322291';
+    expect(paginaDeFacebook(perfiles(pagina))).toBe(pagina);
+  });
+
+  it('no incrusta direcciones que no son de Facebook ni sin https', () => {
+    expect(paginaDeFacebook(perfiles('https://facebook.com.ejemplo.mx/liga'))).toBeNull();
+    expect(paginaDeFacebook(perfiles('http://www.facebook.com/liga'))).toBeNull();
+    expect(paginaDeFacebook(perfiles(null))).toBeNull();
+    expect(paginaDeFacebook(null)).toBeNull();
+  });
+});
 
 describe('fechas', () => {
   it('escribe la fecha de la jornada con el día de la semana y sin desfase de zona', () => {

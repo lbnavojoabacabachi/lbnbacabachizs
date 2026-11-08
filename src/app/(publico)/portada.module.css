@@ -102,10 +102,31 @@
   font-size: 1.1rem;
 }
 
-.redesVacio {
+.redes {
+  display: grid;
+  gap: 20px 40px;
+  align-items: start;
+}
+
+.redesTexto {
   display: grid;
   gap: 14px;
+  justify-items: start;
   max-width: var(--medida);
+}
+
+.redesTexto p {
+  margin: 0;
+}
+
+.publicacionesConFeed {
+  margin-top: 28px;
+}
+
+@media (min-width: 860px) {
+  .redes {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 500px);
+  }
 }
 
 .patrocinadores {

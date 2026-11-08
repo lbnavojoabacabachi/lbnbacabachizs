@@ -1,4 +1,4 @@
-import { NOMBRES_RED, type RedSocial } from './incrustar';
+import { NOMBRES_RED, redDeUrl, type RedSocial } from './incrustar';
 
 type Perfiles = {
   facebook: string | null;
@@ -15,4 +15,9 @@ export function perfilesDeRedes(configuracion: Perfiles) {
     const url = configuracion[red];
     return url ? [{ red, url, nombre: NOMBRES_RED[red] }] : [];
   });
+}
+
+export function paginaDeFacebook(configuracion: Perfiles) {
+  const url = configuracion?.facebook;
+  return url && redDeUrl(url) === 'facebook' ? url : null;
 }

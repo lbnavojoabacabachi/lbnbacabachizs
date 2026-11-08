@@ -1,6 +1,7 @@
 import { spawn } from 'node:child_process';
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { get } from 'node:http';
+import { get as getSeguro } from 'node:https';
 import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -169,21 +170,20 @@ escuchar('Runtime.exceptionThrown', (p) => errores.push(p.exceptionDetails.excep
 escuchar('Runtime.consoleAPICalled', (p) => {
   if (p.type === 'error') errores.push(p.args.map((a) => a.value ?? a.description).join(' '));
 });
+const esPropia = (url) => url.startsWith(BASE) || /^https:\/\/[a-z0-9]+\.public\.blob\.vercel-storage\.com\//.test(url);
+const terminar = (p) => {
+  if (enVuelo.delete(p.requestId)) ultimoMovimiento = Date.now();
+};
 escuchar('Network.requestWillBeSent', (p) => {
+  if (!esPropia(p.request.url)) return;
   enVuelo.add(p.requestId);
   ultimoMovimiento = Date.now();
 });
 escuchar('Network.responseReceived', (p) => {
-  if (p.response.status >= 400 && p.type !== 'Document') respuestasConError.push(`${p.response.status} ${p.response.url}`);
+  if (p.response.status >= 400 && p.type !== 'Document' && esPropia(p.response.url)) respuestasConError.push(`${p.response.status} ${p.response.url}`);
 });
-escuchar('Network.loadingFinished', (p) => {
-  enVuelo.delete(p.requestId);
-  ultimoMovimiento = Date.now();
-});
-escuchar('Network.loadingFailed', (p) => {
-  enVuelo.delete(p.requestId);
-  ultimoMovimiento = Date.now();
-});
+escuchar('Network.loadingFinished', terminar);
+escuchar('Network.loadingFailed', terminar);
 
 await cdp('Page.enable');
 await cdp('Runtime.enable');
@@ -227,7 +227,7 @@ async function navegar(ruta) {
 
 async function auditar() {
   await evaluar(AXE);
-  return evaluar(`axe.run(document, { runOnly: { type: 'tag', values: ${JSON.stringify(ETIQUETAS_WCAG)} }, resultTypes: ['violations'] })
+  return evaluar(`axe.run(document, { runOnly: { type: 'tag', values: ${JSON.stringify(ETIQUETAS_WCAG)} }, resultTypes: ['violations'], iframes: false })
     .then((r) => r.violations.map((v) => ({ id: v.id, impacto: v.impact, ayuda: v.help, nodos: v.nodes.slice(0, 6).map((n) => n.target.join(' ')) })))`);
 }
 
@@ -251,7 +251,8 @@ async function capturar(nombre, ancho) {
 function bytesComprimidos(url) {
   return new Promise((resolver) => {
     const encabezados = { 'accept-encoding': 'gzip', ...(url.includes('_rsc=') ? { rsc: '1' } : {}) };
-    get(url, { headers: encabezados }, (respuesta) => {
+    const pedir = url.startsWith('https:') ? getSeguro : get;
+    pedir(url, { headers: encabezados }, (respuesta) => {
       let total = 0;
       respuesta.on('data', (trozo) => (total += trozo.length));
       respuesta.on('end', () => resolver(total));
@@ -260,10 +261,11 @@ function bytesComprimidos(url) {
 }
 
 async function pesoDePagina() {
+  const propia = "((u) => u.startsWith(location.origin) || new URL(u).hostname.endsWith('.public.blob.vercel-storage.com'))";
   const urls = await evaluar(
-    "[...performance.getEntriesByType('navigation'), ...performance.getEntriesByType('resource')].map((e) => e.name).filter((u) => u.startsWith(location.origin))",
+    `[...performance.getEntriesByType('navigation'), ...performance.getEntriesByType('resource')].map((e) => e.name).filter(${propia})`,
   );
-  const externas = await evaluar("performance.getEntriesByType('resource').filter((e) => !e.name.startsWith(location.origin)).length");
+  const externas = await evaluar(`performance.getEntriesByType('resource').filter((e) => !${propia}(e.name)).length`);
   const tamanos = await Promise.all(urls.map(bytesComprimidos));
   return { bytes: tamanos.reduce((a, b) => a + b, 0), peticiones: urls.length, externas };
 }

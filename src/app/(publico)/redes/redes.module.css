@@ -48,3 +48,8 @@
   padding: 0;
   list-style: none;
 }
+
+.nota {
+  margin: 0 0 16px;
+  color: var(--suave);
+}

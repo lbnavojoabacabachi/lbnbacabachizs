@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { Encabezado, Vacio } from '@/componentes/Encabezado';
+import { FeedFacebook } from '@/componentes/FeedFacebook';
 import { IconoExterno } from '@/componentes/Iconos';
 import { PublicacionRed } from '@/componentes/PublicacionRed';
 import { obtenerConfiguracion, obtenerPublicacionesRedes } from '@/lib/consultas/contenido';
-import { perfilesDeRedes } from '@/lib/redes';
+import { paginaDeFacebook, perfilesDeRedes } from '@/lib/redes';
 import estilos from '../publico.module.css';
 import estilosRedes from './redes.module.css';
 
@@ -16,11 +17,12 @@ export const metadata: Metadata = {
 export default async function Redes() {
   const [publicaciones, configuracion] = await Promise.all([obtenerPublicacionesRedes(), obtenerConfiguracion()]);
   const perfiles = perfilesDeRedes(configuracion);
+  const feedFacebook = paginaDeFacebook(configuracion);
 
   return (
     <>
       <Encabezado titulo="Redes">
-        <p>Lo más reciente de la liga en redes sociales. Cada publicación carga hasta que la tocas.</p>
+        <p>Lo más reciente de la liga en redes sociales.</p>
       </Encabezado>
 
       {perfiles.length > 0 && (
@@ -45,24 +47,40 @@ export default async function Redes() {
         </section>
       )}
 
-      <section className={estilos.seccion} aria-labelledby="titulo-publicaciones">
-        <div className={estilos.seccionCabeza}>
-          <h2 id="titulo-publicaciones" className={estilos.tituloSeccion}>
-            Publicaciones
-          </h2>
-        </div>
-        {publicaciones.length === 0 ? (
-          <Vacio titulo="Todavía no hay publicaciones elegidas">
-            <p>La liga elige desde su panel qué publicaciones se muestran aquí. Mientras tanto, todo está en sus perfiles.</p>
-          </Vacio>
-        ) : (
-          <ul className={estilosRedes.publicaciones}>
-            {publicaciones.map((p) => (
-              <PublicacionRed key={p.id} publicacion={p} />
-            ))}
-          </ul>
-        )}
-      </section>
+      {feedFacebook && (
+        <section className={estilos.seccion} aria-labelledby="titulo-facebook">
+          <div className={estilos.seccionCabeza}>
+            <h2 id="titulo-facebook" className={estilos.tituloSeccion}>
+              En Facebook
+            </h2>
+          </div>
+          <FeedFacebook pagina={feedFacebook} />
+        </section>
+      )}
+
+      {(publicaciones.length > 0 || !feedFacebook) && (
+        <section className={estilos.seccion} aria-labelledby="titulo-publicaciones">
+          <div className={estilos.seccionCabeza}>
+            <h2 id="titulo-publicaciones" className={estilos.tituloSeccion}>
+              Publicaciones destacadas
+            </h2>
+          </div>
+          {publicaciones.length === 0 ? (
+            <Vacio titulo="Todavía no hay publicaciones destacadas">
+              <p>La liga elige desde su panel qué publicaciones se destacan aquí. Mientras tanto, todo está en sus perfiles.</p>
+            </Vacio>
+          ) : (
+            <>
+              <p className={estilosRedes.nota}>Cada publicación carga hasta que la tocas.</p>
+              <ul className={estilosRedes.publicaciones}>
+                {publicaciones.map((p) => (
+                  <PublicacionRed key={p.id} publicacion={p} />
+                ))}
+              </ul>
+            </>
+          )}
+        </section>
+      )}
     </>
   );
 }
