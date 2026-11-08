@@ -78,6 +78,9 @@ const PAGINAS_PANEL = [
   '/panel/contrasena',
 ];
 
+const TEMA_CONTRARIO = "(matchMedia('(prefers-color-scheme: dark)').matches ? 'claro' : 'oscuro')";
+const TEMA_MARCADO = `document.querySelector('input[name="tema"]:checked')?.value === ${TEMA_CONTRARIO}`;
+
 const ESTADOS = [
   {
     nombre: 'menu-abierto',
@@ -85,6 +88,22 @@ const ESTADOS = [
     anchos: [320, 390],
     accion: `document.querySelector('button[aria-controls="menu-principal"]').click()`,
     listo: `document.querySelector('button[aria-controls="menu-principal"]').getAttribute('aria-expanded') === 'true'`,
+  },
+  {
+    nombre: 'tema-elegido',
+    pagina: '/',
+    anchos: [390, 1366],
+    accion: `(() => { const boton = document.querySelector('button[aria-controls="menu-principal"]'); if (boton.offsetParent) boton.click(); document.querySelector('input[name="tema"][value="' + ${TEMA_CONTRARIO} + '"]').click(); })()`,
+    listo: `document.documentElement.dataset.tema === ${TEMA_CONTRARIO} && localStorage.getItem('tema') === ${TEMA_CONTRARIO} && ${TEMA_MARCADO}`,
+    limpiar: `localStorage.removeItem('tema')`,
+  },
+  {
+    nombre: 'tema-guardado',
+    pagina: '/posiciones',
+    anchos: [390],
+    accion: `localStorage.setItem('tema', ${TEMA_CONTRARIO}); location.reload()`,
+    listo: `document.readyState === 'complete' && document.documentElement.dataset.tema === ${TEMA_CONTRARIO} && ${TEMA_MARCADO}`,
+    limpiar: `localStorage.removeItem('tema')`,
   },
   {
     nombre: 'foto-ampliada',
@@ -362,6 +381,7 @@ for (const estado of ESTADOS) {
       const nombre = `${estado.nombre}-${ancho}-${NOMBRE_TEMA[tema]}`;
       const { result } = await cdp('Page.captureScreenshot', { format: 'png' });
       writeFileSync(join(carpeta, 'capturas', `${nombre}.png`), Buffer.from(result.data, 'base64'));
+      if (estado.limpiar) await evaluar(estado.limpiar);
       resultados.push({
         nombre,
         ruta: `${estado.pagina} (${estado.nombre})`,

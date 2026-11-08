@@ -23,7 +23,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-tema='claro']) {
     --fondo: #0d1424;
     --superficie: #151f38;
     --tinta: #e9edf5;
@@ -41,6 +41,25 @@
     --resalte: #3a1d2a;
     color-scheme: dark;
   }
+}
+
+:root[data-tema='oscuro'] {
+  --fondo: #0d1424;
+  --superficie: #151f38;
+  --tinta: #e9edf5;
+  --suave: #9aa6bd;
+  --linea: #26324f;
+  --borde-control: #6b7894;
+  --pizarra: #0a1122;
+  --pizarra-texto: #ffffff;
+  --pizarra-suave: #9aa6bd;
+  --pizarra-placa: #18264a;
+  --rojo: #ff6b73;
+  --rojo-texto: #0d1424;
+  --pasto: #5fbf78;
+  --placa-logo: #ffffff;
+  --resalte: #3a1d2a;
+  color-scheme: dark;
 }
 
 *,

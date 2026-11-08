@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { IconoCerrar, IconoMenu } from '@/componentes/Iconos';
 import { PRINCIPALES, SECUNDARIAS, type Enlace } from './navegacion';
 import estilos from './cabecera.module.css';
+import { SelectorTema } from './SelectorTema';
 
 function esActual(ruta: string, enlace: Enlace) {
   return ruta === enlace.href || ruta.startsWith(`${enlace.href}/`);
@@ -62,10 +63,13 @@ export function MenuPrincipal({ enVivo }: { enVivo: boolean }) {
         {abierto ? 'Cerrar' : 'Menú'}
         {enVivo && !abierto && <span className={estilos.punto} aria-hidden="true" />}
       </button>
-      <ul id="menu-principal" className={`${estilos.lista} ${abierto ? estilos.abierto : ''}`}>
-        {PRINCIPALES.map((e) => enlace(e))}
-        {SECUNDARIAS.map((e) => enlace(e, true))}
-      </ul>
+      <div id="menu-principal" className={`${estilos.desplegable} ${abierto ? estilos.abierto : ''}`}>
+        <ul className={estilos.lista}>
+          {PRINCIPALES.map((e) => enlace(e))}
+          {SECUNDARIAS.map((e) => enlace(e, true))}
+        </ul>
+        <SelectorTema />
+      </div>
     </nav>
   );
 }

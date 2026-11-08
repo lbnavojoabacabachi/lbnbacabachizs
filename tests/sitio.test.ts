@@ -11,6 +11,7 @@ import { incrustacionDePublicacion, incrustacionDeTransmision, redDeUrl } from '
 import { calcularRachas, describirRacha, resultadoDeJuego, resumenDeResultados, resumirJornadas } from '@/lib/jornadas';
 import type { JuegoTabla } from '@/lib/posiciones';
 import { paginaDeFacebook } from '@/lib/redes';
+import { SCRIPT_TEMA, temaGuardado } from '@/lib/tema';
 
 const REGLAS = { forfeitCarrerasGanador: 7, forfeitCarrerasPerdedor: 0 };
 
@@ -27,6 +28,37 @@ describe('feed de Facebook', () => {
     expect(paginaDeFacebook(perfiles('http://www.facebook.com/liga'))).toBeNull();
     expect(paginaDeFacebook(perfiles(null))).toBeNull();
     expect(paginaDeFacebook(null)).toBeNull();
+  });
+});
+
+describe('tema elegido', () => {
+  const temaAlCargar = (guardado: string | null | Error) => {
+    const documento = { documentElement: { dataset: {} as Record<string, string> } };
+    const almacen = {
+      getItem: () => {
+        if (guardado instanceof Error) throw guardado;
+        return guardado;
+      },
+    };
+    new Function('localStorage', 'document', SCRIPT_TEMA)(almacen, documento);
+    return documento.documentElement.dataset.tema;
+  };
+
+  it('aplica el tema guardado antes de pintar la página', () => {
+    expect(temaAlCargar('oscuro')).toBe('oscuro');
+    expect(temaAlCargar('claro')).toBe('claro');
+  });
+
+  it('sigue al aparato con valores desconocidos o sin almacenamiento', () => {
+    expect(temaAlCargar('morado')).toBeUndefined();
+    expect(temaAlCargar(null)).toBeUndefined();
+    expect(temaAlCargar(new Error('almacenamiento bloqueado'))).toBeUndefined();
+  });
+
+  it('lee el tema de la página', () => {
+    expect(temaGuardado('oscuro')).toBe('oscuro');
+    expect(temaGuardado(undefined)).toBe('auto');
+    expect(temaGuardado('auto')).toBe('auto');
   });
 });
 

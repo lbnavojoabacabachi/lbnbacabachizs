@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Big_Shoulders, Sofia_Sans, Sofia_Sans_Semi_Condensed } from 'next/font/google';
 import type { ReactNode } from 'react';
 import { NOMBRE_SITIO, OPEN_GRAPH_BASE, URL_SITIO } from '@/lib/sitio';
+import { SCRIPT_TEMA } from '@/lib/tema';
 import './globals.css';
 
 const display = Big_Shoulders({ subsets: ['latin'], variable: '--fuente-display', display: 'swap' });
@@ -29,7 +30,10 @@ export const viewport: Viewport = {
 
 export default function RaizLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="es-MX" className={`${display.variable} ${texto.variable} ${datos.variable}`}>
+    <html lang="es-MX" className={`${display.variable} ${texto.variable} ${datos.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: SCRIPT_TEMA }} />
+      </head>
       <body>{children}</body>
     </html>
   );
