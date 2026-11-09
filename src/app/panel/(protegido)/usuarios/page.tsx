@@ -2,6 +2,7 @@ import { asc, desc, eq, max } from 'drizzle-orm';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { BotonAccion } from '@/app/panel/componentes/BotonAccion';
+import formularios from '@/app/panel/componentes/formularios.module.css';
 import { Formulario } from '@/app/panel/componentes/Formulario';
 import { Texto } from '@/app/panel/componentes/Entradas';
 import { db } from '@/db/conexion';
@@ -32,14 +33,7 @@ export default async function UsuariosPanel() {
 
   return (
     <>
-      <CabeceraPagina
-        titulo="Usuarios"
-        accion={
-          <Link prefetch={false} href="/panel/contrasena" className={estilos.enlaceVolver}>
-            Cambiar mi contraseña
-          </Link>
-        }
-      >
+      <CabeceraPagina titulo="Usuarios">
         <p>Todos los usuarios son administradores y pueden usar todo el panel. Tras 5 intentos fallidos, el acceso se bloquea 15 minutos.</p>
       </CabeceraPagina>
       <ul className={estilos.filas}>
@@ -59,6 +53,11 @@ export default async function UsuariosPanel() {
                 </span>
               </div>
               <span className={u.activo ? estilos.etiquetaOk : estilos.etiquetaNeutra}>{u.activo ? 'Activo' : 'Desactivado'}</span>
+              {yo && (
+                <Link prefetch={false} href="/panel/contrasena" className={formularios.botonChico}>
+                  Cambiar mi contraseña
+                </Link>
+              )}
               {!yo && (
                 <div className={estilos.filaAcciones}>
                   <BotonAccion

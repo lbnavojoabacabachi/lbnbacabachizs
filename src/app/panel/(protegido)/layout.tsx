@@ -29,6 +29,9 @@ export default async function PanelLayout({ children }: { children: ReactNode })
           </Link>
           <div className={estilos.usuario}>
             <span className={estilos.nombreUsuario}>{sesion.user.displayUsername ?? sesion.user.name}</span>
+            <Link prefetch={false} href="/panel/contrasena" className={estilos.botonSecundario}>
+              Contraseña
+            </Link>
             <BotonSalir />
           </div>
         </div>

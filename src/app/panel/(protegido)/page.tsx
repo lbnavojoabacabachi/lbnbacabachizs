@@ -1,8 +1,9 @@
 import { and, count, desc, eq, isNull, lt, sql } from 'drizzle-orm';
-import type { Metadata } from 'next';
+import type { Metadata, Route } from 'next';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { BotonAccion } from '@/app/panel/componentes/BotonAccion';
+import formularios from '@/app/panel/componentes/formularios.module.css';
 import { db } from '@/db/conexion';
 import { albumFotos, albumes, bitacora, noticias, transmisiones, user } from '@/db/esquema';
 import { obtenerTemporadaVigente } from '@/lib/consultas/liga';
@@ -14,23 +15,38 @@ import estilos from '../panel.module.css';
 import { limpiarImagenes } from './acciones';
 import { CabeceraPagina } from './componentes';
 import { SECCIONES } from './secciones';
+import { cambiarEnVivo } from './transmisiones/acciones';
 
 export const metadata: Metadata = { title: 'Inicio' };
 
-type Pendiente = { clave: string; contenido: ReactNode; detalle: string; urgente: boolean };
+type Pendiente = { clave: string; titulo: string; detalle: string; accion: ReactNode };
 
-export default async function InicioPanel() {
+const cuantos = (n: number, uno: string, varios: string) => `${n} ${n === 1 ? uno : varios}`;
+
+function Ir({ href, texto, contexto, urgente = false }: { href: Route; texto: string; contexto: string; urgente?: boolean }) {
+  return (
+    <Link prefetch={false} href={href} className={urgente ? estilos.enlaceBoton : formularios.botonChico}>
+      {texto}
+      <span className="solo-lectores"> {contexto}</span>
+    </Link>
+  );
+}
+
+export default async function InicioPanel({ searchParams }: { searchParams: Promise<{ contrasena?: string }> }) {
+  const { contrasena } = await searchParams;
   const sesion = await exigirAdministrador();
   const temporada = await obtenerTemporadaVigente();
   const [jornadas, borradores, albumesSinPublicar, fotosSinPie, vivasOlvidadas, sinUso, actividad] = await Promise.all([
     temporada ? jornadasConAvance(temporada.id) : [],
-    db.select({ total: count() }).from(noticias).where(isNull(noticias.publicadaEn)),
-    db.select({ total: count() }).from(albumes).where(eq(albumes.publicado, false)),
+    db.select({ id: noticias.id }).from(noticias).where(isNull(noticias.publicadaEn)).orderBy(desc(noticias.id)),
+    db.select({ id: albumes.id }).from(albumes).where(eq(albumes.publicado, false)).orderBy(desc(albumes.id)),
     db
-      .select({ total: count() })
+      .select({ albumId: albumFotos.albumId, total: count() })
       .from(albumFotos)
       .innerJoin(albumes, eq(albumFotos.albumId, albumes.id))
-      .where(and(eq(albumes.publicado, true), isNull(albumFotos.pie))),
+      .where(and(eq(albumes.publicado, true), isNull(albumFotos.pie)))
+      .groupBy(albumFotos.albumId)
+      .orderBy(desc(count())),
     db
       .select({ id: transmisiones.id, titulo: transmisiones.titulo })
       .from(transmisiones)
@@ -53,80 +69,71 @@ export default async function InicioPanel() {
   const atrasadas = jornadas.filter((j) => j.fecha !== null && j.fecha <= hoy && j.capturados < j.juegos);
   const proxima = jornadas.find((j) => j.fecha !== null && j.fecha > hoy);
 
+  const sinPie = fotosSinPie.reduce((suma, a) => suma + a.total, 0);
+
   const pendientes: Pendiente[] = [
     ...atrasadas.slice(0, 3).map((j) => ({
       clave: `jornada-${j.id}`,
-      contenido: (
-        <Link prefetch={false} href={`/panel/resultados/${j.numero}`}>
-          Capturar resultados de la jornada {j.numero}
-        </Link>
-      ),
+      titulo: `Resultados de la jornada ${j.numero}`,
       detalle: `${j.fecha ? capitalizar(formatearFecha(j.fecha)) : ''} · ${j.capturados} de ${j.juegos} juegos capturados`,
-      urgente: true,
+      accion: <Ir href={`/panel/resultados/${j.numero}` as Route} texto="Capturar" contexto={`resultados de la jornada ${j.numero}`} urgente />,
     })),
     ...(atrasadas.length > 3
       ? [
           {
             clave: 'mas-jornadas',
-            contenido: (
-              <Link prefetch={false} href="/panel/resultados">
-                Y {atrasadas.length - 3} jornadas más sin resultados
-              </Link>
-            ),
+            titulo: `Y ${cuantos(atrasadas.length - 3, 'jornada más', 'jornadas más')} sin resultados`,
             detalle: 'Todas están en Resultados.',
-            urgente: true,
+            accion: <Ir href="/panel/resultados" texto="Ver jornadas" contexto="sin resultados" urgente />,
           },
         ]
       : []),
     ...vivasOlvidadas.map((t) => ({
       clave: `vivo-${t.id}`,
-      contenido: (
-        <Link prefetch={false} href="/panel/transmisiones">
-          «{t.titulo}» sigue marcada en vivo
-        </Link>
-      ),
+      titulo: `«${t.titulo}» sigue marcada en vivo`,
       detalle: 'Empezó hace más de 6 horas. Termínala para quitar el aviso de la portada.',
-      urgente: true,
+      accion: <BotonAccion accion={cambiarEnVivo.bind(null, t.id, false)} texto="Terminar" etiqueta={`Terminar «${t.titulo}»`} peligro />,
     })),
-    ...(borradores[0].total > 0
+    ...(borradores.length > 0
       ? [
           {
             clave: 'borradores',
-            contenido: (
-              <Link prefetch={false} href="/panel/noticias">
-                {borradores[0].total} noticias en borrador
-              </Link>
-            ),
-            detalle: 'No se ven en el sitio.',
-            urgente: false,
+            titulo: `${cuantos(borradores.length, 'noticia', 'noticias')} en borrador`,
+            detalle: 'No se ven en el sitio hasta que las publiques.',
+            accion:
+              borradores.length === 1 ? (
+                <Ir href={`/panel/noticias/${borradores[0].id}` as Route} texto="Revisar" contexto="la noticia en borrador" />
+              ) : (
+                <Ir href="/panel/noticias" texto="Ver borradores" contexto="de noticias" />
+              ),
           },
         ]
       : []),
-    ...(albumesSinPublicar[0].total > 0
+    ...(albumesSinPublicar.length > 0
       ? [
           {
             clave: 'albumes',
-            contenido: (
-              <Link prefetch={false} href="/panel/galeria">
-                {albumesSinPublicar[0].total} álbumes sin publicar
-              </Link>
-            ),
-            detalle: 'No se ven en el sitio.',
-            urgente: false,
+            titulo: `${cuantos(albumesSinPublicar.length, 'álbum', 'álbumes')} sin publicar`,
+            detalle: 'No se ven en el sitio hasta que los publiques.',
+            accion:
+              albumesSinPublicar.length === 1 ? (
+                <Ir href={`/panel/galeria/${albumesSinPublicar[0].id}` as Route} texto="Revisar" contexto="el álbum sin publicar" />
+              ) : (
+                <Ir href="/panel/galeria" texto="Ver álbumes" contexto="sin publicar" />
+              ),
           },
         ]
       : []),
-    ...(fotosSinPie[0].total > 0
+    ...(sinPie > 0
       ? [
           {
             clave: 'pies',
-            contenido: (
-              <Link prefetch={false} href="/panel/galeria">
-                {fotosSinPie[0].total} fotos publicadas sin pie
-              </Link>
-            ),
-            detalle: 'El pie ayuda a quien usa lector de pantalla y a quien busca una foto.',
-            urgente: false,
+            titulo: `${cuantos(sinPie, 'foto publicada', 'fotos publicadas')} sin pie`,
+            detalle:
+              fotosSinPie.length > 1
+                ? `Están en ${fotosSinPie.length} álbumes; el botón abre el que tiene más. El pie ayuda a quien usa lector de pantalla y a quien busca una foto.`
+                : 'El pie ayuda a quien usa lector de pantalla y a quien busca una foto.',
+            accion: <Ir href={`/panel/galeria/${fotosSinPie[0].albumId}` as Route} texto="Agregar pies" contexto="a las fotos" />,
           },
         ]
       : []),
@@ -145,6 +152,12 @@ export default async function InicioPanel() {
         </p>
       </CabeceraPagina>
 
+      {contrasena === 'cambiada' && (
+        <p className={estilos.aviso} role="status">
+          Tu contraseña quedó cambiada. Si tenías el panel abierto en otro aparato, ahí tendrás que entrar de nuevo.
+        </p>
+      )}
+
       <section className={estilos.seccion} aria-labelledby="titulo-pendientes">
         <h2 id="titulo-pendientes" className={estilos.subtitulo}>
           Pendientes
@@ -156,10 +169,10 @@ export default async function InicioPanel() {
             {pendientes.map((p) => (
               <li key={p.clave} className={estilos.fila}>
                 <div className={estilos.filaPrincipal}>
-                  <span className={estilos.filaTitulo}>{p.contenido}</span>
+                  <span className={estilos.filaTitulo}>{p.titulo}</span>
                   <span className={estilos.filaDetalle}>{p.detalle}</span>
                 </div>
-                {p.urgente && <span className={estilos.etiquetaPendiente}>Pendiente</span>}
+                {p.accion}
               </li>
             ))}
           </ul>

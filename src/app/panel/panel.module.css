@@ -116,6 +116,8 @@
 }
 
 .botonSecundario {
+  display: inline-flex;
+  align-items: center;
   min-height: 40px;
   padding: 0 14px;
   border: 1.5px solid var(--pizarra-suave);
@@ -123,11 +125,14 @@
   background: transparent;
   color: var(--pizarra-texto);
   font: 600 0.95rem var(--datos);
+  text-decoration: none;
+  white-space: nowrap;
   cursor: pointer;
 }
 
 .botonSecundario:hover {
   border-color: var(--pizarra-texto);
+  color: var(--pizarra-texto);
 }
 
 .barra {
@@ -268,7 +273,8 @@
 }
 
 @media (max-width: 420px) {
-  .marcaPanel span {
+  .marcaPanel span,
+  .nombreUsuario {
     position: absolute;
     width: 1px;
     height: 1px;

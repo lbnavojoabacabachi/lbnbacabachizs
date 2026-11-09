@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Logotipo } from '@/componentes/Logotipo';
 import { exigirSesion } from '@/lib/sesion';
 import estilos from '../panel.module.css';
@@ -25,6 +26,11 @@ export default async function ContrasenaPagina() {
         </div>
         {temporal && <p>Es tu primera vez en el panel. Cambia la contraseña temporal por una tuya.</p>}
         <FormularioContrasena temporal={temporal} />
+        {!temporal && (
+          <Link prefetch={false} href="/panel" className={estilos.enlaceVolver}>
+            Volver al panel sin cambiarla
+          </Link>
+        )}
       </div>
     </main>
   );

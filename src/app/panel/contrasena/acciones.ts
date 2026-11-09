@@ -54,5 +54,5 @@ export async function cambiarContrasena(_previo: EstadoContrasena, formulario: F
     entidadId: sesion.user.id,
     resumen: 'Cambió su contraseña',
   });
-  redirect('/panel');
+  redirect('/panel?contrasena=cambiada');
 }
