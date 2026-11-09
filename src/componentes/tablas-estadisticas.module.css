@@ -1,0 +1,80 @@
+.contenedor {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  border-top: 2px solid var(--tinta);
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--datos);
+  font-size: 0.95rem;
+}
+
+.tabla th,
+.tabla td {
+  padding: 8px 7px;
+  border-bottom: 1px solid var(--linea);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.tabla thead th {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--suave);
+}
+
+.tabla abbr {
+  text-decoration: none;
+}
+
+.jugador {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 11rem;
+  padding-left: 0;
+  background: var(--fondo);
+  font-weight: 600;
+  white-space: normal;
+}
+
+.tabla .num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.porcentaje {
+  font-weight: 700;
+}
+
+.acumulado th,
+.acumulado td {
+  font-style: italic;
+}
+
+.marca {
+  font-weight: 400;
+  color: var(--suave);
+}
+
+.tabla tfoot th,
+.tabla tfoot td {
+  border-top: 2px solid var(--tinta);
+  border-bottom: 0;
+  font-weight: 700;
+}
+
+@media (max-width: 560px) {
+  .jugador {
+    min-width: 8.5rem;
+  }
+
+  .tabla th,
+  .tabla td {
+    padding-inline: 6px;
+  }
+}

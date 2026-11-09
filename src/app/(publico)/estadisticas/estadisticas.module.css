@@ -1,0 +1,131 @@
+.lideres {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  gap: 32px 40px;
+}
+
+.lider {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 2px solid var(--tinta);
+}
+
+.lista li {
+  display: grid;
+  grid-template-columns: 2rem 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 6px 8px 0;
+  border-bottom: 1px solid var(--linea);
+}
+
+.lista .primero {
+  background: var(--resalte);
+}
+
+.lugar {
+  padding-left: 6px;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 1.15rem;
+}
+
+.quien {
+  display: grid;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.nombre {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.equipo {
+  font-family: var(--datos);
+  font-size: 0.85rem;
+  color: var(--suave);
+}
+
+.valor {
+  font-family: var(--datos);
+  font-weight: 800;
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.equipos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.equipos a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 12px 0 8px;
+  border: 1.5px solid var(--linea);
+  font-family: var(--datos);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.equipos a:hover {
+  border-color: var(--rojo);
+}
+
+.porEquipo {
+  scroll-margin-top: 16px;
+}
+
+.tituloEquipo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bloque {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.pitcheo {
+  max-width: 34rem;
+}
+
+.abreviaturas {
+  display: grid;
+  margin: 10px 0 0;
+  border-top: 2px solid var(--tinta);
+  font-family: var(--datos);
+}
+
+.abreviaturas > div {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 12px;
+  padding-block: 8px;
+  border-bottom: 1px solid var(--linea);
+}
+
+.abreviaturas dt {
+  font-weight: 700;
+}
+
+.abreviaturas dd {
+  margin: 0;
+  color: var(--suave);
+}

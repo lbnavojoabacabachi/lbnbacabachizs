@@ -7,16 +7,16 @@ Sitio público de la liga (resultados, calendario, posiciones, estadísticas, eq
 - **Rama de trabajo:** `rediseno`. `main` sigue publicando el sitio anterior en GitHub Pages (ligabeisbolbacabachi.com) hasta el lanzamiento.
 - **`legado/`:** el sitio anterior completo. La migración de datos (fase 2) lee de ahí; se borra al lanzar.
 
-## Estado al 7 de noviembre de 2026
+## Estado al 8 de noviembre de 2026
 
 | Fase | Estado |
 | --- | --- |
 | 0. Decisiones y cuentas | Rama creada. Vercel y Neon todavía no (se crean al tener algo que ver en línea) |
 | 1. Base | Hecha: Next.js 16, tokens y tipografías, esquema en Drizzle con migración inicial, Better Auth con usuario y contraseña, cambio obligatorio de la clave temporal, bitácora, límite de intentos y revisión de reglas en `prebuild` |
-| 2. Migración de datos | Hecha salvo estadísticas (esperan D5): `npm run migrar:legado` importa equipos, 219 jugadores, cuerpo técnico, 18 jornadas, 72 encuentros, noticia, evento, álbumes, patrocinadores y contacto. La tabla calculada coincide fila por fila con la del sitio anterior. Reporte en `reportes/migracion-legado.md` |
+| 2. Migración de datos | Hecha: `npm run migrar:legado` importa equipos, 219 jugadores, cuerpo técnico, 18 jornadas, 72 encuentros, noticia, evento, álbumes, patrocinadores y contacto. La tabla calculada coincide fila por fila con la del sitio anterior. Reporte en `reportes/migracion-legado.md`. Las estadísticas 2025-2026 se cargaron desde el panel con los PDF del anotador |
 | 3. Imágenes | Hecha: subida en `/api/imagenes` (el navegador reduce a 2400 px; el servidor crea tres tamaños WebP sin metadatos) y `npm run migrar:imagenes`, que bajó las imágenes del sitio anterior de 227 MB (144 archivos) a 23.7 MB (234 WebP de 78 imágenes) y las ligó a equipos, patrocinadores, noticia, evento y álbumes. En local se guardan en `.medios/`; en Vercel, en Blob |
-| 4. Sitio público | Hecha: portada, calendario, jornada con imagen para compartir, posiciones con racha, equipos, altas y bajas, estadísticas (espera D5), noticias, galería con foto ampliada, en vivo, redes, documentos, contacto, 404, redirecciones del sitio anterior, mapa del sitio y metadatos. Páginas en caché una hora. `npm run auditar:ui`: 0 problemas de axe-core en 18 páginas, 4 anchos, claro y oscuro; portada de 324 KB en celular |
-| 5. Panel | Hecha salvo estadísticas (esperan D5): inicio con pendientes, resultados, calendario y temporadas, reglas y ajustes, equipos y plantillas, noticias, eventos, galería, en vivo, redes, patrocinadores, documentos, contacto, usuarios y bitácora. Prueba de punta a punta de 19 pasos y `npm run auditar:ui` con el panel: 0 problemas en 370 revisiones |
+| 4. Sitio público | Hecha: portada, calendario, jornada con imagen para compartir, posiciones con racha, equipos, altas y bajas, estadísticas (líderes y tablas por equipo), noticias, galería con foto ampliada, en vivo, redes, documentos, contacto, 404, redirecciones del sitio anterior, mapa del sitio y metadatos. Páginas en caché una hora. `npm run auditar:ui`: 0 problemas de axe-core en 18 páginas, 4 anchos, claro y oscuro; portada de 324 KB en celular |
+| 5. Panel | Hecha: inicio con pendientes, resultados, calendario y temporadas, reglas y ajustes, equipos y plantillas, estadísticas (se pegan desde Excel), noticias, eventos, galería, en vivo, redes, patrocinadores, documentos, contacto, usuarios y bitácora. Prueba de punta a punta de 19 pasos y `npm run auditar:ui` con el panel: 0 problemas en 370 revisiones |
 | 6. Lanzamiento | Pendiente |
 
 ## Reglas que no se negocian
@@ -69,12 +69,12 @@ src/app/api/auth/        manejador de Better Auth
 src/app/api/imagenes/    subida de imágenes (solo administradores)
 src/app/medios/          sirve las imágenes guardadas en .medios/ cuando no hay Blob (desarrollo)
 src/lib/imagenes/        procesar (sharp), almacen (local o Blob), registrar, subir-cliente (reduce en el navegador)
-src/db/esquema/          tablas por tema: autenticacion, liga, juegos, contenido, imagenes, bitacora
+src/db/esquema/          tablas por tema: autenticacion, liga, juegos, contenido, estadisticas, imagenes, bitacora
 src/db/conexion.ts       pool de pg y drizzle
-src/lib/                 auth, auth-cliente, sesion (exigirSesion, exigirAdministrador), bitacora, nombres, posiciones
-src/lib/consultas/       lecturas de la base para el sitio: liga (temporada, calendario, equipos, plantillas), contenido, posiciones
+src/lib/                 auth, auth-cliente, sesion (exigirSesion, exigirAdministrador), bitacora, nombres, posiciones, estadisticas (pegar desde Excel, porcentajes, líderes)
+src/lib/consultas/       lecturas de la base para el sitio: liga (temporada, calendario, equipos, plantillas), contenido, posiciones, estadisticas
 src/lib/                 además: fechas (hora de Sonora), jornadas (resultado, resumen, rachas), incrustar (YouTube, Facebook, Instagram, TikTok), sitio (SITIO_URL), compartir/ (imagen 1200 × 630)
-src/componentes/         Marcador, TablaPosiciones, ListaEncuentros, Imagen (srcset), Escudo, Galeria, Incrustado, Tarjetas, PublicacionRed, Encabezado, Iconos (SVG)
+src/componentes/         Marcador, TablaPosiciones, TablasEstadisticas, ListaEncuentros, Imagen (srcset), Escudo, Galeria, Incrustado, Tarjetas, PublicacionRed, Encabezado, Iconos (SVG)
 assets/                  tipografías TTF y logotipo PNG para las imágenes de compartir
 scripts/                 verificar-reglas, postgres-local, crear-administradores, migrar-legado (y lib/legado.ts), migrar-imagenes, auditar-ui
 tests/                   Vitest
@@ -91,7 +91,7 @@ legado/                  sitio anterior
 | D2 | Fechas de nacimiento solo en el panel | Resuelta |
 | D3 | Contacto real | La liga creará uno; se captura en el panel |
 | D4 | Reglas de la tabla configurables con casos especiales | Resuelta. Valores iniciales: los del sitio anterior (forfeit 7-0 sin contar carreras; desempate por AVE y diferencia de carreras). Falta confirmar si la jornada 2 fue de un solo juego |
-| D5 | Significado de las columnas de estadísticas | Pendiente |
+| D5 | Significado de las columnas de estadísticas | Resuelta con los PDF del anotador (ver docs/codigo.md, Estadísticas) |
 | D6 | Venados de Batayaqui; nombres con acentos | Resuelta. 20 nombres esperan confirmación de los delegados (sección "Para confirmar" del reporte) |
 | | Dominio ligabeisbolbacabachi.com | El DNS lo administra Manuel; se cambia en la fase 6 |
 | D7 | Dos administradores (Cope, LigaAdmin) con todo el panel | Resuelta |
@@ -99,6 +99,5 @@ legado/                  sitio anterior
 
 ## Pendientes que afectan el código
 
-- Estadísticas: las tablas de bateo y pitcheo, la página pública de líderes y la captura en el panel se hacen cuando se resuelva D5. Hoy ambas pantallas lo explican.
 - Toda acción del panel que cambie algo público debe llamar a `revalidatePath('/', 'layout')`: las páginas públicas están en caché una hora.
 - Vercel (proyecto `lbnbacabachizs` del equipo cope4): Neon y Blob conectados (crean `DATABASE_URL`, `DATABASE_URL_UNPOOLED` y `BLOB_STORE_ID`). Faltan `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` y `SITIO_URL`. La compilación de producción aplica las migraciones; la primera carga usa `CARGAR_SITIO_ANTERIOR` y `ADMINS_INICIALES`, que se quitan después (ver docs/codigo.md, sección Vercel). Después correr `db:migrar`, `admins:crear`, `migrar:legado` y `migrar:imagenes` contra Neon.

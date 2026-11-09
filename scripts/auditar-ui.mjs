@@ -60,6 +60,7 @@ const PAGINAS_PANEL = [
   '/panel/equipos',
   { desde: '/panel/equipos', enlace: '/panel/equipos/' },
   '/panel/estadisticas',
+  { desde: '/panel/estadisticas', enlace: '/panel/estadisticas/' },
   '/panel/noticias',
   '/panel/noticias/nueva',
   { desde: '/panel/noticias', enlace: '/panel/noticias/' },

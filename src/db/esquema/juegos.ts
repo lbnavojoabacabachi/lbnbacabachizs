@@ -39,6 +39,7 @@ export const reglasTemporada = pgTable('reglas_temporada', {
     .$type<string[]>()
     .notNull()
     .default(sql`'["ave","diferencia_carreras"]'::jsonb`),
+  minimoApariciones: smallint().notNull().default(70),
   actualizadoEn: actualizadoEn(),
 });
 
