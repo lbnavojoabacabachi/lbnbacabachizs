@@ -4,20 +4,20 @@ Sitio público de la liga (resultados, calendario, posiciones, estadísticas, eq
 
 - **Dueño:** Manuel Quintana.
 - **Plan completo:** https://claude.ai/artifact/5kkzb9NUcqkQpCxP7gTF68 (análisis, stack, estilo visual, fases y decisiones).
-- **Rama de trabajo:** `rediseno`. `main` sigue publicando el sitio anterior en GitHub Pages (ligabeisbolbacabachi.com) hasta el lanzamiento.
+- **Rama de trabajo:** `rediseno`; cada cambio se sube también a `main`, que Vercel publica en https://ligabeisbolbacabachi.com.
 - **`legado/`:** el sitio anterior completo. La migración de datos (fase 2) lee de ahí; se borra al lanzar.
 
 ## Estado al 8 de noviembre de 2026
 
 | Fase | Estado |
 | --- | --- |
-| 0. Decisiones y cuentas | Rama creada. Vercel y Neon todavía no (se crean al tener algo que ver en línea) |
+| 0. Decisiones y cuentas | Hecha: rama `rediseno`, proyecto en Vercel (equipo cope4) con Neon y Blob |
 | 1. Base | Hecha: Next.js 16, tokens y tipografías, esquema en Drizzle con migración inicial, Better Auth con usuario y contraseña, cambio obligatorio de la clave temporal, bitácora, límite de intentos y revisión de reglas en `prebuild` |
 | 2. Migración de datos | Hecha: `npm run migrar:legado` importa equipos, 219 jugadores, cuerpo técnico, 18 jornadas, 72 encuentros, noticia, evento, álbumes, patrocinadores y contacto. La tabla calculada coincide fila por fila con la del sitio anterior. Reporte en `reportes/migracion-legado.md`. Las estadísticas 2025-2026 se cargaron desde el panel con los PDF del anotador |
 | 3. Imágenes | Hecha: subida en `/api/imagenes` (el navegador reduce a 2400 px; el servidor crea tres tamaños WebP sin metadatos) y `npm run migrar:imagenes`, que bajó las imágenes del sitio anterior de 227 MB (144 archivos) a 23.7 MB (234 WebP de 78 imágenes) y las ligó a equipos, patrocinadores, noticia, evento y álbumes. En local se guardan en `.medios/`; en Vercel, en Blob |
 | 4. Sitio público | Hecha: portada, calendario, jornada con imagen para compartir, posiciones con racha, equipos, altas y bajas, estadísticas (líderes y tablas por equipo), noticias, galería con foto ampliada, en vivo, redes, documentos, contacto, 404, redirecciones del sitio anterior, mapa del sitio y metadatos. Páginas en caché una hora. `npm run auditar:ui`: 0 problemas de axe-core en 18 páginas, 4 anchos, claro y oscuro; portada de 324 KB en celular |
 | 5. Panel | Hecha: inicio con pendientes, resultados, calendario y temporadas, reglas y ajustes, equipos y plantillas, estadísticas (se pegan desde Excel), noticias, eventos, galería, en vivo, redes, patrocinadores, documentos, contacto, usuarios y bitácora. Prueba de punta a punta de 19 pasos y `npm run auditar:ui` con el panel: 0 problemas en 370 revisiones |
-| 6. Lanzamiento | Pendiente |
+| 6. Lanzamiento | En línea desde el 8 nov 2026 en ligabeisbolbacabachi.com (www y lbnbacabachizs.vercel.app redirigen ahí). Falta borrar `legado/` y los scripts de migración |
 
 ## Reglas que no se negocian
 
@@ -93,11 +93,11 @@ legado/                  sitio anterior
 | D4 | Reglas de la tabla configurables con casos especiales | Resuelta. Valores iniciales: los del sitio anterior (forfeit 7-0 sin contar carreras; desempate por AVE y diferencia de carreras). Falta confirmar si la jornada 2 fue de un solo juego |
 | D5 | Significado de las columnas de estadísticas | Resuelta con los PDF del anotador (ver docs/codigo.md, Estadísticas) |
 | D6 | Venados de Batayaqui; nombres con acentos | Resuelta. 20 nombres esperan confirmación de los delegados (sección "Para confirmar" del reporte) |
-| | Dominio ligabeisbolbacabachi.com | El DNS lo administra Manuel; se cambia en la fase 6 |
+| | Dominio ligabeisbolbacabachi.com | Resuelta: apunta a Vercel desde el 8 nov 2026, sin www como dirección principal. El DNS lo administra Manuel |
 | D7 | Dos administradores (Cope, LigaAdmin) con todo el panel | Resuelta |
 | D8 | Mismo repositorio, rama `rediseno` | Resuelta |
 
 ## Pendientes que afectan el código
 
 - Toda acción del panel que cambie algo público debe llamar a `revalidatePath('/', 'layout')`: las páginas públicas están en caché una hora.
-- Vercel (proyecto `lbnbacabachizs` del equipo cope4): Neon y Blob conectados (crean `DATABASE_URL`, `DATABASE_URL_UNPOOLED` y `BLOB_STORE_ID`). Faltan `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` y `SITIO_URL`. La compilación de producción aplica las migraciones; la primera carga usa `CARGAR_SITIO_ANTERIOR` y `ADMINS_INICIALES`, que se quitan después (ver docs/codigo.md, sección Vercel). Después correr `db:migrar`, `admins:crear`, `migrar:legado` y `migrar:imagenes` contra Neon.
+- Vercel (proyecto `lbnbacabachizs` del equipo cope4): Neon y Blob conectados; `BETTER_AUTH_URL` y `SITIO_URL` valen `https://ligabeisbolbacabachi.com`. La compilación de producción aplica las migraciones (ver docs/codigo.md, sección Vercel). Falta `FACEBOOK_TOKEN_PAGINA`.

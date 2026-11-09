@@ -1,6 +1,6 @@
 # Liga de Beisbol Navojoa Ejidal, Zona Sur Bacabachi
 
-Sitio de la liga y panel para actualizarlo. El sitio anterior está en `legado/` y sigue publicado desde la rama `main` hasta el lanzamiento.
+Sitio de la liga y panel para actualizarlo. Está en línea en https://ligabeisbolbacabachi.com (Vercel, rama `main`). El sitio anterior queda en `legado/` hasta que se borre.
 
 ## Requisitos
 
