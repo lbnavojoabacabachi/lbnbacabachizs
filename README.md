@@ -54,6 +54,14 @@ npm run db:iniciar   # si el PostgreSQL portátil no está corriendo
 npm run dev          # http://localhost:3000, panel en http://localhost:3000/panel
 ```
 
+## Numeritos de cada juego
+
+En el panel, Estadísticas lista los juegos que ya tienen marcador y marca como pendientes las hojas sin capturar: una por equipo en cada juego. Al guardar una hoja, el sitio actualiza solo los acumulados, los porcentajes y los líderes.
+
+- Quien compila entra con una cuenta de rol «Compilador», que un administrador crea en Usuarios; esa cuenta solo ve Estadísticas. Los administradores también pueden capturar.
+- Cada equipo necesita su plantilla de la temporada en Equipos para que aparezcan sus jugadores en la hoja.
+- Si de un juego no existe hoja de anotación, se marca con «No hay hoja de este juego» y deja de salir como pendiente.
+
 ## Comandos
 
 | Comando | Qué hace |

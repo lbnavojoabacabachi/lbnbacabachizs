@@ -60,7 +60,9 @@ const PAGINAS_PANEL = [
   '/panel/equipos',
   { desde: '/panel/equipos', enlace: '/panel/equipos/' },
   '/panel/estadisticas',
-  { desde: '/panel/estadisticas', enlace: '/panel/estadisticas/' },
+  { desde: '/panel/estadisticas', enlace: '/panel/estadisticas/juegos/' },
+  { desde: '/panel/estadisticas', enlace: '/panel/estadisticas?temporada=', selector: 'main a:not([aria-current])' },
+  { desde: '/panel/estadisticas', enlace: '/panel/estadisticas?temporada=', selector: 'main a:not([aria-current])', luego: '/panel/estadisticas/', sin: '/juegos/' },
   '/panel/noticias',
   '/panel/noticias/nueva',
   { desde: '/panel/noticias', enlace: '/panel/noticias/' },
@@ -290,7 +292,7 @@ async function pesoDePagina() {
   return { bytes: tamanos.reduce((a, b) => a + b, 0), peticiones: urls.length, externas };
 }
 
-const nombreDe = (ruta) => (ruta === '/' ? 'portada' : ruta.slice(1).replaceAll('/', '-'));
+const nombreDe = (ruta) => (ruta === '/' ? 'portada' : ruta.slice(1).replace(/[/?=&]/g, '-'));
 const resultados = [];
 const pesos = [];
 
@@ -330,11 +332,17 @@ if (CREDENCIALES) {
       paginasPanel.push(pagina);
       continue;
     }
+    const buscar = (prefijo, selector = 'main a', sin = '') =>
+      evaluar(
+        `[...document.querySelectorAll(${JSON.stringify(selector)})].map((a) => a.getAttribute('href')).find((h) => h && h.startsWith(${JSON.stringify(prefijo)}) && !h.endsWith('/nueva') && !h.endsWith('/nuevo') && !h.endsWith('/temporadas') && !(${JSON.stringify(sin)} && h.includes(${JSON.stringify(sin)})))`,
+      );
     await navegar(pagina.desde);
-    const enlace = await evaluar(
-      `[...document.querySelectorAll('main a')].map((a) => a.getAttribute('href')).find((h) => h && h.startsWith(${JSON.stringify(pagina.enlace)}) && !h.endsWith('/nueva') && !h.endsWith('/nuevo') && !h.endsWith('/temporadas'))`,
-    );
-    if (enlace) paginasPanel.push(enlace);
+    let enlace = await buscar(pagina.enlace, pagina.selector);
+    if (enlace && pagina.luego) {
+      await navegar(enlace);
+      enlace = await buscar(pagina.luego, 'main a', pagina.sin);
+    }
+    if (enlace && !paginasPanel.includes(enlace)) paginasPanel.push(enlace);
   }
   const jugador = paginasPanel.find((p) => /^\/panel\/equipos\/\d+$/.test(p));
   if (jugador) {
@@ -347,7 +355,8 @@ if (CREDENCIALES) {
       for (const tema of TEMAS) {
         await configurar(ancho, tema);
         await navegar(ruta);
-        if (new URL(await evaluar('location.href')).pathname !== ruta) {
+        const actual = new URL(await evaluar('location.href'));
+        if (`${actual.pathname}${actual.search}` !== ruta) {
           resultados.push({ nombre: ruta, ruta, ancho, tema, violaciones: [], desborde: 0, errores: ['La página mandó a otra dirección'] });
           continue;
         }

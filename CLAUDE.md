@@ -7,7 +7,7 @@ Sitio público de la liga (resultados, calendario, posiciones, estadísticas, eq
 - **Rama de trabajo:** `rediseno`; cada cambio se sube también a `main`, que Vercel publica en https://ligabeisbolbacabachi.com.
 - **`legado/`:** el sitio anterior completo. La migración de datos (fase 2) lee de ahí; se borra al lanzar.
 
-## Estado al 8 de noviembre de 2026
+## Estado al 18 de noviembre de 2026
 
 | Fase | Estado |
 | --- | --- |
@@ -18,6 +18,7 @@ Sitio público de la liga (resultados, calendario, posiciones, estadísticas, eq
 | 4. Sitio público | Hecha: portada, calendario, jornada con imagen para compartir, posiciones con racha, equipos, altas y bajas, estadísticas (líderes y tablas por equipo), noticias, galería con foto ampliada, en vivo, redes, documentos, contacto, 404, redirecciones del sitio anterior, mapa del sitio y metadatos. Páginas en caché una hora. `npm run auditar:ui`: 0 problemas de axe-core en 18 páginas, 4 anchos, claro y oscuro; portada de 324 KB en celular |
 | 5. Panel | Hecha: inicio con pendientes, resultados, calendario y temporadas, reglas y ajustes, equipos y plantillas, estadísticas (se pegan desde Excel), noticias, eventos, galería, en vivo, redes, patrocinadores, documentos, contacto, usuarios y bitácora. Prueba de punta a punta de 19 pasos y `npm run auditar:ui` con el panel: 0 problemas en 370 revisiones |
 | 6. Lanzamiento | En línea desde el 8 nov 2026 en ligabeisbolbacabachi.com (www y lbnbacabachizs.vercel.app redirigen ahí). Falta borrar `legado/` y los scripts de migración |
+| 7. Numeritos por juego | Hecha el 18 nov 2026: en Estadísticas se captura una hoja por equipo en cada juego jugado (bateo con las 11 columnas del anotador y quién lanzó con su decisión) y el sitio calcula acumulados, porcentajes y líderes. Los juegos con marcador y sin hoja salen como pendientes en el Inicio y en Estadísticas. Rol de compilador que solo entra a Estadísticas. 2025-2026 conserva los totales pegados del PDF |
 
 ## Reglas que no se negocian
 
@@ -25,7 +26,7 @@ Sitio público de la liga (resultados, calendario, posiciones, estadísticas, eq
 2. **Cero emojis** en el código, la interfaz y los datos. En pruebas que los necesiten se escriben como secuencias de escape (`'\u{1F44B}'`). Los íconos son SVG.
 3. **Todo en español:** interfaz, mensajes, documentación, commits y nombres del dominio en el código (`temporadas`, `exigirAdministrador`). Excepción: las tablas de Better Auth (`user`, `session`, `account`, `verification`, `rate_limit`) conservan sus nombres.
 4. **Fechas de nacimiento solo en el panel.** Viven en `datos_privados_jugador`; ninguna página pública ni consulta pública las lee.
-5. **Acceso al panel solo con usuario y contraseña**, sin registro público. Hoy hay dos administradores con todo el panel: Cope y LigaAdmin. Toda página y acción del panel llama a `exigirAdministrador()`.
+5. **Acceso al panel solo con usuario y contraseña**, sin registro público. Dos roles: el administrador usa todo el panel (hoy Cope y LigaAdmin) y el compilador solo Estadísticas. Toda página y acción del panel llama a `exigirAdministrador()`; las de Estadísticas llaman a `exigirCompilador()`, que deja pasar a los dos, y sus acciones pasan `'compilador'` a `accionConFormulario` o `accionDirecta`.
 6. **Nada se publica sin pasar por el panel**, y cada cambio queda en la bitácora.
 7. **Imágenes:** toda imagen entra por `registrarImagen()` (tres tamaños WebP, sin metadatos) y se guarda con `guardarArchivo()`. Nunca se guarda ni se publica un original. La carpeta local es siempre `.medios/` dentro del proyecto: una ruta calculada con variables de entorno hace que Next empaquete todo el proyecto en las funciones.
 8. **Identidad "pizarra y cal":** colores como tokens en `src/app/globals.css` y ningún color literal fuera de `:root` (única excepción: la copia de los tokens en `src/lib/compartir/recursos.ts`, porque el generador de imágenes no lee CSS). Tipografías Big Shoulders (títulos y marcadores), Sofia Sans (texto) y Sofia Sans Semi Condensed (tablas).
@@ -63,7 +64,11 @@ src/app/opengraph-image  imagen para compartir del sitio; la de cada jornada viv
 src/app/panel/           entrar, contrasena y (protegido)/ con el panel: una carpeta por sección con page.tsx y acciones.ts
 src/app/panel/componentes/  Formulario (useActionState sin reinicio), Entradas, CampoImagen (sube al elegir), BotonAccion (con confirmación)
 src/lib/panel/           acciones (exigir, validar, bitácora, publicar), campos (Zod), resultados (captura), catalogos, estado
-src/lib/usuarios.ts      crear administradores, restablecer clave, activar; lo usan el panel y admins:crear
+src/lib/usuarios.ts      crear cuentas con su rol, restablecer clave, activar; lo usan el panel y admins:crear
+src/lib/roles.ts         administrador y compilador
+src/lib/hojas.ts         hoja de un juego: columnas, reglas de la línea de bateo, pitcheo contra el marcador, pegar desde Excel, avance
+src/app/panel/(protegido)/estadisticas/  lista de hojas por jornada, juegos/[juego]/[equipo] (captura) y [temporada]/[equipo] (totales pegados)
+src/app/api/estadisticas/  descarga de los acumulados en CSV (administradores y compiladores)
 src/app/api/documentos/  subida de PDF (solo administradores)
 src/app/api/auth/        manejador de Better Auth
 src/app/api/imagenes/    subida de imágenes (solo administradores)
@@ -72,7 +77,7 @@ src/lib/imagenes/        procesar (sharp), almacen (local o Blob), registrar, su
 src/db/esquema/          tablas por tema: autenticacion, liga, juegos, contenido, estadisticas, imagenes, bitacora
 src/db/conexion.ts       pool de pg y drizzle
 src/lib/                 auth, auth-cliente, sesion (exigirSesion, exigirAdministrador), bitacora, nombres, posiciones, estadisticas (pegar desde Excel, porcentajes, líderes)
-src/lib/consultas/       lecturas de la base para el sitio: liga (temporada, calendario, equipos, plantillas), contenido, posiciones, estadisticas
+src/lib/consultas/       lecturas de la base para el sitio: liga (temporada, calendario, equipos, plantillas), contenido, posiciones, estadisticas, hojas (juegos con su hoja, totales por juego)
 src/lib/                 además: fechas (hora de Sonora), jornadas (resultado, resumen, rachas), incrustar (YouTube, Facebook, Instagram, TikTok), sitio (SITIO_URL), compartir/ (imagen 1200 × 630)
 src/componentes/         Marcador, TablaPosiciones, TablasEstadisticas, ListaEncuentros, Imagen (srcset), Escudo, Galeria, Incrustado, Tarjetas, PublicacionRed, Encabezado, Iconos (SVG)
 assets/                  tipografías TTF y logotipo PNG para las imágenes de compartir
@@ -96,8 +101,10 @@ legado/                  sitio anterior
 | | Dominio ligabeisbolbacabachi.com | Resuelta: apunta a Vercel desde el 8 nov 2026, sin www como dirección principal. El DNS lo administra Manuel |
 | D7 | Dos administradores (Cope, LigaAdmin) con todo el panel | Resuelta |
 | D8 | Mismo repositorio, rama `rediseno` | Resuelta |
+| D9 | Numeritos: capturarlos en el sitio y no en un Excel aparte | Resuelta el 18 nov 2026. Por lo pronto, las mismas columnas del PDF del anotador. Los compila un usuario con rol de compilador y también los administradores |
 
 ## Pendientes que afectan el código
 
 - Toda acción del panel que cambie algo público debe llamar a `revalidatePath('/', 'layout')`: las páginas públicas están en caché una hora.
+- Para capturar la hoja de un juego, el equipo necesita plantilla en esa temporada (Equipos, "copiar de la temporada anterior"). El compilador no puede dar de alta jugadores.
 - Vercel (proyecto `lbnbacabachizs` del equipo cope4): Neon y Blob conectados; `BETTER_AUTH_URL` y `SITIO_URL` valen `https://ligabeisbolbacabachi.com`. La compilación de producción aplica las migraciones (ver docs/codigo.md, sección Vercel). Falta `FACEBOOK_TOKEN_PAGINA`.

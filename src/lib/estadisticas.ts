@@ -22,8 +22,30 @@ export const ENCABEZADOS_PITCHEO = ['JJ', 'G', 'P', 'SV'] as const;
 
 export type ConteosBateo = Record<(typeof COLUMNAS_BATEO)[number], number>;
 export type ConteosPitcheo = Record<(typeof COLUMNAS_PITCHEO)[number], number>;
-export type FilaBateo = ConteosBateo & { nombre: string; acumulado: boolean };
-export type FilaPitcheo = ConteosPitcheo & { nombre: string };
+export type FilaBateo = ConteosBateo & { nombre: string; acumulado: boolean; jugadorId?: number };
+export type FilaPitcheo = ConteosPitcheo & { nombre: string; jugadorId?: number; ultimaJornada?: number };
+
+export const NOMBRES_BATEO: Record<keyof ConteosBateo, string> = {
+  juegos: 'Juegos jugados',
+  apariciones: 'Apariciones al bat',
+  vecesAlBat: 'Veces al bat',
+  hits: 'Hits conectados',
+  sencillos: 'Sencillos',
+  dobles: 'Dobles',
+  triples: 'Triples',
+  jonrones: 'Jonrones',
+  ponches: 'Ponches',
+  basesPorBolas: 'Bases por bolas',
+  intencionales: 'Bases por bolas intencionales',
+  golpeados: 'Golpeados por lanzamiento',
+};
+
+export const NOMBRES_PITCHEO: Record<keyof ConteosPitcheo, string> = {
+  juegos: 'Juegos lanzados',
+  ganados: 'Juegos ganados',
+  perdidos: 'Juegos perdidos',
+  salvados: 'Juegos salvados',
+};
 export type Interpretacion<T> = { filas: T[]; errores: string[] };
 
 const MAXIMO_POR_CELDA = 999;
@@ -167,15 +189,67 @@ export function sumarBateo(filas: FilaBateo[]): ConteosBateo {
   return suma;
 }
 
+const claveDeJugador = (f: { nombre: string; jugadorId?: number }) => (f.jugadorId === undefined ? crearSlug(f.nombre) : `#${f.jugadorId}`);
+
 export function candidatosDeBateo<T extends FilaBateo>(filas: T[]): T[] {
   const acumulados = new Map<string, T>();
   for (const f of filas) {
     if (!f.acumulado) continue;
-    const clave = crearSlug(f.nombre);
+    const clave = claveDeJugador(f);
     const previo = acumulados.get(clave);
     if (!previo || f.juegos > previo.juegos) acumulados.set(clave, f);
   }
-  return [...acumulados.values(), ...filas.filter((f) => !f.acumulado && !acumulados.has(crearSlug(f.nombre)))];
+  return [...acumulados.values(), ...filas.filter((f) => !f.acumulado && !acumulados.has(claveDeJugador(f)))];
+}
+
+export function candidatosDePitcheo<T extends FilaPitcheo>(filas: T[]): T[] {
+  const porJugador = new Map<number, T>();
+  const sueltas: T[] = [];
+  for (const f of filas) {
+    if (f.jugadorId === undefined) {
+      sueltas.push(f);
+      continue;
+    }
+    const previo = porJugador.get(f.jugadorId);
+    if (!previo) {
+      porJugador.set(f.jugadorId, f);
+      continue;
+    }
+    const reciente = (f.ultimaJornada ?? 0) >= (previo.ultimaJornada ?? 0) ? f : previo;
+    porJugador.set(f.jugadorId, {
+      ...reciente,
+      ...(Object.fromEntries(COLUMNAS_PITCHEO.map((c) => [c, previo[c] + f[c]])) as ConteosPitcheo),
+    });
+  }
+  return [...porJugador.values(), ...sueltas];
+}
+
+export type TotalBateo = ConteosBateo & { equipoId: number; jugadorId: number; nombre: string; ultimaJornada: number };
+
+const porNombre = (a: { nombre: string }, b: { nombre: string }) => a.nombre.localeCompare(b.nombre, 'es');
+
+export function filasDeBateoPorJuego(totales: TotalBateo[]) {
+  const filas = totales.map((t) => ({
+    ...(Object.fromEntries(COLUMNAS_BATEO.map((c) => [c, t[c]])) as ConteosBateo),
+    equipoId: t.equipoId,
+    jugadorId: t.jugadorId,
+    nombre: t.nombre,
+    acumulado: false,
+  }));
+  const porJugador = new Map<number, TotalBateo[]>();
+  for (const t of totales) porJugador.set(t.jugadorId, [...(porJugador.get(t.jugadorId) ?? []), t]);
+  for (const propios of porJugador.values()) {
+    if (propios.length < 2) continue;
+    const reciente = propios.reduce((a, b) => (b.ultimaJornada > a.ultimaJornada || (b.ultimaJornada === a.ultimaJornada && b.juegos > a.juegos) ? b : a));
+    const suma = Object.fromEntries(COLUMNAS_BATEO.map((c) => [c, propios.reduce((total, t) => total + t[c], 0)])) as ConteosBateo;
+    filas.push({ ...suma, equipoId: reciente.equipoId, jugadorId: reciente.jugadorId, nombre: reciente.nombre, acumulado: true });
+  }
+  return filas.sort((a, b) => a.equipoId - b.equipoId || porNombre(a, b) || Number(a.acumulado) - Number(b.acumulado));
+}
+
+export function minimoProrrateado(minimoAlCierre: number, hojasCapturadas: number, hojasEsperadas: number) {
+  if (hojasEsperadas <= 0 || hojasCapturadas >= hojasEsperadas) return minimoAlCierre;
+  return Math.min(minimoAlCierre, Math.max(1, Math.ceil((minimoAlCierre * hojasCapturadas) / hojasEsperadas)));
 }
 
 function primerosConEmpates<T>(lista: T[], valor: (x: T) => number, cuantos: number) {
@@ -204,9 +278,46 @@ export function calcularLideres<B extends FilaBateo, P extends FilaPitcheo>(bate
       6,
     ),
     ganados: primerosConEmpates(
-      pitcheo.filter((p) => p.ganados > 0).sort((a, b) => b.ganados - a.ganados || a.perdidos - b.perdidos),
+      candidatosDePitcheo(pitcheo)
+        .filter((p) => p.ganados > 0)
+        .sort((a, b) => b.ganados - a.ganados || a.perdidos - b.perdidos),
       (p) => p.ganados,
       6,
     ),
   };
+}
+
+type Celda = string | number;
+
+function celdaCsv(valor: Celda) {
+  const texto = String(valor);
+  const seguro = /^[=+\-@\t\r]/.test(texto) && typeof valor === 'string' ? `'${texto}` : texto;
+  return /[",\n\r]/.test(seguro) ? `"${seguro.replace(/"/g, '""')}"` : seguro;
+}
+
+export function archivoCsv(filas: Celda[][]) {
+  return `\uFEFF${filas.map((fila) => fila.map(celdaCsv).join(',')).join('\r\n')}\r\n`;
+}
+
+const porcentajeCsv = (valor: number | null) => (valor === null ? '' : valor.toFixed(3));
+
+export function filasCsvDeBateo(filas: (FilaBateo & { equipoId: number })[], equipos: Map<number, string>): Celda[][] {
+  return [
+    ['Equipo', 'Jugador', ...ENCABEZADOS_BATEO, 'AVG', 'OBP', 'SLG'],
+    ...filas.map((f) => {
+      const p = porcentajesDeBateo(f);
+      return [
+        equipos.get(f.equipoId) ?? '',
+        `${f.nombre}${f.acumulado ? ' (TOTAL)' : ''}`,
+        ...COLUMNAS_BATEO.map((c) => f[c]),
+        porcentajeCsv(p.promedio),
+        porcentajeCsv(p.embasado),
+        porcentajeCsv(p.slugging),
+      ];
+    }),
+  ];
+}
+
+export function filasCsvDePitcheo(filas: (FilaPitcheo & { equipoId: number })[], equipos: Map<number, string>): Celda[][] {
+  return [['Equipo', 'Pitcher', ...ENCABEZADOS_PITCHEO], ...filas.map((f) => [equipos.get(f.equipoId) ?? '', f.nombre, ...COLUMNAS_PITCHEO.map((c) => f[c])])];
 }

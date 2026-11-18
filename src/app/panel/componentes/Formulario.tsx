@@ -31,11 +31,12 @@ type Propiedades = {
   children: ReactNode;
   reiniciar?: boolean;
   columnas?: boolean;
+  amplio?: boolean;
   alGuardar?: (estado: EstadoFormulario) => void;
   extraAcciones?: ReactNode;
 };
 
-export function Formulario({ accion, boton, children, reiniciar = false, columnas = false, alGuardar, extraAcciones }: Propiedades) {
+export function Formulario({ accion, boton, children, reiniciar = false, columnas = false, amplio = false, alGuardar, extraAcciones }: Propiedades) {
   const [estado, despachar, enviando] = useActionState(accion, ESTADO_INICIAL);
   const prefijo = useId().replace(/:/g, '');
   const formulario = useRef<HTMLFormElement>(null);
@@ -57,7 +58,7 @@ export function Formulario({ accion, boton, children, reiniciar = false, columna
     <ContextoFormulario.Provider value={{ prefijo, estado }}>
       <form
         ref={formulario}
-        className={`${estilos.formulario} ${columnas ? estilos.columnas : ''}`}
+        className={`${estilos.formulario} ${columnas ? estilos.columnas : ''} ${amplio ? estilos.amplio : ''}`}
         onSubmit={(evento) => {
           evento.preventDefault();
           const datos = new FormData(evento.currentTarget);

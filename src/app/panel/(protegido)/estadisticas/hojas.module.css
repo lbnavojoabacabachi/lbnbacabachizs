@@ -1,0 +1,298 @@
+.jornadas {
+  display: grid;
+  border-bottom: 2px solid var(--tinta);
+}
+
+.jornada {
+  border-top: 2px solid var(--tinta);
+  scroll-margin-top: 12px;
+}
+
+.jornada summary {
+  display: list-item;
+  padding-block: 12px;
+  font-family: var(--datos);
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+.avance {
+  margin-left: 8px;
+  font-weight: 400;
+  font-size: 0.92rem;
+  color: var(--suave);
+}
+
+.juegos {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.juego {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  padding-block: 10px;
+  border-top: 1px solid var(--linea);
+}
+
+.marcador {
+  display: grid;
+  gap: 2px;
+  flex: 1 1 220px;
+  min-width: 0;
+  font-family: var(--datos);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.marcador small {
+  font-weight: 400;
+  font-size: 0.88rem;
+  color: var(--suave);
+}
+
+.hojas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.hoja {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 6px 12px;
+  border: 1.5px solid var(--borde-control);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  font: 600 0.95rem var(--datos);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.hoja:hover {
+  color: var(--tinta);
+  border-color: var(--tinta);
+}
+
+.hojaPendiente {
+  border-color: var(--rojo);
+  border-width: 2px;
+}
+
+.descargas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.captura {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+  container-type: inline-size;
+}
+
+.pegar summary {
+  display: list-item;
+  padding-block: 10px;
+  font-family: var(--datos);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pegar[open] {
+  display: grid;
+  gap: 10px;
+  max-width: 760px;
+}
+
+.pegado {
+  display: grid;
+  gap: 4px;
+  font-family: var(--datos);
+}
+
+.pegado ul {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--rojo);
+  font-weight: 600;
+}
+
+.tabla {
+  display: grid;
+  min-width: 0;
+  border-top: 2px solid var(--tinta);
+}
+
+.encabezado {
+  display: none;
+}
+
+.jugador {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+  gap: 8px 6px;
+  align-items: end;
+  min-width: 0;
+  padding-block: 14px;
+  border-bottom: 1px solid var(--linea);
+}
+
+.nombre {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  min-width: 0;
+  font-family: var(--datos);
+  font-weight: 700;
+  font-size: 1.05rem;
+  overflow-wrap: anywhere;
+}
+
+.nombre small {
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: var(--suave);
+}
+
+.celda {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sigla {
+  font-family: var(--datos);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: var(--suave);
+}
+
+.numero {
+  width: 100%;
+  min-height: 44px;
+  padding: 0;
+  border: 1.5px solid var(--borde-control);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  color: var(--tinta);
+  font: 600 1.1rem var(--datos);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.numero:focus-visible,
+.lanzador:focus-visible {
+  outline: 3px solid var(--rojo);
+  outline-offset: 1px;
+  border-color: var(--tinta);
+}
+
+.numero[aria-invalid='true'],
+.lanzador[aria-invalid='true'] {
+  border: 2px solid var(--rojo);
+  background: var(--resalte);
+}
+
+.pitcheo {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 2px;
+  max-width: 220px;
+}
+
+.pitcheo .sigla {
+  text-align: left;
+}
+
+.lanzador {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 1.5px solid var(--borde-control);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  color: var(--tinta);
+  font: 600 0.98rem var(--datos);
+}
+
+.errores {
+  grid-column: 1 / -1;
+  font-family: var(--datos);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--rojo);
+}
+
+.otras {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 10px 16px;
+}
+
+@container (min-width: 880px) {
+  .encabezado,
+  .jugador {
+    grid-template-columns: minmax(150px, 1fr) repeat(11, 46px) 124px;
+    gap: 4px 6px;
+    align-items: center;
+  }
+
+  .encabezado {
+    display: grid;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding-block: 8px;
+    border-bottom: 1px solid var(--tinta);
+    background: var(--fondo);
+    font-family: var(--datos);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-align: center;
+    color: var(--suave);
+  }
+
+  .encabezado span:first-child {
+    text-align: left;
+  }
+
+  .jugador {
+    padding-block: 6px;
+  }
+
+  .nombre {
+    grid-column: 1;
+    font-size: 1rem;
+  }
+
+  .sigla {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .pitcheo {
+    grid-column: auto;
+    max-width: none;
+  }
+}

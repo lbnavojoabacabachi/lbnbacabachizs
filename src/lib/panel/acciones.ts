@@ -2,7 +2,8 @@ import { revalidatePath } from 'next/cache';
 import { unstable_rethrow } from 'next/navigation';
 import { z } from 'zod';
 import { registrarEnBitacora } from '@/lib/bitacora';
-import { exigirAdministrador } from '@/lib/sesion';
+import type { Rol } from '@/lib/roles';
+import { exigirAdministrador, exigirCompilador } from '@/lib/sesion';
 import { leerFormulario } from './campos';
 import type { EstadoFormulario } from './estado';
 
@@ -54,8 +55,9 @@ async function correr<T>(
   obtenerDatos: () => T,
   trabajo: (datos: T, contexto: Contexto) => Promise<Resultado>,
   previo: number,
+  permiso: Rol,
 ): Promise<EstadoFormulario> {
-  const sesion = await exigirAdministrador();
+  const sesion = permiso === 'compilador' ? await exigirCompilador() : await exigirAdministrador();
   const contexto = { usuarioId: sesion.user.id, usuario: sesion.user.displayUsername ?? sesion.user.name };
   const vez = previo + 1;
   try {
@@ -80,19 +82,22 @@ async function correr<T>(
 export function accionConFormulario<T>(
   esquema: z.ZodType<T>,
   trabajo: (datos: T, contexto: Contexto, formulario: FormData) => Promise<Resultado>,
+  permiso: Rol = 'administrador',
 ) {
   return async (previo: EstadoFormulario, formulario: FormData) =>
     correr(
       () => esquema.parse(leerFormulario(formulario)),
       (datos, contexto) => trabajo(datos, contexto, formulario),
       previo.vez,
+      permiso,
     );
 }
 
-export async function accionDirecta(trabajo: (contexto: Contexto) => Promise<Resultado>) {
+export async function accionDirecta(trabajo: (contexto: Contexto) => Promise<Resultado>, permiso: Rol = 'administrador') {
   return correr(
     () => null,
     (_datos, contexto) => trabajo(contexto),
     0,
+    permiso,
   );
 }

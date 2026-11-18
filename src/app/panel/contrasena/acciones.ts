@@ -9,6 +9,7 @@ import { db } from '@/db/conexion';
 import { user } from '@/db/esquema';
 import { auth } from '@/lib/auth';
 import { registrarEnBitacora } from '@/lib/bitacora';
+import { INICIO_DEL_COMPILADOR, rolDe } from '@/lib/roles';
 
 const esquema = z
   .object({
@@ -54,5 +55,5 @@ export async function cambiarContrasena(_previo: EstadoContrasena, formulario: F
     entidadId: sesion.user.id,
     resumen: 'Cambió su contraseña',
   });
-  redirect('/panel?contrasena=cambiada');
+  redirect(`${rolDe(sesion.user.rol) === 'compilador' ? INICIO_DEL_COMPILADOR : '/panel'}?contrasena=cambiada`);
 }

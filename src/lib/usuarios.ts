@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm';
 import { db } from '@/db/conexion';
 import { account, session, user } from '@/db/esquema';
 import { auth } from '@/lib/auth';
+import type { Rol } from '@/lib/roles';
 
 const ALFABETO = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
 
@@ -17,7 +18,7 @@ export async function buscarUsuario(nombre: string) {
   return existente ?? null;
 }
 
-export async function crearAdministrador(nombre: string, clave = claveTemporal()) {
+export async function crearCuenta(nombre: string, rol: Rol, clave = claveTemporal()) {
   const usuario = nombre.toLowerCase();
   const contexto = await auth.$context;
   const hash = await contexto.password.hash(clave);
@@ -28,7 +29,7 @@ export async function crearAdministrador(nombre: string, clave = claveTemporal()
       emailVerified: true,
       username: usuario,
       displayUsername: nombre,
-      rol: 'administrador',
+      rol,
       debeCambiarContrasena: true,
       activo: true,
     },
@@ -36,6 +37,10 @@ export async function crearAdministrador(nombre: string, clave = claveTemporal()
   );
   await contexto.internalAdapter.linkAccount({ userId: creado.id, providerId: 'credential', accountId: creado.id, password: hash });
   return { id: creado.id, clave };
+}
+
+export function crearAdministrador(nombre: string, clave = claveTemporal()) {
+  return crearCuenta(nombre, 'administrador', clave);
 }
 
 export async function restablecerClave(usuarioId: string) {

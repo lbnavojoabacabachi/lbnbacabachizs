@@ -4,6 +4,10 @@
   max-width: 760px;
 }
 
+.amplio {
+  max-width: none;
+}
+
 .columnas {
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 16px;

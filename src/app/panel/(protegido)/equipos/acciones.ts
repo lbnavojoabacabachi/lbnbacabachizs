@@ -4,6 +4,7 @@ import { and, desc, eq, isNull, ne } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '@/db/conexion';
 import { cuerpoTecnico, datosPrivadosJugador, equipos, jugadores, plantillas, temporadaEquipos, temporadas } from '@/db/esquema';
+import { hojasConJugador } from '@/lib/consultas/hojas';
 import { hoyEnSonora } from '@/lib/fechas';
 import { borrarImagenesSinUso } from '@/lib/imagenes/limpiar';
 import { crearSlug, normalizarNombre } from '@/lib/nombres';
@@ -193,11 +194,23 @@ export async function quitarDePlantilla(plantillaId: number) {
   return accionDirecta(async (contexto) => {
     const valor = id.parse(plantillaId);
     const [registro] = await db
-      .select({ id: plantillas.id, nombre: jugadores.nombre, jugadorId: plantillas.jugadorId })
+      .select({
+        id: plantillas.id,
+        nombre: jugadores.nombre,
+        jugadorId: plantillas.jugadorId,
+        temporadaId: plantillas.temporadaId,
+        equipoId: plantillas.equipoId,
+      })
       .from(plantillas)
       .innerJoin(jugadores, eq(plantillas.jugadorId, jugadores.id))
       .where(eq(plantillas.id, valor));
     if (!registro) throw new ErrorPanel('El jugador ya no está en la plantilla.');
+    const hojas = await hojasConJugador(registro.temporadaId, registro.equipoId, registro.jugadorId);
+    if (hojas > 0) {
+      throw new ErrorPanel(
+        `${registro.nombre} tiene numeritos capturados en ${hojas === 1 ? '1 juego' : `${hojas} juegos`} con este equipo. Dalo de baja en lugar de quitarlo, o borra primero sus números en Estadísticas.`,
+      );
+    }
     await db.transaction(async (tx) => {
       await tx.delete(plantillas).where(eq(plantillas.id, valor));
       const otras = await tx.$count(plantillas, eq(plantillas.jugadorId, registro.jugadorId));

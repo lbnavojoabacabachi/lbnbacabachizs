@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { Logotipo } from '@/componentes/Logotipo';
-import { exigirAdministrador } from '@/lib/sesion';
+import { INICIO_DEL_COMPILADOR, rolDe } from '@/lib/roles';
+import { exigirCompilador } from '@/lib/sesion';
 import { BotonSalir } from '../BotonSalir';
 import marco from '../componentes/panel-marco.module.css';
 import estilos from '../panel.module.css';
@@ -14,7 +15,8 @@ export const metadata: Metadata = {
 };
 
 export default async function PanelLayout({ children }: { children: ReactNode }) {
-  const sesion = await exigirAdministrador();
+  const sesion = await exigirCompilador();
+  const rol = rolDe(sesion.user.rol) ?? 'compilador';
 
   return (
     <>
@@ -23,7 +25,7 @@ export default async function PanelLayout({ children }: { children: ReactNode })
       </a>
       <header className={estilos.barra}>
         <div className={`envoltura ${estilos.barraInterior} ${marco.ancho}`}>
-          <Link prefetch={false} href="/panel" className={estilos.marcaPanel}>
+          <Link prefetch={false} href={rol === 'administrador' ? '/panel' : INICIO_DEL_COMPILADOR} className={estilos.marcaPanel}>
             <Logotipo tamano={40} className={estilos.escudoChico} decorativo />
             <span>Panel</span>
           </Link>
@@ -38,7 +40,7 @@ export default async function PanelLayout({ children }: { children: ReactNode })
       </header>
       <div className={estilos.franja} />
       <div className={`envoltura ${marco.marco} ${marco.ancho}`}>
-        <MenuPanel />
+        <MenuPanel rol={rol} />
         <main id="contenido-panel" className={marco.contenido} tabIndex={-1}>
           {children}
         </main>

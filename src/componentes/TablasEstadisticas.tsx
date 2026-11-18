@@ -1,6 +1,12 @@
 import type { ReactNode } from 'react';
 import {
+  COLUMNAS_BATEO,
+  COLUMNAS_PITCHEO,
+  ENCABEZADOS_BATEO,
+  ENCABEZADOS_PITCHEO,
   formatearPorcentaje,
+  NOMBRES_BATEO,
+  NOMBRES_PITCHEO,
   porcentajesDeBateo,
   sumarBateo,
   type ConteosBateo,
@@ -10,20 +16,7 @@ import {
 } from '@/lib/estadisticas';
 import estilos from './tablas-estadisticas.module.css';
 
-export const COLUMNAS_DE_BATEO: [keyof ConteosBateo, string, string][] = [
-  ['juegos', 'JJ', 'Juegos jugados'],
-  ['apariciones', 'AB', 'Apariciones al bat'],
-  ['vecesAlBat', 'VB', 'Veces al bat'],
-  ['hits', 'HC', 'Hits conectados'],
-  ['sencillos', 'H1', 'Sencillos'],
-  ['dobles', 'H2', 'Dobles'],
-  ['triples', 'H3', 'Triples'],
-  ['jonrones', 'HR', 'Jonrones'],
-  ['ponches', 'K', 'Ponches'],
-  ['basesPorBolas', 'BB', 'Bases por bolas'],
-  ['intencionales', 'BI', 'Bases por bolas intencionales'],
-  ['golpeados', 'BG', 'Golpeados por lanzamiento'],
-];
+export const COLUMNAS_DE_BATEO: [keyof ConteosBateo, string, string][] = COLUMNAS_BATEO.map((c, i) => [c, ENCABEZADOS_BATEO[i], NOMBRES_BATEO[c]]);
 
 export const PORCENTAJES_DE_BATEO: [string, string][] = [
   ['AVG', 'Promedio de bateo: hits entre veces al bat'],
@@ -31,12 +24,7 @@ export const PORCENTAJES_DE_BATEO: [string, string][] = [
   ['SLG', 'Slugging: bases totales (sencillo 1, doble 2, triple 3, jonrón 4) entre veces al bat'],
 ];
 
-export const COLUMNAS_DE_PITCHEO: [keyof ConteosPitcheo, string, string][] = [
-  ['juegos', 'JJ', 'Juegos lanzados'],
-  ['ganados', 'G', 'Juegos ganados'],
-  ['perdidos', 'P', 'Juegos perdidos'],
-  ['salvados', 'SV', 'Juegos salvados'],
-];
+export const COLUMNAS_DE_PITCHEO: [keyof ConteosPitcheo, string, string][] = COLUMNAS_PITCHEO.map((c, i) => [c, ENCABEZADOS_PITCHEO[i], NOMBRES_PITCHEO[c]]);
 
 function Contenedor({ titulo, children }: { titulo: string; children: ReactNode }) {
   return (

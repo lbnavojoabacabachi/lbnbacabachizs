@@ -6,9 +6,11 @@ import { BotonAccion } from '@/app/panel/componentes/BotonAccion';
 import formularios from '@/app/panel/componentes/formularios.module.css';
 import { db } from '@/db/conexion';
 import { albumFotos, albumes, bitacora, noticias, transmisiones, user } from '@/db/esquema';
+import { juegosConHojas, modoDeEstadisticas } from '@/lib/consultas/hojas';
 import { obtenerTemporadaVigente } from '@/lib/consultas/liga';
 import { jornadasConAvance } from '@/lib/consultas/panel';
 import { capitalizar, formatearFecha, formatearInstante, hoyEnSonora } from '@/lib/fechas';
+import { avancePorJornada } from '@/lib/hojas';
 import { imagenesSinUso } from '@/lib/imagenes/limpiar';
 import { exigirAdministrador } from '@/lib/sesion';
 import estilos from '../panel.module.css';
@@ -32,12 +34,18 @@ function Ir({ href, texto, contexto, urgente = false }: { href: Route; texto: st
   );
 }
 
+async function jornadasSinHojas(temporadaId: number) {
+  if ((await modoDeEstadisticas(temporadaId)) === 'totales') return [];
+  return avancePorJornada(await juegosConHojas(temporadaId)).filter((j) => j.pendientes > 0);
+}
+
 export default async function InicioPanel({ searchParams }: { searchParams: Promise<{ contrasena?: string }> }) {
   const { contrasena } = await searchParams;
   const sesion = await exigirAdministrador();
   const temporada = await obtenerTemporadaVigente();
-  const [jornadas, borradores, albumesSinPublicar, fotosSinPie, vivasOlvidadas, sinUso, actividad] = await Promise.all([
+  const [jornadas, sinHojas, borradores, albumesSinPublicar, fotosSinPie, vivasOlvidadas, sinUso, actividad] = await Promise.all([
     temporada ? jornadasConAvance(temporada.id) : [],
+    temporada ? jornadasSinHojas(temporada.id) : [],
     db.select({ id: noticias.id }).from(noticias).where(isNull(noticias.publicadaEn)).orderBy(desc(noticias.id)),
     db.select({ id: albumes.id }).from(albumes).where(eq(albumes.publicado, false)).orderBy(desc(albumes.id)),
     db
@@ -85,6 +93,22 @@ export default async function InicioPanel({ searchParams }: { searchParams: Prom
             titulo: `Y ${cuantos(atrasadas.length - 3, 'jornada más', 'jornadas más')} sin resultados`,
             detalle: 'Todas están en Resultados.',
             accion: <Ir href="/panel/resultados" texto="Ver jornadas" contexto="sin resultados" urgente />,
+          },
+        ]
+      : []),
+    ...sinHojas.slice(0, 3).map((j) => ({
+      clave: `hojas-${j.numero}`,
+      titulo: `Numeritos de la jornada ${j.numero}`,
+      detalle: `${cuantos(j.pendientes, 'hoja pendiente', 'hojas pendientes')} de ${j.esperadas}; va una por equipo en cada juego.`,
+      accion: <Ir href={`/panel/estadisticas#jornada-${j.numero}` as Route} texto="Capturar" contexto={`los numeritos de la jornada ${j.numero}`} />,
+    })),
+    ...(sinHojas.length > 3
+      ? [
+          {
+            clave: 'mas-hojas',
+            titulo: `Y ${cuantos(sinHojas.length - 3, 'jornada más', 'jornadas más')} sin numeritos`,
+            detalle: 'Todas están en Estadísticas.',
+            accion: <Ir href="/panel/estadisticas" texto="Ver hojas" contexto="pendientes de numeritos" />,
           },
         ]
       : []),

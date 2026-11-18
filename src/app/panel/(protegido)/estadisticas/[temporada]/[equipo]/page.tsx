@@ -6,8 +6,9 @@ import { AreaTexto } from '@/app/panel/componentes/Entradas';
 import { db } from '@/db/conexion';
 import { equipos, temporadaEquipos, temporadas } from '@/db/esquema';
 import { obtenerFilasDeBateo, obtenerFilasDePitcheo } from '@/lib/consultas/estadisticas';
+import { temporadaTieneHojas } from '@/lib/consultas/hojas';
 import { textoDeBateo, textoDePitcheo } from '@/lib/estadisticas';
-import { exigirAdministrador } from '@/lib/sesion';
+import { exigirCompilador } from '@/lib/sesion';
 import estilos from '../../../../panel.module.css';
 import { CabeceraPagina, Volver } from '../../../componentes';
 import { guardarBateo, guardarPitcheo } from '../../acciones';
@@ -17,7 +18,7 @@ export const metadata: Metadata = { title: 'Estadísticas del equipo' };
 const ID = /^\d{1,9}$/;
 
 export default async function EstadisticasEquipo({ params }: { params: Promise<{ temporada: string; equipo: string }> }) {
-  await exigirAdministrador();
+  await exigirCompilador();
   const { temporada, equipo } = await params;
   if (!ID.test(temporada) || !ID.test(equipo)) notFound();
   const temporadaId = Number(temporada);
@@ -29,7 +30,20 @@ export default async function EstadisticasEquipo({ params }: { params: Promise<{
     .innerJoin(equipos, eq(temporadaEquipos.equipoId, equipos.id))
     .where(and(eq(temporadaEquipos.temporadaId, temporadaId), eq(temporadaEquipos.equipoId, equipoId)));
   if (!fila) notFound();
-  const [bateo, pitcheo] = await Promise.all([obtenerFilasDeBateo(temporadaId, equipoId), obtenerFilasDePitcheo(temporadaId, equipoId)]);
+  const [bateo, pitcheo, porJuego] = await Promise.all([
+    obtenerFilasDeBateo(temporadaId, equipoId),
+    obtenerFilasDePitcheo(temporadaId, equipoId),
+    temporadaTieneHojas(temporadaId),
+  ]);
+  if (porJuego) {
+    return (
+      <>
+        <Volver href={`/panel/estadisticas?temporada=${temporadaId}` as Route} texto="Estadísticas" />
+        <CabeceraPagina antetitulo={`Temporada ${fila.temporada}`} titulo={fila.equipo} />
+        <p className={estilos.aviso}>Esta temporada ya se lleva juego por juego: los totales de {fila.equipo} salen de las hojas capturadas y no se pegan aquí.</p>
+      </>
+    );
+  }
 
   return (
     <>

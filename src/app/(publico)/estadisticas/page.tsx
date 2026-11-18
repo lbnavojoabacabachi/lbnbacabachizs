@@ -17,6 +17,8 @@ export const metadata: Metadata = {
 
 const LIDERES = ['Promedio de bateo', 'Jonrones', 'Hits', 'Juegos ganados como pitcher'];
 
+const apariciones = (cantidad: number) => `${cantidad} ${cantidad === 1 ? 'aparición' : 'apariciones'} al bat`;
+
 type Lider = { nombre: string; equipoId: number; valor: number; texto: string };
 
 function ListaDeLideres({ id, titulo, nota, lideres, equipos }: { id: string; titulo: string; nota?: string; lideres: Lider[]; equipos: Map<number, string> }) {
@@ -82,9 +84,11 @@ export default async function Estadisticas() {
     <>
       <Encabezado antetitulo={`Temporada ${temporada.nombre}`} titulo="Estadísticas">
         <p>
-          {temporada.vigente
-            ? 'Números de la temporada en curso, como los entrega el anotador oficial de la liga.'
-            : 'Números finales de la temporada, como los entregó el anotador oficial de la liga.'}
+          {datos.modo === 'juegos'
+            ? 'Números de la temporada, sumados juego por juego de las hojas de anotación de la liga.'
+            : temporada.vigente
+              ? 'Números de la temporada en curso, como los entrega el anotador oficial de la liga.'
+              : 'Números finales de la temporada, como los entregó el anotador oficial de la liga.'}
         </p>
       </Encabezado>
 
@@ -98,7 +102,11 @@ export default async function Estadisticas() {
           <ListaDeLideres
             id="lideres-promedio"
             titulo="Promedio de bateo"
-            nota={`Con ${datos.minimoApariciones} apariciones al bat o más.`}
+            nota={
+              datos.minimoApariciones < datos.minimoAlCierre
+                ? `Con ${apariciones(datos.minimoApariciones)} o más por ahora; al cierre de la temporada serán ${datos.minimoAlCierre}.`
+                : `Con ${apariciones(datos.minimoApariciones)} o más.`
+            }
             equipos={equipos}
             lideres={lideres.promedio.map((f) => ({ ...f, valor: promedio(f), texto: formatearPorcentaje(promedio(f)) }))}
           />

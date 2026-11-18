@@ -4,10 +4,11 @@ import Link from 'next/link';
 import { BotonAccion } from '@/app/panel/componentes/BotonAccion';
 import formularios from '@/app/panel/componentes/formularios.module.css';
 import { Formulario } from '@/app/panel/componentes/Formulario';
-import { Texto } from '@/app/panel/componentes/Entradas';
+import { Seleccion, Texto } from '@/app/panel/componentes/Entradas';
 import { db } from '@/db/conexion';
 import { session, user } from '@/db/esquema';
 import { capitalizar, formatearInstante } from '@/lib/fechas';
+import { DETALLE_ROL, NOMBRE_ROL, ROLES, rolDe } from '@/lib/roles';
 import { exigirAdministrador } from '@/lib/sesion';
 import estilos from '../../panel.module.css';
 import { CabeceraPagina } from '../componentes';
@@ -22,6 +23,7 @@ export default async function UsuariosPanel() {
       id: user.id,
       nombre: user.displayUsername,
       usuario: user.username,
+      rol: user.rol,
       activo: user.activo,
       debeCambiar: user.debeCambiarContrasena,
       ultimaSesion: max(session.createdAt),
@@ -34,11 +36,15 @@ export default async function UsuariosPanel() {
   return (
     <>
       <CabeceraPagina titulo="Usuarios">
-        <p>Todos los usuarios son administradores y pueden usar todo el panel. Tras 5 intentos fallidos, el acceso se bloquea 15 minutos.</p>
+        <p>
+          Un administrador usa todo el panel. Un compilador solo entra a Estadísticas, para capturar los numeritos de cada juego. Tras 5 intentos fallidos, el
+          acceso se bloquea 15 minutos.
+        </p>
       </CabeceraPagina>
       <ul className={estilos.filas}>
         {lista.map((u) => {
           const yo = u.id === sesion.user.id;
+          const rol = rolDe(u.rol);
           return (
             <li key={u.id} className={estilos.fila}>
               <div className={estilos.filaPrincipal}>
@@ -47,7 +53,7 @@ export default async function UsuariosPanel() {
                   {yo ? ' (tú)' : ''}
                 </span>
                 <span className={estilos.filaDetalle}>
-                  Usuario: {u.usuario}
+                  {rol ? NOMBRE_ROL[rol] : 'Sin permisos'} · usuario: {u.usuario}
                   {u.debeCambiar ? ' · todavía tiene la clave temporal' : ''}
                   {u.ultimaSesion ? ` · última entrada: ${capitalizar(formatearInstante(u.ultimaSesion, { diaSemana: false }))}` : ''}
                 </span>
@@ -92,7 +98,14 @@ export default async function UsuariosPanel() {
             etiqueta="Nombre de usuario"
             requerido
             maximo={30}
-            ayuda="Sin espacios ni acentos, por ejemplo Capturista1. Se le mostrará aquí una clave temporal."
+            ayuda="Sin espacios ni acentos, por ejemplo Compilador1. Se le mostrará aquí una clave temporal."
+          />
+          <Seleccion
+            nombre="rol"
+            etiqueta="Qué puede hacer"
+            vacio="Elige una opción"
+            opciones={ROLES.map((r) => ({ valor: r, texto: `${NOMBRE_ROL[r]}: ${DETALLE_ROL[r]}` }))}
+            requerido
           />
         </Formulario>
       </section>
